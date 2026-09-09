@@ -109,9 +109,9 @@
 
   /* --- Estilos de ejemplo para el contenido privado --- */
   .private-wrapper {
-    max-width: 720px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: 1rem 1.5rem;
   }
 
   .private-wrapper h2 {
@@ -152,9 +152,8 @@
   <!-- ==================== CONTENIDO PROTEGIDO ==================== -->
   <div id="privateContent">
     <div class="private-wrapper">
-      <h2>Bienvenido/a</h2>
-      <p>Este es el contenido privado de la página. Sustituye este bloque por lo que quieras proteger.</p>
       <button class="logout-btn" id="logoutButton">🔒 Cerrar sesión</button>
+      <iframe src="hoja-ruta-valencia.html" style="width:100%; height:calc(100vh - 4rem); border:none; display:block; margin-top:1rem;"></iframe>
     </div>
   </div>
 
