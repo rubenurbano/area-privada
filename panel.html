@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área Privada · Rubén Sbarsky</title>
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --card: #10182b;
+    --border: #232d45;
+    --accent: #6ea8fe;
+    --text: #e6ebf5;
+    --muted: #9aa4c0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  body { padding: 2.5rem 1.5rem 4rem; }
+  h1 { margin: 0 0 0.3rem; font-size: 1.8rem; }
+  p.author { margin: 0 0 2rem; color: var(--muted); font-size: 0.95rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .card {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(110,168,254,0.12);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+  .card h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  .card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+  <h1>Área Privada</h1>
+  <p class="author">By: Rubén Sbarsky</p>
+
+  <div class="grid">
+    <a class="card" href="hoja-ruta-valencia.html">
+      <span class="tag">Documento</span>
+      <h2>Hoja de Ruta · Proyecto Vivir en un Pueblo de Valencia · 773 €/mes</h2>
+      <p>Plan detallado del proyecto de vivir en un pueblo de la Comunidad Valenciana.</p>
+    </a>
+  </div>
+</body>
+</html>
