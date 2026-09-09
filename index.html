@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área privada</title>
+<style>
+  :root {
+    --bg1: #0f1226;
+    --bg2: #1b2140;
+    --card: #171b34;
+    --border: #2a3050;
+    --accent: #6ea8fe;
+    --text: #e6ebf5;
+    --muted: #9aa4c0;
+    --error: #ff6b6b;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(circle at 20% 20%, var(--bg2), var(--bg1) 60%);
+    color: var(--text);
+  }
+
+  /* El contenido privado permanece oculto desde el HTML/CSS inicial,
+     antes de que se ejecute cualquier JavaScript. Esto evita el "flash"
+     del contenido. */
+  #privateContent {
+    display: none;
+  }
+
+  #loginScreen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 10;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 360px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    text-align: center;
+  }
+
+  .card h1 {
+    margin: 0 0 0.4rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .card p.subtitle {
+    margin: 0 0 1.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .card input[type="password"] {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #10142a;
+    color: var(--text);
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 0.9rem;
+  }
+
+  .card input[type="password"]:focus {
+    border-color: var(--accent);
+  }
+
+  .card button {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: #0b0f1e;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .card button:hover {
+    opacity: 0.9;
+  }
+
+  .error-message {
+    margin-top: 0.9rem;
+    color: var(--error);
+    font-size: 0.85rem;
+    min-height: 1.1rem;
+  }
+
+  /* --- Estilos de ejemplo para el contenido privado --- */
+  .private-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .private-wrapper h2 {
+    margin-top: 0;
+  }
+
+  .logout-btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  .logout-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== PANTALLA DE ACCESO ==================== -->
+  <div id="loginScreen">
+    <div class="card">
+      <h1>Área privada</h1>
+      <p class="subtitle">Introduce la contraseña para continuar</p>
+      <input type="password" id="passwordInput" placeholder="Contraseña" autocomplete="off">
+      <button id="enterButton">Entrar</button>
+      <div class="error-message" id="errorMessage"></div>
+    </div>
+  </div>
+
+  <!-- ==================== CONTENIDO PROTEGIDO ==================== -->
+  <div id="privateContent">
+    <div class="private-wrapper">
+      <h2>Bienvenido/a</h2>
+      <p>Este es el contenido privado de la página. Sustituye este bloque por lo que quieras proteger.</p>
+      <button class="logout-btn" id="logoutButton">🔒 Cerrar sesión</button>
+    </div>
+  </div>
+
+  <script>
+    // ================== CONTRASEÑA ==================
+    // Esta es la única línea que define la contraseña de acceso.
+    // Recuerda: esto NO es seguridad real, solo ofuscación básica
+    // (ver explicación al final de la respuesta).
+    const PASSWORD = "1234qw";
+    // ==================================================
+
+    const loginScreen = document.getElementById('loginScreen');
+    const privateContent = document.getElementById('privateContent');
+    const passwordInput = document.getElementById('passwordInput');
+    const enterButton = document.getElementById('enterButton');
+    const errorMessage = document.getElementById('errorMessage');
+    const logoutButton = document.getElementById('logoutButton');
+
+    function showPrivateContent() {
+      loginScreen.style.display = 'none';
+      privateContent.style.display = 'block';
+    }
+
+    function showLoginScreen() {
+      privateContent.style.display = 'none';
+      loginScreen.style.display = 'flex';
+      passwordInput.value = '';
+      errorMessage.textContent = '';
+      passwordInput.focus();
+    }
+
+    function attemptLogin() {
+      const value = passwordInput.value;
+
+      if (value === PASSWORD) {
+        sessionStorage.setItem('authenticated', 'true');
+        errorMessage.textContent = '';
+        showPrivateContent();
+      } else {
+        errorMessage.textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    }
+
+    enterButton.addEventListener('click', attemptLogin);
+
+    passwordInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        attemptLogin();
+      }
+    });
+
+    logoutButton.addEventListener('click', function () {
+      sessionStorage.removeItem('authenticated');
+      showLoginScreen();
+    });
+
+    // Al cargar la página, comprobamos si ya se autenticó
+    // durante esta sesión del navegador.
+    (function checkSession() {
+      if (sessionStorage.getItem('authenticated') === 'true') {
+        showPrivateContent();
+      } else {
+        loginScreen.style.display = 'flex';
+      }
+    })();
+  </script>
+
+</body>
+</html>
