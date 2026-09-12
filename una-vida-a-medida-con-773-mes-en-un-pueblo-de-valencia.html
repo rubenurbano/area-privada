@@ -1,0 +1,3028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoja de Ruta · Proyecto Vivir en un Pueblo de Valencia · 773 €/mes</title>
+<style>
+:root{
+  --bg:#0a0e1a; --card:#0f172a; --card2:#0b1222; --border:#1e3a5f;
+  --accent:#00d4ff; --green:#22c55e; --amber:#f59e0b; --red:#ef4444; --purple:#a855f7;
+  --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b; --radius:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size:16px; line-height:1.65; -webkit-text-size-adjust:100%;
+  background-image:radial-gradient(circle at 12% -5%, rgba(0,212,255,.10), transparent 45%),
+                   radial-gradient(circle at 88% 0%, rgba(168,85,247,.08), transparent 40%);
+  background-attachment:fixed;
+}
+/* ---------- PROGRESS BAR ---------- */
+#progressBar{
+  position:fixed; top:0; left:0; height:4px; width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--green));
+  box-shadow:0 0 12px rgba(0,212,255,.8); z-index:1200; transition:width .12s linear;
+}
+/* ---------- NAVBAR ---------- */
+#navbar{
+  position:fixed; top:4px; left:0; right:0; z-index:1100;
+  background:rgba(10,14,26,.96); border-bottom:1px solid var(--border);
+  backdrop-filter:blur(8px);
+}
+.nav-inner{display:flex; align-items:center; gap:10px; max-width:1400px; margin:0 auto; padding:0 12px}
+.brand{
+  display:flex; align-items:center; gap:8px; font-weight:700; font-size:14px; letter-spacing:1.5px;
+  color:var(--accent); white-space:nowrap; padding:10px 0;
+}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.nav-links{
+  display:flex; gap:6px; overflow-x:auto; overflow-y:hidden; flex:1;
+  scrollbar-width:thin; -webkit-overflow-scrolling:touch; padding:8px 0;
+}
+.nav-links::-webkit-scrollbar{height:4px}
+.nav-links::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.nav-link{
+  flex:0 0 auto; padding:9px 13px; border:1px solid transparent; border-radius:8px;
+  color:var(--muted); background:transparent; font-size:12.5px; font-weight:600; letter-spacing:.6px;
+  cursor:pointer; text-decoration:none; white-space:nowrap; font-family:inherit; transition:all .18s ease;
+}
+.nav-link:hover{color:var(--text); background:#111c33; border-color:var(--border)}
+.nav-link.active{
+  color:#04121a; background:var(--accent); border-color:var(--accent);
+  box-shadow:0 0 14px rgba(0,212,255,.45);
+}
+.nav-link.credits{border-color:var(--purple); color:#d8b4fe}
+.nav-link.credits.active{background:var(--purple); color:#fff; border-color:var(--purple); box-shadow:0 0 14px rgba(168,85,247,.5)}
+/* ---------- LAYOUT ---------- */
+main{max-width:1180px; margin:0 auto; padding:88px 16px 40px}
+.section{display:none}
+.section.active{display:block; animation:fade .35s ease}
+@keyframes fade{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:none}}
+.sec-head{display:flex; align-items:flex-start; gap:14px; margin:0 0 18px; flex-wrap:wrap}
+.sec-ico{
+  width:52px;height:52px;flex:0 0 52px;border-radius:12px;display:grid;place-items:center;font-size:24px;
+  background:linear-gradient(145deg,#10203a,#0d1526); border:1px solid var(--border); box-shadow:0 0 18px rgba(0,212,255,.12) inset;
+}
+.sec-head h2{margin:0; font-size:clamp(21px,4.6vw,30px); letter-spacing:.4px; line-height:1.2}
+.sec-head p{margin:4px 0 0; color:var(--muted); font-size:14.5px; max-width:80ch}
+.phase-chip{
+  display:inline-block; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:1.4px;
+  background:rgba(0,212,255,.1); color:var(--accent); border:1px solid rgba(0,212,255,.35); margin-bottom:8px;
+}
+/* ---------- CARDS ---------- */
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:18px; margin:0 0 16px;
+}
+.card.tight{padding:14px}
+.card-title{display:flex; align-items:center; gap:10px; margin:0 0 10px; font-size:17px; font-weight:700; color:#f1f5f9}
+.card-title .ic{font-size:19px}
+.card-title .task-id{
+  margin-left:auto; font-size:10.5px; letter-spacing:1.2px; font-weight:700; color:var(--dim);
+  border:1px solid var(--border); border-radius:6px; padding:2px 7px; background:#0b1222; white-space:nowrap;
+}
+.grid{display:grid; gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+/* ---------- BADGES / CHIPS ---------- */
+.badge{display:inline-block;padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:1px;border:1px solid}
+.b-cyan{color:var(--accent);border-color:rgba(0,212,255,.4);background:rgba(0,212,255,.08)}
+.b-green{color:var(--green);border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)}
+.b-amber{color:var(--amber);border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.08)}
+.b-red{color:var(--red);border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08)}
+.b-purple{color:var(--purple);border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.08)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{
+  padding:7px 12px;border-radius:999px;background:#0b1222;border:1px solid var(--border);
+  color:var(--muted);font-size:13px;font-weight:600;
+}
+.chip.hot{border-color:rgba(0,212,255,.4);color:var(--accent)}
+/* ---------- CALLOUTS ---------- */
+.callout{border-radius:10px;padding:13px 15px;margin:14px 0;border-left:4px solid;font-size:14.5px}
+.callout .ct{display:block;font-size:11px;font-weight:800;letter-spacing:1.6px;margin-bottom:4px}
+.callout.info{background:rgba(0,212,255,.07);border-color:var(--accent);color:#cbeefc}
+.callout.info .ct{color:var(--accent)}
+.callout.example{background:rgba(34,197,94,.07);border-color:var(--green);color:#cdf3dc}
+.callout.example .ct{color:var(--green)}
+.callout.warning{background:rgba(245,158,11,.08);border-color:var(--amber);color:#fbe6c2}
+.callout.warning .ct{color:var(--amber)}
+.callout.error{background:rgba(239,68,68,.08);border-color:var(--red);color:#fbd5d5}
+.callout.error .ct{color:var(--red)}
+/* ---------- CHECKLISTS ---------- */
+ul.ck{list-style:none;margin:8px 0 4px;padding:0}
+ul.ck li{
+  display:flex;align-items:flex-start;gap:11px;padding:9px 11px;margin:0 0 6px;border-radius:9px;
+  background:#0b1222;border:1px solid #16294a;cursor:pointer;font-size:14.6px;transition:all .18s ease;
+}
+ul.ck li:hover{border-color:var(--border);background:#101a2e}
+ul.ck li .ckb{
+  appearance:none;-webkit-appearance:none;flex:0 0 20px;width:20px;height:20px;margin:2px 0 0;border-radius:6px;
+  border:2px solid var(--border);background:#0a0e1a;cursor:pointer;position:relative;transition:all .18s ease;
+}
+ul.ck li .ckb:checked{background:var(--green);border-color:var(--green)}
+ul.ck li .ckb:checked::after{
+  content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#05240f;font-size:13px;font-weight:900;
+}
+ul.ck li.done .txt{color:var(--dim);text-decoration:line-through;text-decoration-color:rgba(100,116,139,.6)}
+.ckp{display:flex;align-items:center;gap:10px;margin:6px 0 16px;font-size:12px;color:var(--dim)}
+.ckp .num{font-variant-numeric:tabular-nums;min-width:56px;font-weight:700}
+.ckp .track{flex:1;height:6px;border-radius:6px;background:#132340;overflow:hidden}
+.ckp .track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .3s ease}
+/* ---------- TABLES ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:420px;font-size:14.5px}
+th,td{padding:11px 13px;text-align:left;border-bottom:1px solid #16294a}
+th{background:#101d33;color:var(--accent);font-size:11.5px;letter-spacing:1.3px;text-transform:uppercase;position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#101a2e}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.total td{font-weight:800;color:#f8fafc;background:#101d33}
+tr.rest td{font-weight:800;color:var(--green);background:#0d1f18}
+/* ---------- BUTTONS / FORMS ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;min-height:44px;border-radius:9px;
+  border:1px solid var(--border);background:#101c33;color:var(--text);font-family:inherit;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .16s ease;letter-spacing:.3px;
+}
+.btn:hover{border-color:var(--accent);color:#fff;background:#142742}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#04121a}
+.btn.primary:hover{background:#5ce4ff;color:#04121a}
+.btn.green{background:var(--green);border-color:var(--green);color:#04240f}
+.btn.ghost{background:transparent}
+.btn.sm{padding:8px 12px;min-height:38px;font-size:13px}
+.btn.danger:hover{border-color:var(--red);color:#fecaca}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+input[type=text],input[type=number],select,textarea{
+  width:100%;padding:11px 12px;min-height:44px;border-radius:9px;border:1px solid var(--border);
+  background:#0a0e1a;color:var(--text);font-family:inherit;font-size:15px;
+}
+textarea{min-height:120px;resize:vertical;line-height:1.6}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.15)}
+label.fl{display:block;font-size:11.5px;font-weight:700;letter-spacing:1.1px;color:var(--dim);margin:0 0 5px;text-transform:uppercase}
+.field{margin-bottom:12px}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;cursor:pointer;
+}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:#132340}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);border:2px solid #06202b;margin-top:-8px;box-shadow:0 0 10px rgba(0,212,255,.6)}
+input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:#132340}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2px solid #06202b;border-radius:50%;background:var(--accent)}
+/* ---------- TABS ---------- */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.tab{
+  padding:10px 14px;min-height:42px;border-radius:9px;border:1px solid var(--border);background:#0b1222;
+  color:var(--muted);font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;letter-spacing:.4px;
+}
+.tab.active{background:rgba(0,212,255,.14);border-color:var(--accent);color:var(--accent)}
+.tabpanel{display:none}
+.tabpanel.active{display:block;animation:fade .25s ease}
+/* ---------- ACCORDION ---------- */
+.acc{border:1px solid var(--border);border-radius:10px;margin:0 0 10px;overflow:hidden;background:#0b1222}
+.acc-h{
+  width:100%;display:flex;align-items:center;gap:10px;padding:14px;background:transparent;border:none;cursor:pointer;
+  color:var(--text);font-family:inherit;font-size:15px;font-weight:700;text-align:left;
+}
+.acc-h .arw{margin-left:auto;transition:transform .25s ease;color:var(--accent);font-size:13px}
+.acc.open .acc-h .arw{transform:rotate(90deg)}
+.acc-b{display:none;padding:0 14px 14px;border-top:1px solid #16294a}
+.acc.open .acc-b{display:block;animation:fade .25s ease}
+/* ---------- HOME ---------- */
+.cover-wrap{margin:0 0 22px}
+svg.cover{
+  display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:14px;border:1px solid var(--border);
+  background:#080d18;box-shadow:0 18px 50px rgba(0,0,0,.55), 0 0 0 1px rgba(0,212,255,.06);
+}
+.home-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px}
+h1.hero{margin:6px 0 8px;font-size:clamp(26px,6vw,44px);line-height:1.15;letter-spacing:.3px}
+h1.hero span{color:var(--accent)}
+.subtitle{color:#cbd5e1;font-size:clamp(15px,3.4vw,19px);margin:0 0 12px;font-weight:600}
+.desc{color:var(--muted);font-size:15.5px;max-width:95ch;margin:0 0 18px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:18px 0}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:14px;text-align:center}
+.metric .v{font-size:clamp(20px,4.6vw,28px);font-weight:800;color:var(--accent);line-height:1.1;font-variant-numeric:tabular-nums}
+.metric .k{font-size:11px;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase;margin-top:5px;font-weight:700}
+.metric.g .v{color:var(--green)} .metric.a .v{color:var(--amber)} .metric.p .v{color:var(--purple)}
+.quote{
+  border-left:4px solid var(--accent);background:linear-gradient(90deg,rgba(0,212,255,.09),transparent);
+  padding:18px 20px;border-radius:0 12px 12px 0;margin:20px 0;font-size:clamp(16px,3.6vw,20px);font-style:italic;color:#e8f6fd;
+}
+.quote small{display:block;margin-top:8px;font-style:normal;font-size:12px;letter-spacing:1.4px;color:var(--dim);font-weight:700}
+.datetime{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.dt{background:#0b1222;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--muted)}
+.dt b{color:var(--accent);font-variant-numeric:tabular-nums}
+/* ---------- PILLARS ---------- */
+.pillar{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:14px;display:flex;gap:11px;align-items:flex-start}
+.pillar .em{font-size:22px;line-height:1.2}
+.pillar .tx{font-size:14.4px;color:#dbe6f2}
+/* ---------- SEMÁFORO ---------- */
+.sem{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.sem-col{border-radius:12px;padding:16px;border:1px solid}
+.sem-col.red{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.35)}
+.sem-col.yellow{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.35)}
+.sem-col.green{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.35)}
+.sem-col h3{margin:0 0 10px;font-size:15px;letter-spacing:1px}
+/* ---------- TIMELINE / ORDEN ---------- */
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.flow .step{
+  flex:1 1 150px;min-width:140px;background:#0b1222;border:1px solid var(--border);border-radius:10px;padding:12px;position:relative;
+}
+.flow .step .lt{font-size:20px;font-weight:800;color:var(--accent)}
+.flow .step .nm{font-size:13.5px;font-weight:700;margin-top:2px}
+.flow .step .ds{font-size:12px;color:var(--dim);margin-top:4px}
+ol.steps{counter-reset:s;list-style:none;margin:10px 0;padding:0}
+ol.steps li{
+  counter-increment:s;position:relative;padding:11px 12px 11px 52px;margin-bottom:8px;background:#0b1222;
+  border:1px solid #16294a;border-radius:9px;font-size:14.5px;
+}
+ol.steps li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:12px;top:11px;width:28px;height:26px;border-radius:7px;
+  display:grid;place-items:center;background:#101d33;color:var(--accent);font-size:12px;font-weight:800;border:1px solid var(--border);
+}
+.chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+.chain .lk{background:#101d33;border:1px solid var(--border);border-radius:999px;padding:7px 13px;font-size:13px;color:#cbe4f5;font-weight:600}
+.chain .ar{color:var(--accent);font-weight:800}
+/* ---------- CHESS BOARD ---------- */
+.board-block{display:flex;flex-direction:column;align-items:center;gap:0;margin:14px 0}
+.board-frame{
+  width:100%;max-width:520px;background:#0b1222;border:1px solid var(--border);border-radius:12px;padding:12px;
+}
+.board-area{display:flex;gap:6px}
+.row-coords{display:grid;grid-template-rows:repeat(8,1fr);flex:0 0 18px;font-size:11px;color:var(--dim);font-weight:700}
+.row-coords span{display:grid;place-items:center}
+.board-main{flex:1;min-width:0}
+.board-grid{
+  display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1/1;width:100%;
+  border:2px solid var(--border);border-radius:6px;overflow:hidden;background:#0a0e1a;
+}
+.col-coords{display:grid;grid-template-columns:repeat(8,1fr);margin-top:5px;font-size:11px;color:var(--dim);font-weight:700}
+.col-coords span{text-align:center}
+.sq{display:grid;place-items:center;position:relative;cursor:pointer;user-select:none;line-height:1}
+.sq.light{background:#8fa3bd}
+.sq.dark{background:#2c3d59}
+.sq .pc{font-size:clamp(19px,7.1vw,34px);pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.sq .pc.w{color:#f8fafc}
+.sq .pc.b{color:#0a0e1a}
+.sq.hl{box-shadow:inset 0 0 0 3px var(--accent), inset 0 0 22px rgba(0,212,255,.55)}
+.sq.sel{box-shadow:inset 0 0 0 3px var(--amber), inset 0 0 22px rgba(245,158,11,.5)}
+.board-controls{width:100%;max-width:520px;margin-top:12px;display:flex;flex-direction:column;gap:10px}
+.ctrl-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.ctrl-row .btn{flex:1 1 auto;min-width:104px}
+.slider-row{display:flex;align-items:center;gap:10px;background:#0b1222;border:1px solid var(--border);border-radius:10px;padding:8px 12px}
+.slider-row input[type=range]{flex:1}
+.move-ind{
+  text-align:center;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.6px;
+  background:#0b1222;border:1px solid var(--border);border-radius:10px;padding:9px;
+}
+.move-panel{width:100%;max-width:520px;margin-top:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.move-panel .mp-h{font-size:12px;letter-spacing:1.5px;font-weight:800;color:var(--amber)}
+.move-panel .mp-h.b{color:#cbeefc}
+.move-panel .mp-m{font-size:19px;font-weight:800;margin:6px 0 2px;color:#f8fafc}
+.move-panel .mp-n{font-size:12.5px;color:var(--dim);font-family:Consolas,Menlo,monospace;margin-bottom:10px}
+.move-panel .q{font-size:11.5px;letter-spacing:1.2px;font-weight:800;color:var(--accent);margin:10px 0 3px;text-transform:uppercase}
+.move-panel .a{font-size:14.5px;color:#dbe6f2;margin:0}
+.movelog{width:100%;max-width:520px;margin-top:12px;background:#0b1222;border:1px solid var(--border);border-radius:12px;padding:12px}
+.movelog .lg-h{font-size:11.5px;letter-spacing:1.4px;color:var(--dim);font-weight:800;margin-bottom:8px;text-transform:uppercase}
+.movelog ul{list-style:none;margin:0;padding:0;max-height:190px;overflow-y:auto}
+.movelog li{padding:8px 10px;border-radius:8px;font-size:13.5px;margin-bottom:5px;background:#0f1a2e;border:1px solid #16294a;cursor:pointer}
+.movelog li:hover{border-color:var(--accent)}
+.movelog li.cur{border-color:var(--accent);background:#12263f;color:#fff}
+.movelog li .cn{color:var(--dim);font-weight:800;margin-right:6px}
+.flagbtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.flagbtns .fb{padding:7px 11px;border-radius:8px;border:1px solid var(--border);background:#0a0e1a;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.flagbtns .fb.on-check{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,.1)}
+.flagbtns .fb.on-mate{border-color:var(--red);color:var(--red);background:rgba(239,68,68,.1)}
+/* ---------- SCORE / RESULTS ---------- */
+.score-box{background:#0b1222;border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:14px}
+.big-num{font-size:clamp(30px,8vw,46px);font-weight:800;color:var(--green);line-height:1;font-variant-numeric:tabular-nums}
+.bar{height:12px;border-radius:8px;background:#132340;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--amber),var(--green));transition:width .3s ease}
+.factor-row{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;margin-bottom:6px}
+.factor-row .fn{font-size:13.5px;color:#dbe6f2}
+.factor-row .fw{font-size:11px;color:var(--dim);font-weight:700}
+.factor-row .fv{font-size:14px;font-weight:800;color:var(--accent);min-width:38px;text-align:right;font-variant-numeric:tabular-nums}
+.factor-row input[type=range]{grid-column:1/-1}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+.kv .it{background:#0b1222;border:1px solid var(--border);border-radius:9px;padding:10px}
+.kv .it .k{font-size:11px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;font-weight:700}
+.kv .it .v{font-size:16px;color:#f1f5f9;font-weight:700;margin-top:3px}
+/* ---------- ROUTINE ---------- */
+.routine{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:12px 0}
+.rblock{background:#0b1222;border:1px solid var(--border);border-radius:10px;padding:12px}
+.rblock .rn{font-size:14px;font-weight:700;display:flex;gap:8px;align-items:center}
+.rblock input{margin-top:8px}
+.rblock .rh{font-size:11px;color:var(--dim);letter-spacing:1px;margin-top:4px;font-weight:700}
+/* ---------- FOOTER / TOP ---------- */
+#toTop{
+  position:fixed;right:16px;bottom:16px;width:50px;height:50px;border-radius:50%;border:1px solid var(--accent);
+  background:rgba(0,212,255,.16);color:var(--accent);font-size:20px;cursor:pointer;z-index:1000;display:none;
+  backdrop-filter:blur(6px);
+}
+#toTop.show{display:block;animation:fade .25s ease}
+#toTop:hover{background:var(--accent);color:#04121a}
+footer{border-top:1px solid var(--border);margin-top:34px;padding:26px 16px 40px;text-align:center;background:#080d18}
+footer p{margin:5px 0;font-size:14px;color:var(--muted)}
+footer .lat{margin-top:14px;font-style:italic;color:var(--accent);letter-spacing:1.2px;font-size:15px}
+.credits-hero{text-align:center;padding:10px 0 6px}
+.credits-hero h2{font-size:clamp(22px,5vw,32px);margin:6px 0}
+.credit-card{max-width:640px;margin:18px auto;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;text-align:center}
+.credit-card .nm{font-size:24px;font-weight:800;color:var(--accent);letter-spacing:.6px}
+.credit-card .rl{font-size:12px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px;font-weight:700}
+.hint{font-size:13px;color:var(--dim);margin:6px 0 0}
+.svg-defs{position:absolute;width:0;height:0;overflow:hidden}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:18px 0}
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:640px){
+  main{padding:78px 11px 30px}
+  .brand span.txt{display:none}
+  .card{padding:14px}
+  .sec-ico{width:44px;height:44px;flex:0 0 44px;font-size:20px}
+  .ctrl-row .btn{min-width:calc(50% - 4px)}
+  table{font-size:13.5px}
+  th,td{padding:9px 10px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}
+  .section.active{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span><span class="txt">RUTA 773 · PUEBLO</span></div>
+    <div class="nav-links" id="navLinks">
+      <button class="nav-link active" data-target="home">INICIO</button>
+      <button class="nav-link" data-target="principio">FASE 0 · PRINCIPIO</button>
+      <button class="nav-link" data-target="busqueda">FASE 1 · QUÉ BUSCAMOS</button>
+      <button class="nav-link" data-target="pueblos">FASE 2 · PUEBLOS</button>
+      <button class="nav-link" data-target="economico">FASE 3 · FILTRO €</button>
+      <button class="nav-link" data-target="internet">FASE 4 · INTERNET</button>
+      <button class="nav-link" data-target="servicios">FASE 5 · SERVICIOS</button>
+      <button class="nav-link" data-target="movilidad">FASE 6 · MOVILIDAD</button>
+      <button class="nav-link" data-target="clima">FASE 7 · CLIMA</button>
+      <button class="nav-link" data-target="presupuesto">FASE 8 · PRESUPUESTO</button>
+      <button class="nav-link" data-target="perro">FASE 9 · PERRO</button>
+      <button class="nav-link" data-target="social">FASE 10 · VIDA SOCIAL</button>
+      <button class="nav-link" data-target="intelectual">FASE 11 · VIDA INTELECTUAL</button>
+      <button class="nav-link" data-target="evaluacion">FASE 12–13 · PUNTUACIÓN</button>
+      <button class="nav-link" data-target="terreno">FASE 14–15 · TERRENO</button>
+      <button class="nav-link" data-target="contrato">FASE 16–17 · CONTRATO</button>
+      <button class="nav-link" data-target="implantacion">FASE 18–19 · IMPLANTACIÓN</button>
+      <button class="nav-link" data-target="metricas">FASE 20–22 · MÉTRICAS</button>
+      <button class="nav-link" data-target="tablero">TABLERO MAESTRO</button>
+      <button class="nav-link" data-target="ejecucion">ORDEN DE EJECUCIÓN</button>
+      <button class="nav-link credits" data-target="credits">CRÉDITOS</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ==================== HOME ==================== -->
+<section id="home" class="section active">
+  <div class="home-top">
+    <span class="badge b-cyan">HOJA DE RUTA · PROYECTO DE VIDA</span>
+    <span class="badge b-amber">773 €/MES</span>
+    <span class="badge b-green">PROVINCIA DE VALENCIA</span>
+    <span class="badge b-purple">22 FASES + TABLERO MAESTRO</span>
+  </div>
+
+  <div class="cover-wrap">
+    <svg class="cover" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Portada animada: flujo del presupuesto de 773 euros por mes hacia la vivienda, internet, servicios, clima, movilidad y comunidad; paisaje de un pueblo con torre de conectividad, paseo con perro y bicicleta; y paneles de piano, ajedrez y mapa de pueblos candidatos.">
+      <use href="#coverArt"></use>
+    </svg>
+  </div>
+
+  <h1 class="hero">Diseñar una vida a medida con <span>773 €/mes</span> en un pueblo de Valencia</h1>
+  <p class="subtitle">Proyecto: diseño de una vida autónoma, tranquila, austera e intelectualmente rica</p>
+  <p class="desc">
+    <strong>Restricción económica:</strong> 773 €/mes. <strong>Objetivo:</strong> encontrar y construir un ecosistema vital donde el dinero
+    compre la máxima autonomía, espacio, tiempo, tranquilidad y calidad de vida. Este tutorial convierte la hoja de ruta completa
+    en una herramienta interactiva de trabajo: 22 fases, tareas verificables, calculadoras de presupuesto y puntuación, registro
+    de métricas, base de datos de pueblos candidatos y un tablero de ajedrez de estudio movimiento a movimiento.
+  </p>
+
+  <div class="metrics">
+    <div class="metric"><div class="v">773 €</div><div class="k">Ingreso / mes</div></div>
+    <div class="metric a"><div class="v">≤350 €</div><div class="k">Tope vivienda</div></div>
+    <div class="metric g"><div class="v">22</div><div class="k">Fases del proyecto</div></div>
+    <div class="metric p"><div class="v">A → H</div><div class="k">8 bloques de ejecución</div></div>
+    <div class="metric"><div class="v">30</div><div class="k">Pasos numerados</div></div>
+    <div class="metric g"><div class="v">30–50</div><div class="k">Pueblos candidatos</div></div>
+    <div class="metric a"><div class="v">10</div><div class="k">Factores de puntuación</div></div>
+    <div class="metric p"><div class="v">10→5→3→1</div><div class="k">Embudo de decisión</div></div>
+  </div>
+
+  <div class="quote">
+    “Si no puedes explicarlo de forma sencilla, es que no lo entiendes lo suficientemente bien.”
+    <small>PRINCIPIO DIDÁCTICO DE ESTE TUTORIAL</small>
+  </div>
+
+  <div class="datetime">
+    <div class="dt">📅 Fecha: <b>08/09/2026</b></div>
+    <div class="dt">🕒 Hora: <b>23:36:08</b></div>
+    <div class="dt">👨‍💻 Créditos: <b>Rubén Sbarsky</b></div>
+    <div class="dt">🎓 Uso: <b>Educativo y divulgativo</b></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🧭</span> Cómo usar este tutorial</div>
+    <div class="grid g3">
+      <div class="pillar"><span class="em">📑</span><span class="tx"><strong>Navega por fases.</strong> La barra superior permite saltar a cualquier fase del proyecto sin recargar la página.</span></div>
+      <div class="pillar"><span class="em">✅</span><span class="tx"><strong>Marca las tareas.</strong> Cada casilla se guarda en este dispositivo y muestra el progreso de cada bloque.</span></div>
+      <div class="pillar"><span class="em">🧮</span><span class="tx"><strong>Usa las herramientas.</strong> Calculadora de presupuesto, puntuador 0–100, métricas mensuales y base de datos de pueblos.</span></div>
+    </div>
+    <div class="callout info">
+      <span class="ct">INFO · REGLA FINAL DEL PROYECTO</span>
+      Una tarea pequeña completada vale más que diez grandes planes sin ejecutar. El proyecto no se resuelve de una vez:
+      se resuelve acumulando pequeñas certezas.
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FASE 0 ==================== -->
+<section id="principio" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🎯</div>
+    <div>
+      <span class="phase-chip">FASE 0</span>
+      <h2>Principio rector</h2>
+      <p>El marco mental del proyecto: qué se está comprando realmente con 773 € al mes.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">💡</span> La idea central</div>
+    <p style="font-size:17px;color:#e8f6fd;margin-top:0">
+      No buscamos el pueblo más barato. Buscamos el lugar donde <strong>773 € compren la mayor cantidad posible de VIDA</strong>.
+    </p>
+    <p style="margin-bottom:0">Los <strong>773 €</strong> son una <strong>restricción de diseño</strong>, no el objetivo.</p>
+    <div class="callout warning">
+      <span class="ct">ADVERTENCIA</span>
+      La meta no es simplemente sobrevivir. Es construir una vida que permita todo lo que aparece a continuación.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🧬</span> Ficha del proyecto</div>
+    <div class="kv">
+      <div class="it"><div class="k">Proyecto</div><div class="v" style="font-size:14px">Diseño de una vida autónoma, tranquila, austera e intelectualmente rica</div></div>
+      <div class="it"><div class="k">Restricción económica</div><div class="v">773 €/mes</div></div>
+      <div class="it"><div class="k">Objetivo</div><div class="v" style="font-size:14px">Encontrar y construir un ecosistema vital donde el dinero compre la máxima autonomía, espacio, tiempo, tranquilidad y calidad de vida</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🌟</span> Lo que la vida debe permitir<span class="task-id">10 PILARES</span></div>
+    <div class="grid g2">
+      <div class="pillar"><span class="em">🎹</span><span class="tx">Piano, música, armonía y composición.</span></div>
+      <div class="pillar"><span class="em">🤖</span><span class="tx">IA, Internet y experimentación tecnológica.</span></div>
+      <div class="pillar"><span class="em">🧠</span><span class="tx">Matemáticas, física, neurociencia, filosofía y conciencia.</span></div>
+      <div class="pillar"><span class="em">♟️</span><span class="tx">Ajedrez y aprendizaje del pensamiento ajedrecístico.</span></div>
+      <div class="pillar"><span class="em">🏃</span><span class="tx">Actividad física sin gimnasio.</span></div>
+      <div class="pillar"><span class="em">🐕</span><span class="tx">Tener un perro y caminar.</span></div>
+      <div class="pillar"><span class="em">✍️</span><span class="tx">Crear tutoriales y contenidos.</span></div>
+      <div class="pillar"><span class="em">🌲</span><span class="tx">Naturaleza y tranquilidad.</span></div>
+      <div class="pillar"><span class="em">🗣️</span><span class="tx">Relaciones sociales y pertenencia a una comunidad.</span></div>
+      <div class="pillar"><span class="em">⏳</span><span class="tx">Mucho tiempo propio.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FASE 1 ==================== -->
+<section id="busqueda" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🔎</div>
+    <div>
+      <span class="phase-chip">FASE 1</span>
+      <h2>Definir exactamente qué estamos buscando</h2>
+      <p>Presupuesto residencial, ficha mínima de vivienda y categorías de negociación.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">💶</span> Fijar el presupuesto máximo de vivienda<span class="task-id">TASK 1.1</span></div>
+    <ul class="ck" data-k="t11">
+      <li>Establecer <strong>350 €/mes</strong> como límite inicial.</li>
+      <li>Mantener <strong>300–350 €</strong> como zona objetivo.</li>
+      <li>Considerar excepciones hasta <strong>375–400 €</strong> únicamente si la vivienda ofrece ventajas extraordinarias.</li>
+      <li>No aceptar habitación compartida como solución objetivo.</li>
+    </ul>
+    <div class="callout example"><span class="ct">RESULTADO</span>Presupuesto residencial definido.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🏠</span> Definir la vivienda ideal<span class="task-id">TASK 1.2</span></div>
+    <p class="hint" style="margin-top:0">La vivienda debería tener:</p>
+    <ul class="ck" data-k="t12">
+      <li>Vivienda completa.</li>
+      <li>Espacio suficiente para vivir solo.</li>
+      <li>Una habitación principal.</li>
+      <li>Espacio para piano.</li>
+      <li>Mesa para laptop/trabajo.</li>
+      <li>Espacio para estudiar ajedrez.</li>
+      <li>Posibilidad de tener perro.</li>
+      <li>Calefacción o posibilidad razonable de instalarla.</li>
+      <li>Cocina funcional.</li>
+      <li>Baño propio.</li>
+      <li>Buena cobertura móvil.</li>
+      <li>Internet viable.</li>
+    </ul>
+    <div class="callout example"><span class="ct">RESULTADO</span>Ficha mínima de vivienda.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">⚖️</span> Definir qué NO es negociable<span class="task-id">TASK 1.3</span></div>
+    <p class="hint" style="margin-top:0">Crear tres categorías:</p>
+    <div class="grid g3">
+      <div class="card tight" style="border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.05)">
+        <div class="card-title" style="font-size:15px"><span class="badge b-red">IMPRESCINDIBLE</span></div>
+        <ul class="ck" data-k="t13a">
+          <li>Vivienda completa.</li>
+          <li>Internet suficientemente bueno.</li>
+          <li>Precio compatible con 773 €.</li>
+          <li>Posibilidad de perro.</li>
+          <li>Condiciones legales y contractuales claras.</li>
+        </ul>
+      </div>
+      <div class="card tight" style="border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.05)">
+        <div class="card-title" style="font-size:15px"><span class="badge b-green">DESEABLE</span></div>
+        <ul class="ck" data-k="t13b">
+          <li>Fibra óptica.</li>
+          <li>Terraza/patio.</li>
+          <li>Buen aislamiento.</li>
+          <li>Naturaleza cercana.</li>
+          <li>Tienda/bar/farmacia cerca.</li>
+          <li>Buena comunidad local.</li>
+        </ul>
+      </div>
+      <div class="card tight" style="border-color:rgba(100,116,139,.45);background:rgba(100,116,139,.06)">
+        <div class="card-title" style="font-size:15px"><span class="badge" style="color:#94a3b8;border-color:#334155;background:rgba(100,116,139,.1)">PRESCINDIBLE</span></div>
+        <ul class="ck" data-k="t13c">
+          <li>Centro comercial.</li>
+          <li>Gran oferta de ocio.</li>
+          <li>Transporte urbano.</li>
+          <li>Vida nocturna.</li>
+          <li>Cercanía a grandes ciudades.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout example"><span class="ct">RESULTADO</span>Criterios de decisión claros.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 2 ==================== -->
+<section id="pueblos" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🗺️</div>
+    <div>
+      <span class="phase-chip">FASE 2</span>
+      <h2>Crear el universo de pueblos</h2>
+      <p>Construir el mapa mental del territorio antes de filtrar por precio.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">📋</span> Buscar pueblos pequeños de la provincia<span class="task-id">TASK 2.1</span></div>
+    <p class="hint" style="margin-top:0">Crear una lista amplia de candidatos. Incluir:</p>
+    <ul class="ck" data-k="t21">
+      <li>Pueblos de menos de <strong>5.000</strong> habitantes.</li>
+      <li>Pueblos de menos de <strong>1.000</strong> habitantes.</li>
+      <li>Pueblos de menos de <strong>500</strong> habitantes.</li>
+      <li>Localidades extremadamente pequeñas.</li>
+      <li>Pedanías si pueden funcionar como residencia real.</li>
+    </ul>
+    <div class="callout info"><span class="ct">OBJETIVO INICIAL</span>Al menos <strong>30–50 candidatos</strong>.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🔬</span> No descartar automáticamente pueblos diminutos<span class="task-id">TASK 2.2</span></div>
+    <p class="hint" style="margin-top:0">Crear una lista especial de:</p>
+    <ul class="ck" data-k="t22">
+      <li><strong>&lt;100</strong> habitantes.</li>
+      <li><strong>&lt;200</strong> habitantes.</li>
+      <li><strong>&lt;500</strong> habitantes.</li>
+    </ul>
+    <div class="callout info"><span class="ct">EVALUACIÓN</span>Evaluar si la extrema tranquilidad compensa la reducción de servicios.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🧭</span> Agrupar geográficamente<span class="task-id">TASK 2.3</span></div>
+    <p class="hint" style="margin-top:0">Crear grupos:</p>
+    <ul class="ck" data-k="t23">
+      <li>Rincón de Ademuz.</li>
+      <li>Interior norte.</li>
+      <li>Interior centro.</li>
+      <li>Interior sur.</li>
+      <li>Zonas montañosas.</li>
+      <li>Zonas rurales próximas a Valencia.</li>
+      <li>Otras zonas interesantes de la provincia.</li>
+    </ul>
+    <div class="chips">
+      <span class="chip hot">Rincón de Ademuz</span><span class="chip">Interior norte</span><span class="chip">Interior centro</span>
+      <span class="chip">Interior sur</span><span class="chip">Zonas montañosas</span><span class="chip">Rural próxima a Valencia</span><span class="chip">Otras zonas</span>
+    </div>
+    <div class="callout example"><span class="ct">RESULTADO</span>Mapa mental del territorio.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 3 ==================== -->
+<section id="economico" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">💰</div>
+    <div>
+      <span class="phase-chip">FASE 3</span>
+      <h2>Primer filtro económico</h2>
+      <p>Buscar alquileres por franjas de precio y clasificar su duración real.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🏷️</span> Buscar alquileres ≤ 350 €<span class="task-id">TASK 3.1</span></div>
+    <p class="hint" style="margin-top:0">Para cada pueblo:</p>
+    <ul class="ck" data-k="t31">
+      <li>Buscar vivienda completa.</li>
+      <li>Registrar precio.</li>
+      <li>Registrar superficie.</li>
+      <li>Registrar número de habitaciones.</li>
+      <li>Registrar gastos incluidos/no incluidos.</li>
+      <li>Registrar duración del contrato.</li>
+      <li>Registrar si está amueblada.</li>
+      <li>Registrar calefacción.</li>
+      <li>Registrar condiciones para mascotas.</li>
+    </ul>
+    <div class="callout warning"><span class="ct">REGLA</span>Un anuncio no se considera oportunidad confirmada hasta verificar sus condiciones.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">📈</span> Buscar alquileres de 350–400 €<span class="task-id">TASK 3.2</span></div>
+    <p class="hint" style="margin-top:0">Solo como categoría secundaria.</p>
+    <ul class="ck" data-k="t32">
+      <li>Registrar oportunidades.</li>
+      <li>Calcular cuánto dinero quedaría.</li>
+      <li>Evaluar si el aumento de precio compra una mejora importante.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">📅</span> Detectar alquileres temporales<span class="task-id">TASK 3.3</span></div>
+    <p class="hint" style="margin-top:0">Separar:</p>
+    <ul class="ck" data-k="t33">
+      <li>Larga duración.</li>
+      <li>Temporada.</li>
+      <li>Vacacional.</li>
+      <li>Alquiler ambiguo.</li>
+    </ul>
+    <div class="callout info"><span class="ct">OBJETIVO</span>Evitar confundir un anuncio barato con una vivienda realmente disponible para establecer una vida.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 4 ==================== -->
+<section id="internet" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">📡</div>
+    <div>
+      <span class="phase-chip">FASE 4</span>
+      <h2>Internet</h2>
+      <p>Conectividad comprobada y plan B para que Internet nunca sea un punto único de fallo.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🔌</span> Comprobar conectividad<span class="task-id">TASK 4.1</span></div>
+    <p class="hint" style="margin-top:0">Para cada candidato:</p>
+    <ul class="ck" data-k="t41">
+      <li>Fibra óptica disponible.</li>
+      <li>Velocidad disponible.</li>
+      <li>Cobertura 4G.</li>
+      <li>Cobertura 5G.</li>
+      <li>Operadores disponibles.</li>
+      <li>Alternativas si no existe fibra.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🛟</span> Diseñar PLAN B de Internet<span class="task-id">TASK 4.2</span></div>
+    <p class="hint" style="margin-top:0">Si no hay fibra:</p>
+    <ul class="ck" data-k="t42">
+      <li>Router 4G/5G.</li>
+      <li>SIM de datos.</li>
+      <li>Antena externa si fuese necesaria.</li>
+      <li>Segundo operador como respaldo.</li>
+    </ul>
+    <div class="callout info"><span class="ct">OBJETIVO</span>Que Internet nunca sea un punto único de fallo.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 5 ==================== -->
+<section id="servicios" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🏪</div>
+    <div>
+      <span class="phase-chip">FASE 5</span>
+      <h2>Servicios básicos</h2>
+      <p>Inventario de servicios para cada pueblo candidato.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">✅</span> Checklist de servicios por pueblo</div>
+    <p class="hint" style="margin-top:0">Para cada pueblo:</p>
+    <ul class="ck" data-k="f5">
+      <li>Alimentación.</li>
+      <li>Farmacia.</li>
+      <li>Centro sanitario o consultorio.</li>
+      <li>Cajero/banco o alternativa.</li>
+      <li>Ayuntamiento.</li>
+      <li>Correos/paquetería.</li>
+      <li>Bar/cafetería.</li>
+      <li>Ferretería o comercio equivalente.</li>
+      <li>Transporte público.</li>
+      <li>Distancia al supermercado grande más cercano.</li>
+    </ul>
+    <div class="callout info"><span class="ct">INFO</span>No necesitamos que todo esté dentro del pueblo.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 6 ==================== -->
+<section id="movilidad" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🚲</div>
+    <div>
+      <span class="phase-chip">FASE 6</span>
+      <h2>Movilidad</h2>
+      <p>Bicicleta eléctrica y radio operativo: no depender diariamente de un coche.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🔋</span> Evaluar bicicleta eléctrica<span class="task-id">TASK 6.1</span></div>
+    <p class="hint" style="margin-top:0">Para cada candidato:</p>
+    <ul class="ck" data-k="t61">
+      <li>Distancias a servicios.</li>
+      <li>Desnivel.</li>
+      <li>Estado de carreteras/caminos.</li>
+      <li>Pendientes.</li>
+      <li>Seguridad.</li>
+      <li>Distancia a localidad mayor.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🎯</span> Definir radio operativo<span class="task-id">TASK 6.2</span></div>
+    <p class="hint" style="margin-top:0">Determinar:</p>
+    <ul class="ck" data-k="t62">
+      <li>Qué puedo hacer andando.</li>
+      <li>Qué puedo hacer en bicicleta.</li>
+      <li>Qué requiere transporte ocasional.</li>
+    </ul>
+    <div class="callout info"><span class="ct">OBJETIVO</span>No depender diariamente de un coche.</div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="pillar"><span class="em">🚶</span><span class="tx"><strong>Andando</strong> — radio inmediato desde la vivienda.</span></div>
+      <div class="pillar"><span class="em">🚲</span><span class="tx"><strong>En bicicleta</strong> — radio operativo cotidiano.</span></div>
+      <div class="pillar"><span class="em">🚌</span><span class="tx"><strong>Transporte ocasional</strong> — excepciones planificadas.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FASE 7 ==================== -->
+<section id="clima" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🌡️</div>
+    <div>
+      <span class="phase-chip">FASE 7</span>
+      <h2>Clima y calefacción</h2>
+      <p>Datos climáticos reales, análisis térmico de la vivienda y estrategia de calefacción de bajo coste.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">☀️</span> Obtener clima real<span class="task-id">TASK 7.1</span></div>
+    <p class="hint" style="margin-top:0">Para cada finalista:</p>
+    <ul class="ck" data-k="t71">
+      <li>Temperatura media invernal.</li>
+      <li>Temperaturas mínimas.</li>
+      <li>Duración aproximada del invierno.</li>
+      <li>Humedad.</li>
+      <li>Horas de sol.</li>
+      <li>Episodios de frío intenso.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🏚️</span> Analizar la vivienda térmicamente<span class="task-id">TASK 7.2</span></div>
+    <ul class="ck" data-k="t72">
+      <li>Tipo de ventanas.</li>
+      <li>Aislamiento.</li>
+      <li>Orientación.</li>
+      <li>Superficie.</li>
+      <li>Altura de techos.</li>
+      <li>Sistema de calefacción.</li>
+      <li>Posibilidad de calentar solo una habitación.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🔥</span> Diseñar estrategia de calefacción<span class="task-id">TASK 7.3</span></div>
+    <div class="callout info"><span class="ct">PRINCIPIO</span>No calentar una casa entera si puedo calentar eficientemente el espacio donde estoy.</div>
+    <p class="hint">Evaluar:</p>
+    <ul class="ck" data-k="t73">
+      <li>Calefacción de una habitación.</li>
+      <li>Uso de mantas/ropa térmica.</li>
+      <li>Aislamiento.</li>
+      <li>Control horario.</li>
+      <li>Termostato.</li>
+      <li>Consumo eléctrico estimado.</li>
+    </ul>
+    <div class="callout example"><span class="ct">RESULTADO</span>Coste mensual de invierno estimado.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 8 ==================== -->
+<section id="presupuesto" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🧾</div>
+    <div>
+      <span class="phase-chip">FASE 8</span>
+      <h2>Presupuesto real de vida</h2>
+      <p>Crear una hoja mensual para cada candidato: normal, invierno y emergencia.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">📊</span> Estructura de la hoja mensual<span class="task-id">EJEMPLO</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concepto</th><th class="n">€/mes</th></tr></thead>
+        <tbody>
+          <tr><td>Alquiler</td><td class="n">350</td></tr>
+          <tr><td>Electricidad</td><td class="n">?</td></tr>
+          <tr><td>Agua</td><td class="n">?</td></tr>
+          <tr><td>Internet</td><td class="n">?</td></tr>
+          <tr><td>Alimentación</td><td class="n">?</td></tr>
+          <tr><td>Teléfono</td><td class="n">?</td></tr>
+          <tr><td>Higiene/limpieza</td><td class="n">?</td></tr>
+          <tr><td>Transporte</td><td class="n">?</td></tr>
+          <tr><td>Perro</td><td class="n">?</td></tr>
+          <tr><td>Otros</td><td class="n">?</td></tr>
+          <tr class="total"><td>TOTAL</td><td class="n">?</td></tr>
+          <tr class="rest"><td>RESTANTE</td><td class="n">?</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🧮</span> Calculadora de presupuesto<span class="task-id">HERRAMIENTA</span></div>
+    <p class="hint" style="margin-top:0">
+      Ingreso mensual de referencia del proyecto: <strong>773 €</strong>. Rellena los conceptos y observa el TOTAL y el RESTANTE.
+      Los campos marcados con “?” en el documento original se dejan vacíos hasta que dispongas del dato real.
+    </p>
+    <div class="tabs" id="budTabs">
+      <button class="tab active" data-tab="bud-normal">MES NORMAL (8.1)</button>
+      <button class="tab" data-tab="bud-inv">INVIERNO (8.2)</button>
+      <button class="tab" data-tab="bud-emg">EMERGENCIA (8.3)</button>
+    </div>
+    <div id="bud-normal" class="tabpanel active"></div>
+    <div id="bud-inv" class="tabpanel"></div>
+    <div id="bud-emg" class="tabpanel"></div>
+    <div class="callout example"><span class="ct">RESULTADO</span>Saber si la vida es sostenible, no solamente si el alquiler cabe en 773 €.</div>
+  </div>
+
+  <div class="grid g3">
+    <div class="card">
+      <div class="card-title"><span class="ic">🌸</span> Presupuesto normal<span class="task-id">TASK 8.1</span></div>
+      <ul class="ck" data-k="t81">
+        <li>Mes de primavera/otoño.</li>
+        <li>Sin gastos extraordinarios.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ic">❄️</span> Presupuesto de invierno<span class="task-id">TASK 8.2</span></div>
+      <ul class="ck" data-k="t82">
+        <li>Añadir calefacción.</li>
+        <li>Estimar consumo adicional.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ic">🚨</span> Presupuesto de emergencia<span class="task-id">TASK 8.3</span></div>
+      <ul class="ck" data-k="t83">
+        <li>Reparación.</li>
+        <li>Medicamentos/gastos sanitarios.</li>
+        <li>Transporte extraordinario.</li>
+        <li>Reparación de bicicleta/equipamiento.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FASE 9 ==================== -->
+<section id="perro" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🐕</div>
+    <div>
+      <span class="phase-chip">FASE 9</span>
+      <h2>Perro</h2>
+      <p>Comprobar la compatibilidad real de la vivienda y del entorno con tener un perro.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🦴</span> Comprobar compatibilidad<span class="task-id">TASK 9.1</span></div>
+    <p class="hint" style="margin-top:0">Para cada vivienda:</p>
+    <ul class="ck" data-k="t91">
+      <li>Mascotas permitidas.</li>
+      <li>Espacio suficiente.</li>
+      <li>Entorno adecuado.</li>
+      <li>Caminos/naturaleza.</li>
+      <li>Veterinario accesible.</li>
+      <li>Posibilidad de paseos diarios.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== FASE 10 ==================== -->
+<section id="social" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🗣️</div>
+    <div>
+      <span class="phase-chip">FASE 10</span>
+      <h2>Vida social</h2>
+      <p>No buscamos una vida de aislamiento: medir la comunidad y diseñar la integración.</p>
+    </div>
+  </div>
+
+  <div class="callout info"><span class="ct">INFO</span>No buscamos una vida de aislamiento.</div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🏘️</span> Medir comunidad<span class="task-id">TASK 10.1</span></div>
+    <p class="hint" style="margin-top:0">Para cada finalista:</p>
+    <ul class="ck" data-k="t101">
+      <li>Número de habitantes.</li>
+      <li>Estructura aproximada de edades.</li>
+      <li>Bar/café.</li>
+      <li>Asociaciones.</li>
+      <li>Actividades culturales.</li>
+      <li>Biblioteca o espacio comunitario.</li>
+      <li>Fiestas locales.</li>
+      <li>Centro social.</li>
+      <li>Actividades municipales.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🤝</span> Diseñar estrategia de integración<span class="task-id">TASK 10.2</span></div>
+    <p class="hint" style="margin-top:0">Posibles aportaciones gratuitas:</p>
+    <ul class="ck" data-k="t102">
+      <li>Inglés.</li>
+      <li>Piano/música.</li>
+      <li>IA.</li>
+      <li>Ajedrez.</li>
+      <li>Ayuda informática.</li>
+      <li>Tutoriales/conocimientos.</li>
+    </ul>
+    <div class="callout info">
+      <span class="ct">PRINCIPIO</span>
+      No llegar al pueblo solamente como consumidor de servicios. Llegar también como alguien que puede aportar algo.
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FASE 11 ==================== -->
+<section id="intelectual" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🧠</div>
+    <div>
+      <span class="phase-chip">FASE 11</span>
+      <h2>Vida intelectual</h2>
+      <p>Espacio de estudio, rutina diaria y tablero de ajedrez como herramienta de estudio movimiento a movimiento.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🛋️</span> Diseñar el espacio de estudio<span class="task-id">TASK 11.1</span></div>
+    <p class="hint" style="margin-top:0">La habitación principal debería poder contener:</p>
+    <ul class="ck" data-k="t111">
+      <li>Piano.</li>
+      <li>Laptop.</li>
+      <li>Mesa.</li>
+      <li>Tablero de ajedrez.</li>
+      <li>Libros.</li>
+      <li>Sistema de Internet.</li>
+      <li>Buena iluminación.</li>
+      <li>Silla cómoda.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">⏰</span> Diseñar una rutina<span class="task-id">TASK 11.2</span></div>
+    <p class="hint" style="margin-top:0">Crear bloques diarios para:</p>
+    <ul class="ck" data-k="t112">
+      <li>Música.</li>
+      <li>IA.</li>
+      <li>Matemáticas/física.</li>
+      <li>Filosofía/neurociencia.</li>
+      <li>Ajedrez.</li>
+      <li>Ejercicio.</li>
+      <li>Paseos con perro.</li>
+      <li>Creación de contenidos.</li>
+      <li>Socialización.</li>
+    </ul>
+    <div class="callout info"><span class="ct">OBJETIVO</span>Convertir el tiempo libre en una vida, no en simple tiempo vacío.</div>
+
+    <div class="divider"></div>
+    <div class="card-title"><span class="ic">🧩</span> Planificador de bloques diarios<span class="task-id">HERRAMIENTA</span></div>
+    <p class="hint" style="margin-top:0">Asigna horas a cada bloque de la rutina. El contador muestra el total asignado del día.</p>
+    <div class="routine" id="routine"></div>
+    <div class="score-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div><span style="font-size:12px;letter-spacing:1.2px;color:var(--dim);font-weight:800">HORAS ASIGNADAS</span>
+          <div class="big-num" id="rtTotal" style="font-size:30px">0 h</div></div>
+        <div class="bar" style="flex:1;min-width:160px;margin:0"><i id="rtBar"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">♟️</span> Tablero de ajedrez de estudio<span class="task-id">FASE 11 · HERRAMIENTA</span></div>
+    <div class="callout info">
+      <span class="ct">INFO · INTEGRIDAD DEL CONTENIDO</span>
+      La hoja de ruta incluye el ajedrez como pilar de vida (<em>“Ajedrez y aprendizaje del pensamiento ajedrecístico”</em>,
+      <em>“Espacio para estudiar ajedrez”</em>, <em>“Tablero · Piezas · Espacio permanente para estudiar”</em>), pero
+      <strong>no contiene ninguna secuencia de jugadas</strong>. Siguiendo la regla “no inventar movimientos ni variantes”,
+      este tablero es una <strong>herramienta de estudio libre</strong>: tú construyes la secuencia y el sistema muestra y explica
+      <strong>cada movimiento individual</strong> con color, pieza, origen, destino y resaltado, tal como exige la especificación.
+    </div>
+    <div class="callout warning">
+      <span class="ct">ADVERTENCIA · TERMINOLOGÍA</span>
+      <strong>Movimiento</strong> = acción de un único bando. <strong>Jugada completa</strong> = movimiento de BLANCAS + movimiento de NEGRAS.
+      El contador inferior siempre indica movimientos individuales.
+    </div>
+
+    <div class="board-block">
+      <!-- TABLERO -->
+      <div class="board-frame" id="boardFrame">
+        <div class="board-area">
+          <div class="row-coords" id="rowCoords"></div>
+          <div class="board-main">
+            <div class="board-grid" id="boardGrid"></div>
+          </div>
+        </div>
+        <div class="col-coords" id="colCoords" style="margin-left:24px"></div>
+      </div>
+
+      <!-- CONTROLES: SIEMPRE JUSTO DEBAJO DEL TABLERO -->
+      <div class="board-controls">
+        <div class="ctrl-row">
+          <button class="btn sm" id="btnFirst" title="Volver a la posición inicial">⏮ Inicio</button>
+          <button class="btn sm" id="btnPrev" title="Movimiento anterior">◀ Anterior</button>
+          <button class="btn sm primary" id="btnNext" title="Movimiento siguiente">Siguiente ▶</button>
+          <button class="btn sm" id="btnLast" title="Ir al último movimiento">Último ⏭</button>
+        </div>
+        <div class="ctrl-row">
+          <button class="btn sm" id="btnReset" title="Reiniciar: posición inicial y secuencia vacía">↺ Reset</button>
+          <button class="btn sm" id="btnUndo" title="Eliminar el último movimiento de la secuencia">⌫ Deshacer</button>
+          <button class="btn sm" id="btnClear" title="Vaciar el tablero">🧹 Vaciar</button>
+          <button class="btn sm" id="btnFlip" title="Voltear el tablero">🔄 Voltear</button>
+        </div>
+        <div class="slider-row">
+          <span style="font-size:12px;color:var(--dim);font-weight:800">PASO</span>
+          <input type="range" id="moveSlider" min="0" max="0" value="0" step="1" aria-label="Desplazarse por los movimientos">
+        </div>
+        <div class="move-ind" id="moveInd">Posición inicial · Movimiento 0 de 0</div>
+
+        <!-- PANEL DE DESARROLLO DE LA JUGADA -->
+        <div class="move-panel" id="movePanel"></div>
+
+        <!-- REGISTRO DE MOVIMIENTOS -->
+        <div class="movelog">
+          <div class="lg-h">Registro de movimientos (pulsar para saltar)</div>
+          <ul id="moveLog"><li style="cursor:default;color:var(--dim)">Sin movimientos todavía. Pulsa una pieza del tablero para empezar.</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout example">
+      <span class="ct">MODO DE USO</span>
+      1) Pulsa una pieza → queda seleccionada (borde ámbar). 2) Pulsa la casilla de destino → el movimiento se ejecuta,
+      se resalta origen y destino (borde cian) y el panel inferior explica <strong>quién mueve, qué pieza, desde dónde, hasta dónde y qué ocurre</strong>.
+      3) Usa Anterior / Siguiente / slider para revisar la secuencia movimiento a movimiento.
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FASE 12-13 ==================== -->
+<section id="evaluacion" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🏅</div>
+    <div>
+      <span class="phase-chip">FASE 12 · FASE 13</span>
+      <h2>Puntuación de candidatos y shortlist</h2>
+      <p>Puntuar de 0 a 100 con pesos explícitos y reducir la lista hasta un ganador provisional.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">📐</span> Tabla de pesos<span class="task-id">FASE 12</span></div>
+    <p class="hint" style="margin-top:0">Asignar una puntuación de <strong>0–100</strong>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Factor</th><th class="n">Peso</th></tr></thead>
+        <tbody>
+          <tr><td>Vivienda ≤350 €</td><td class="n">25</td></tr>
+          <tr><td>Internet</td><td class="n">15</td></tr>
+          <tr><td>Servicios</td><td class="n">10</td></tr>
+          <tr><td>Clima/calefacción</td><td class="n">10</td></tr>
+          <tr><td>Bicicleta/movilidad</td><td class="n">10</td></tr>
+          <tr><td>Naturaleza/tranquilidad</td><td class="n">10</td></tr>
+          <tr><td>Perro</td><td class="n">5</td></tr>
+          <tr><td>Comunidad/socialización</td><td class="n">5</td></tr>
+          <tr><td>Espacio para piano/estudio</td><td class="n">5</td></tr>
+          <tr><td>Potencial de vida intelectual</td><td class="n">5</td></tr>
+          <tr class="total"><td>TOTAL</td><td class="n">100</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🎚️</span> Puntuador de candidato<span class="task-id">HERRAMIENTA</span></div>
+    <p class="hint" style="margin-top:0">
+      Valora cada factor de <strong>0 a 10</strong>. La puntuación final se calcula aplicando el peso de la tabla:
+      <code style="color:var(--accent)">(valor ÷ 10) × peso</code>, con un máximo de 100 puntos.
+    </p>
+    <div id="scorer"></div>
+    <div class="score-box">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div class="big-num" id="scoreTotal">0.0</div>
+        <div style="flex:1;min-width:180px">
+          <div style="font-size:12px;letter-spacing:1.2px;color:var(--dim);font-weight:800">PUNTUACIÓN GLOBAL / 100</div>
+          <div class="bar"><i id="scoreBar"></i></div>
+          <div id="scoreVerdict" style="font-size:13.5px;color:var(--muted)"></div>
+        </div>
+      </div>
+      <p class="hint">Escala orientativa de lectura (no forma parte del documento original): &lt;40 inviable · 40–59 marginal · 60–74 aceptable · 75–86 bueno · &gt;86 excelente.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🔻</span> Shortlist: el embudo de decisión<span class="task-id">FASE 13</span></div>
+    <p class="hint" style="margin-top:0">Después del análisis:</p>
+    <div class="flow">
+      <div class="step"><div class="lt">TOP 10</div><div class="nm">Selección amplia</div><div class="ds">Seleccionar 10 pueblos.</div></div>
+      <div class="step"><div class="lt">TOP 5</div><div class="nm">Investigación profunda</div><div class="ds">Investigar profundamente los 5 mejores.</div></div>
+      <div class="step"><div class="lt">TOP 3</div><div class="nm">Comparación</div><div class="ds">Comparación económica y de vivienda.</div></div>
+      <div class="step"><div class="lt">1</div><div class="nm">Ganador provisional</div><div class="ds">Máxima calidad de vida con 773 €.</div></div>
+    </div>
+    <div class="grid g2">
+      <div class="card tight">
+        <div class="card-title" style="font-size:15px"><span class="badge b-cyan">TOP 10</span></div>
+        <ul class="ck" data-k="f13a"><li>Seleccionar 10 pueblos.</li></ul>
+      </div>
+      <div class="card tight">
+        <div class="card-title" style="font-size:15px"><span class="badge b-cyan">TOP 5</span></div>
+        <ul class="ck" data-k="f13b"><li>Investigar profundamente los 5 mejores.</li></ul>
+      </div>
+      <div class="card tight">
+        <div class="card-title" style="font-size:15px"><span class="badge b-green">TOP 3</span></div>
+        <ul class="ck" data-k="f13c">
+          <li>Comparación económica.</li>
+          <li>Comparación de vivienda.</li>
+          <li>Internet.</li>
+          <li>Clima.</li>
+          <li>Servicios.</li>
+          <li>Movilidad.</li>
+          <li>Vida social.</li>
+        </ul>
+      </div>
+      <div class="card tight">
+        <div class="card-title" style="font-size:15px"><span class="badge b-amber">GANADOR PROVISIONAL</span></div>
+        <ul class="ck" data-k="f13d"><li>Elegir el candidato que maximice la calidad de vida con 773 €.</li></ul>
+      </div>
+    </div>
+    <div class="callout warning"><span class="ct">IMPORTANTE</span>Ganador provisional ≠ decisión definitiva.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 14-15 ==================== -->
+<section id="terreno" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🥾</div>
+    <div>
+      <span class="phase-chip">FASE 14 · FASE 15</span>
+      <h2>Investigación sobre el terreno y búsqueda fuera de portales</h2>
+      <p>Cuando existen 1–3 candidatos fuertes, la验证 se hace caminando por el pueblo y preguntando.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">📍</span> Investigación sobre el terreno<span class="task-id">FASE 14</span></div>
+    <p class="hint" style="margin-top:0">Cuando existan 1–3 candidatos fuertes:</p>
+    <ul class="ck" data-k="f14">
+      <li>Visitar el pueblo.</li>
+      <li>Caminar por sus calles.</li>
+      <li>Entrar en comercios.</li>
+      <li>Hablar con vecinos.</li>
+      <li>Visitar el ayuntamiento.</li>
+      <li>Preguntar por alquileres.</li>
+      <li>Preguntar por viviendas vacías.</li>
+      <li>Comprobar cobertura móvil personalmente.</li>
+      <li>Comprobar ruido.</li>
+      <li>Comprobar temperatura/sensación térmica.</li>
+      <li>Evaluar pendientes y bicicleta.</li>
+      <li>Buscar posibles lugares para socializar.</li>
+    </ul>
+    <div class="callout info"><span class="ct">REGLA</span>Internet encuentra oportunidades; el terreno determina si realmente sirven.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">📮</span> Buscar vivienda fuera de los portales<span class="task-id">FASE 15</span></div>
+    <p class="hint" style="margin-top:0">No limitarse a Idealista/Fotocasa/etc.</p>
+    <ul class="ck" data-k="f15">
+      <li><strong>TASK 15.1</strong> — Contactar ayuntamientos.</li>
+      <li><strong>TASK 15.2</strong> — Preguntar en bares y comercios.</li>
+      <li><strong>TASK 15.3</strong> — Preguntar en farmacias.</li>
+      <li><strong>TASK 15.4</strong> — Consultar inmobiliarias locales.</li>
+      <li><strong>TASK 15.5</strong> — Buscar grupos locales de Facebook.</li>
+      <li><strong>TASK 15.6</strong> — Buscar propietarios particulares.</li>
+      <li><strong>TASK 15.7</strong> — Preguntar por casas cerradas o vacías.</li>
+    </ul>
+    <div class="callout example"><span class="ct">CLAVE</span>En pueblos pequeños puede existir oferta que nunca llega a los grandes portales.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 16-17 ==================== -->
+<section id="contrato" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">📝</div>
+    <div>
+      <span class="phase-chip">FASE 16 · FASE 17</span>
+      <h2>Contacto con propietarios y verificación antes de firmar</h2>
+      <p>Generar confianza con una plantilla clara y verificar cada punto antes de aceptar una vivienda.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">✉️</span> Contacto con propietarios<span class="task-id">FASE 16</span></div>
+    <p class="hint" style="margin-top:0">Crear una plantilla de contacto que explique brevemente:</p>
+    <ul class="ck" data-k="f16">
+      <li>Quién soy.</li>
+      <li>Qué busco.</li>
+      <li>Que quiero establecerme de forma estable.</li>
+      <li>Que viviría solo.</li>
+      <li>Que tengo intención de cuidar la vivienda.</li>
+      <li>Que necesito Internet.</li>
+      <li>Que tengo perro.</li>
+      <li>Que busco una relación contractual clara.</li>
+    </ul>
+    <div class="callout info"><span class="ct">OBJETIVO</span>Generar confianza, especialmente con propietarios particulares.</div>
+
+    <div class="divider"></div>
+    <div class="card-title"><span class="ic">📄</span> Plantilla generada a partir de los 8 puntos<span class="task-id">HERRAMIENTA</span></div>
+    <textarea id="tpl" spellcheck="false"></textarea>
+    <div class="ctrl-row" style="justify-content:flex-start;margin-top:10px">
+      <button class="btn sm primary" id="copyTpl">📋 Copiar plantilla</button>
+      <span id="copyMsg" style="align-self:center;font-size:13px;color:var(--green)"></span>
+    </div>
+    <p class="hint">Los campos entre corchetes [ ] deben completarse con los datos reales. El texto no añade información ajena a la Fase 16.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🔐</span> Verificación antes de firmar<span class="task-id">FASE 17</span></div>
+    <p class="hint" style="margin-top:0">Antes de aceptar una vivienda:</p>
+    <div class="acc">
+      <button class="acc-h">🧾 Parte legal y contractual <span class="arw">▶</span></button>
+      <div class="acc-b">
+        <ul class="ck" data-k="f17a">
+          <li>Identidad del propietario.</li>
+          <li>Titularidad/legitimidad.</li>
+          <li>Contrato escrito.</li>
+          <li>Duración.</li>
+          <li>Fianza.</li>
+          <li>Gastos incluidos.</li>
+          <li>Gastos no incluidos.</li>
+          <li>Condiciones sobre mascotas.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h">🏠 Parte técnica y de habitabilidad <span class="arw">▶</span></button>
+      <div class="acc-b">
+        <ul class="ck" data-k="f17b">
+          <li>Calefacción.</li>
+          <li>Internet.</li>
+          <li>Estado de instalaciones.</li>
+          <li>Humedades.</li>
+          <li>Ventanas.</li>
+          <li>Ruido.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="acc open">
+      <button class="acc-h">🌐 Parte de entorno <span class="arw">▶</span></button>
+      <div class="acc-b">
+        <ul class="ck" data-k="f17c">
+          <li>Cobertura móvil.</li>
+          <li>Vecindario.</li>
+          <li>Acceso a servicios.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout error"><span class="ct">ERROR A EVITAR</span>No pagar dinero importante antes de verificar la operación.</div>
+  </div>
+</section>
+
+<!-- ==================== FASE 18-19 ==================== -->
+<section id="implantacion" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">📦</div>
+    <div>
+      <span class="phase-chip">FASE 18 · FASE 19</span>
+      <h2>Infraestructura de la nueva vida y prueba piloto</h2>
+      <p>Equipar la casa y someter el diseño a un periodo de prueba medible.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🏗️</span> Diseñar la infraestructura<span class="task-id">FASE 18</span></div>
+    <p class="hint" style="margin-top:0">Una vez encontrada la vivienda:</p>
+    <div class="tabs" id="infraTabs">
+      <button class="tab active" data-tab="inf-casa">🏠 CASA</button>
+      <button class="tab" data-tab="inf-tec">🤖 TECNOLOGÍA</button>
+      <button class="tab" data-tab="inf-mus">🎹 MÚSICA</button>
+      <button class="tab" data-tab="inf-aje">♟️ AJEDREZ</button>
+      <button class="tab" data-tab="inf-per">🐕 PERRO</button>
+    </div>
+    <div id="inf-casa" class="tabpanel active">
+      <ul class="ck" data-k="f18a">
+        <li>Cama.</li><li>Cocina.</li><li>Frigorífico.</li><li>Lavadora.</li><li>Mesa.</li>
+        <li>Silla.</li><li>Iluminación.</li><li>Calefacción.</li><li>Almacenamiento.</li>
+      </ul>
+    </div>
+    <div id="inf-tec" class="tabpanel">
+      <ul class="ck" data-k="f18b">
+        <li>Laptop.</li><li>Internet principal.</li><li>Internet de respaldo.</li><li>Router.</li><li>Sistema de copias de seguridad.</li>
+      </ul>
+    </div>
+    <div id="inf-mus" class="tabpanel">
+      <ul class="ck" data-k="f18c">
+        <li>Piano.</li><li>Auriculares si fueran necesarios.</li><li>Soporte/partituras.</li>
+      </ul>
+    </div>
+    <div id="inf-aje" class="tabpanel">
+      <ul class="ck" data-k="f18d">
+        <li>Tablero.</li><li>Piezas.</li><li>Espacio permanente para estudiar.</li>
+      </ul>
+    </div>
+    <div id="inf-per" class="tabpanel">
+      <ul class="ck" data-k="f18e">
+        <li>Cama.</li><li>Correa.</li><li>Alimentación.</li><li>Veterinario.</li><li>Identificación.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🧪</span> Prueba piloto<span class="task-id">FASE 19</span></div>
+    <p class="hint" style="margin-top:0">Antes de considerar que el proyecto está consolidado:</p>
+    <ul class="ck" data-k="f19">
+      <li>Vivir un periodo inicial.</li>
+      <li>Registrar gastos reales.</li>
+      <li>Registrar consumo eléctrico.</li>
+      <li>Medir calidad de Internet.</li>
+      <li>Comprobar integración social.</li>
+      <li>Evaluar aislamiento/ruido.</li>
+      <li>Evaluar movilidad.</li>
+      <li>Evaluar bienestar.</li>
+      <li>Evaluar productividad intelectual.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== FASE 20-22 ==================== -->
+<section id="metricas" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">📈</div>
+    <div>
+      <span class="phase-chip">FASE 20 · 21 · 22</span>
+      <h2>Métricas del experimento, revisión trimestral y Plan B</h2>
+      <p>Registrar cada mes economía, tiempo y calidad de vida; revisar cada tres meses; y no depender nunca de una única solución.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🗓️</span> Métricas del experimento<span class="task-id">FASE 20</span></div>
+    <p class="hint" style="margin-top:0">Cada mes registrar:</p>
+    <div class="tabs" id="metTabs">
+      <button class="tab active" data-tab="met-eco">💶 ECONOMÍA</button>
+      <button class="tab" data-tab="met-tmp">⏱️ TIEMPO</button>
+      <button class="tab" data-tab="met-qol">⭐ CALIDAD DE VIDA</button>
+    </div>
+
+    <div id="met-eco" class="tabpanel active">
+      <ul class="ck" data-k="f20a">
+        <li>Ingreso.</li><li>Alquiler.</li><li>Electricidad.</li><li>Alimentación.</li><li>Transporte.</li><li>Otros.</li><li>Dinero restante.</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="card-title" style="font-size:15px"><span class="ic">🧮</span> Registro económico mensual</div>
+      <div id="metEco"></div>
+      <div class="score-box">
+        <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+          <div><div style="font-size:11px;letter-spacing:1.2px;color:var(--dim);font-weight:800">TOTAL GASTADO</div><div class="big-num" id="ecoTotal" style="font-size:28px">0 €</div></div>
+          <div><div style="font-size:11px;letter-spacing:1.2px;color:var(--dim);font-weight:800">DINERO RESTANTE</div><div class="big-num" id="ecoRest" style="font-size:28px">773 €</div></div>
+          <div style="flex:1;min-width:180px"><div class="bar"><i id="ecoBar"></i></div><div id="ecoMsg" style="font-size:13px;color:var(--muted)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="met-tmp" class="tabpanel">
+      <ul class="ck" data-k="f20b">
+        <li>Horas de estudio.</li><li>Horas de música.</li><li>Horas de IA.</li><li>Horas de ajedrez.</li>
+        <li>Horas de ejercicio.</li><li>Horas de creación.</li><li>Horas de socialización.</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="card-title" style="font-size:15px"><span class="ic">⏱️</span> Registro de horas (semana)</div>
+      <div class="routine" id="metTime"></div>
+      <div class="score-box"><div style="font-size:11px;letter-spacing:1.2px;color:var(--dim);font-weight:800">TOTAL SEMANAL</div><div class="big-num" id="timeTotal" style="font-size:28px">0 h</div></div>
+    </div>
+
+    <div id="met-qol" class="tabpanel">
+      <p class="hint" style="margin-top:0">Puntuar 0–10:</p>
+      <ul class="ck" data-k="f20c">
+        <li>Tranquilidad.</li><li>Libertad.</li><li>Privacidad.</li><li>Contacto con naturaleza.</li>
+        <li>Vida social.</li><li>Satisfacción con vivienda.</li><li>Satisfacción intelectual.</li><li>Satisfacción general.</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="card-title" style="font-size:15px"><span class="ic">⭐</span> Puntuación 0–10 de cada dimensión</div>
+      <div id="qol"></div>
+      <div class="score-box">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div class="big-num" id="qolAvg">0.0</div>
+          <div style="flex:1;min-width:180px">
+            <div style="font-size:12px;letter-spacing:1.2px;color:var(--dim);font-weight:800">MEDIA DE CALIDAD DE VIDA / 10</div>
+            <div class="bar"><i id="qolBar"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🔁</span> Revisión trimestral<span class="task-id">FASE 21</span></div>
+    <p class="hint" style="margin-top:0">Cada 3 meses responder:</p>
+    <ul class="ck" data-k="f21">
+      <li>¿Estoy viviendo mejor que antes?</li>
+      <li>¿Estoy gastando menos de lo previsto?</li>
+      <li>¿Tengo suficiente privacidad?</li>
+      <li>¿Tengo suficiente Internet?</li>
+      <li>¿Estoy estudiando y creando?</li>
+      <li>¿Estoy socializando?</li>
+      <li>¿El pueblo me aporta algo?</li>
+      <li>¿El perro mejora mi vida?</li>
+      <li>¿La vivienda funciona realmente?</li>
+      <li>¿Quiero continuar allí?</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🛟</span> Plan B<span class="task-id">FASE 22</span></div>
+    <div class="callout warning"><span class="ct">ADVERTENCIA</span>Nunca depender de una única solución.</div>
+    <p class="hint">Preparar:</p>
+    <ul class="ck" data-k="f22">
+      <li>Segundo pueblo candidato.</li>
+      <li>Segunda vivienda candidata.</li>
+      <li>Reserva económica.</li>
+      <li>Alternativa de Internet.</li>
+      <li>Alternativa de transporte.</li>
+      <li>Contactos locales.</li>
+      <li>Plan de salida si la vivienda falla.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== TABLERO MAESTRO ==================== -->
+<section id="tablero" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🗂️</div>
+    <div>
+      <span class="phase-chip">TABLERO MAESTRO</span>
+      <h2>Tablero maestro del proyecto</h2>
+      <p>Estado global en tres columnas: pendiente, en investigación y completado.</p>
+    </div>
+  </div>
+
+  <div class="sem">
+    <div class="sem-col red">
+      <h3>🔴 PENDIENTE</h3>
+      <ul class="ck" data-k="mb1">
+        <li>Crear lista de pueblos.</li>
+        <li>Investigar alquileres.</li>
+        <li>Investigar Internet.</li>
+        <li>Investigar servicios.</li>
+        <li>Investigar clima.</li>
+        <li>Evaluar movilidad.</li>
+        <li>Evaluar comunidad.</li>
+        <li>Puntuar candidatos.</li>
+      </ul>
+    </div>
+    <div class="sem-col yellow">
+      <h3>🟡 EN INVESTIGACIÓN</h3>
+      <div class="field"><label class="fl" for="c1">Candidato 1</label><input type="text" id="c1" data-cand="1" placeholder="Nombre del pueblo…"></div>
+      <div class="field"><label class="fl" for="c2">Candidato 2</label><input type="text" id="c2" data-cand="2" placeholder="Nombre del pueblo…"></div>
+      <div class="field"><label class="fl" for="c3">Candidato 3</label><input type="text" id="c3" data-cand="3" placeholder="Nombre del pueblo…"></div>
+      <div class="field"><label class="fl" for="c4">Candidato 4</label><input type="text" id="c4" data-cand="4" placeholder="Nombre del pueblo…"></div>
+      <div class="field" style="margin-bottom:0"><label class="fl" for="c5">Candidato 5</label><input type="text" id="c5" data-cand="5" placeholder="Nombre del pueblo…"></div>
+    </div>
+    <div class="sem-col green">
+      <h3>🟢 COMPLETADO</h3>
+      <ul class="ck" data-k="mb3">
+        <li>Definir presupuesto.</li>
+        <li>Definir filosofía del proyecto.</li>
+        <li>Definir criterios de vivienda.</li>
+        <li>Definir estilo de vida.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <div class="card-title"><span class="ic">🚀</span> Primera misión<span class="task-id">TASK 01</span></div>
+    <div class="callout warning"><span class="ct">ADVERTENCIA</span>No intentar resolver todo a la vez.</div>
+    <p style="margin-top:0">
+      Crear una <strong>base de datos de 30–50 pueblos pequeños de la provincia de Valencia</strong>.
+      Para cada pueblo registrar únicamente:
+    </p>
+    <div class="chips">
+      <span class="chip hot">Nombre</span><span class="chip">Habitantes aproximados</span><span class="chip">Comarca</span>
+      <span class="chip">Distancia a Valencia</span><span class="chip">Altitud</span><span class="chip">Servicios básicos</span>
+      <span class="chip">Existencia de alquileres ≤350 €</span><span class="chip">Internet/fibra</span>
+      <span class="chip">Acceso por carretera</span><span class="chip">Observaciones</span>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-title"><span class="ic">🗃️</span> Base de datos de candidatos<span class="task-id">HERRAMIENTA</span></div>
+    <div class="grid g3" id="dbForm"></div>
+    <div class="ctrl-row" style="justify-content:flex-start;margin:10px 0">
+      <button class="btn primary" id="dbAdd">➕ Añadir candidato</button>
+      <button class="btn ghost" id="dbCsv">⬇ Exportar CSV</button>
+      <button class="btn ghost danger" id="dbClear">🗑 Borrar todo</button>
+    </div>
+    <div class="score-box" style="margin-top:0">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div class="big-num" id="dbCount" style="font-size:28px">0</div>
+        <div style="flex:1;min-width:180px">
+          <div style="font-size:12px;letter-spacing:1.2px;color:var(--dim);font-weight:800">CANDIDATOS REGISTRADOS · OBJETIVO 30–50</div>
+          <div class="bar"><i id="dbBar"></i></div>
+          <div id="dbMsg" style="font-size:13px;color:var(--muted)">Aún no hay candidatos. La lista debe crecer antes de investigar en profundidad.</div>
+        </div>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin-top:12px">
+      <table id="dbTable">
+        <thead><tr>
+          <th>Nombre</th><th class="n">Hab.</th><th>Comarca</th><th class="n">Dist. Valencia</th><th class="n">Altitud</th>
+          <th>Servicios básicos</th><th>Alquileres ≤350 €</th><th>Internet/fibra</th><th>Acceso por carretera</th><th>Observaciones</th><th></th>
+        </tr></thead>
+        <tbody id="dbBody"></tbody>
+      </table>
+    </div>
+    <div class="callout warning"><span class="ct">CRITERIO DE AVANCE</span>No pasar a una investigación profunda hasta tener una lista suficientemente grande.</div>
+  </div>
+</section>
+
+<!-- ==================== ORDEN DE EJECUCIÓN ==================== -->
+<section id="ejecucion" class="section">
+  <div class="sec-head">
+    <div class="sec-ico">🧭</div>
+    <div>
+      <span class="phase-chip">ORDEN DE EJECUCIÓN</span>
+      <h2>Secuencia operativa: de A a H</h2>
+      <p>30 pasos numerados agrupados en 8 bloques, del territorio al experimento.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="step"><div class="lt">A</div><div class="nm">Territorio</div><div class="ds">Pasos 1–3</div></div>
+    <div class="step"><div class="lt">B</div><div class="nm">Vivienda</div><div class="ds">Pasos 4–6</div></div>
+    <div class="step"><div class="lt">C</div><div class="nm">Infraestructura</div><div class="ds">Pasos 7–10</div></div>
+    <div class="step"><div class="lt">D</div><div class="nm">Vida</div><div class="ds">Pasos 11–14</div></div>
+    <div class="step"><div class="lt">E</div><div class="nm">Economía</div><div class="ds">Pasos 15–17</div></div>
+    <div class="step"><div class="lt">F</div><div class="nm">Decisión</div><div class="ds">Pasos 18–22</div></div>
+    <div class="step"><div class="lt">G</div><div class="nm">Implantación</div><div class="ds">Pasos 23–26</div></div>
+    <div class="step"><div class="lt">H</div><div class="nm">Experimento</div><div class="ds">Pasos 27–30</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ic">🅰️</span> Fase A — Territorio</div>
+    <ol class="steps cknum" data-k="oa">
+      <li>Lista de pueblos.</li>
+      <li>Primer filtro.</li>
+      <li>Selección de 15.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🅱️</span> Fase B — Vivienda</div>
+    <ol class="steps cknum" data-k="ob">
+      <li>Buscar alquileres.</li>
+      <li>Verificar viviendas.</li>
+      <li>Seleccionar 10.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🅲</span> Fase C — Infraestructura</div>
+    <ol class="steps cknum" data-k="oc">
+      <li>Internet.</li>
+      <li>Servicios.</li>
+      <li>Clima.</li>
+      <li>Movilidad.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🅳</span> Fase D — Vida</div>
+    <ol class="steps cknum" data-k="od">
+      <li>Naturaleza.</li>
+      <li>Perro.</li>
+      <li>Comunidad.</li>
+      <li>Vida intelectual.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🅴</span> Fase E — Economía</div>
+    <ol class="steps cknum" data-k="oe">
+      <li>Presupuesto real.</li>
+      <li>Presupuesto invierno.</li>
+      <li>Emergencias.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🅵</span> Fase F — Decisión</div>
+    <ol class="steps cknum" data-k="of">
+      <li>Ranking.</li>
+      <li>TOP 5.</li>
+      <li>TOP 3.</li>
+      <li>Visita.</li>
+      <li>Vivienda.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🅶</span> Fase G — Implantación</div>
+    <ol class="steps cknum" data-k="og">
+      <li>Contrato.</li>
+      <li>Mudanza.</li>
+      <li>Infraestructura.</li>
+      <li>Rutina.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="ic">🅷</span> Fase H — Experimento</div>
+    <ol class="steps cknum" data-k="oh">
+      <li>Primer mes.</li>
+      <li>Medición.</li>
+      <li>Ajustes.</li>
+      <li>Revisión trimestral.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="border-color:rgba(0,212,255,.45);background:linear-gradient(160deg,rgba(0,212,255,.07),rgba(15,23,42,1))">
+    <div class="card-title"><span class="ic">🏁</span> Regla final del proyecto</div>
+    <p style="font-size:17px;color:#eaf7ff">
+      Una tarea pequeña completada vale más que diez grandes planes sin ejecutar.<br>
+      El proyecto no se resuelve de una vez.
+    </p>
+    <p>Se resuelve acumulando pequeñas certezas:</p>
+    <div class="chain">
+      <span class="lk">un pueblo</span><span class="ar">→</span>
+      <span class="lk">una vivienda</span><span class="ar">→</span>
+      <span class="lk">un precio</span><span class="ar">→</span>
+      <span class="lk">una conexión</span><span class="ar">→</span>
+      <span class="lk">unos servicios</span><span class="ar">→</span>
+      <span class="lk">una bicicleta</span><span class="ar">→</span>
+      <span class="lk">un perro</span><span class="ar">→</span>
+      <span class="lk">una rutina</span><span class="ar">→</span>
+      <span class="lk">una comunidad</span><span class="ar">→</span>
+      <span class="lk">una vida</span>
+    </div>
+    <p style="margin-bottom:0">
+      Y finalmente comprobar si esos elementos juntos producen lo que realmente estamos buscando:
+      <strong style="color:var(--accent);font-size:19px">una vida propia.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ==================== CRÉDITOS ==================== -->
+<section id="credits" class="section">
+  <div class="credits-hero">
+    <span class="badge b-purple">CRÉDITOS</span>
+    <h2>Tutorial HTML interactivo · Hoja de Ruta “Proyecto Vivir en un Pueblo de Valencia”</h2>
+    <p class="subtitle" style="color:var(--muted)">Diseño de una vida autónoma, tranquila, austera e intelectualmente rica con 773 €/mes</p>
+  </div>
+
+  <div class="cover-wrap">
+    <svg class="cover" id="coverCredits" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Portada animada del tutorial: flujo del presupuesto, pueblo con conectividad, paseo con perro y paneles de piano, ajedrez y mapa de candidatos.">
+      <use href="#coverArt"></use>
+    </svg>
+  </div>
+
+  <div class="credit-card">
+    <div class="rl">Autor y créditos</div>
+    <div class="nm">Rubén Sbarsky</div>
+    <div class="divider"></div>
+    <div class="kv" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+      <div class="it"><div class="k">📅 Fecha</div><div class="v">08/09/2026</div></div>
+      <div class="it"><div class="k">🕒 Hora</div><div class="v">23:36:08</div></div>
+      <div class="it"><div class="k">🎓 Carácter</div><div class="v" style="font-size:14px">Solo educativo y divulgativo</div></div>
+    </div>
+    <div class="callout info" style="text-align:left;margin-top:16px">
+      <span class="ct">INDICACIÓN EDUCATIVA</span>
+      Este tutorial transforma íntegramente la hoja de ruta original en una herramienta de estudio y ejecución.
+      No se ha añadido información externa: las calculadoras, el registro de métricas, la base de datos de pueblos y el tablero
+      de ajedrez son instrumentos para aplicar el método descrito en el documento, no fuentes de datos sobre pueblos concretos.
+      El SVG animado de esta pestaña es exactamente el mismo que el de la portada (INICIO).
+    </div>
+    <p class="lat" style="margin-top:14px">Fiat iustitia, ruat caelum.</p>
+  </div>
+</section>
+
+</main>
+
+<button id="toTop" title="Volver arriba" aria-label="Volver arriba">↑</button>
+
+<footer>
+  <p>📚 Tutorial solo con fines Educativos y Divulgación</p>
+  <p>👨‍💻 Créditos: Rubén Sbarsky</p>
+  <p>📅 FECHA: 08/09/2026</p>
+  <p>Hora: 23:36:08</p>
+  <p class="lat">Fiat iustitia, ruat caelum.</p>
+</footer>
+
+<!-- ============ DEFS + SÍMBOLO DE PORTADA (SVG ANIMADO 16:9) ============ -->
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#070c17"/>
+      <stop offset="0.55" stop-color="#0b1426"/>
+      <stop offset="1" stop-color="#0e1a30"/>
+    </linearGradient>
+    <pattern id="gridP" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#132340" stroke-width="1"/>
+    </pattern>
+    <pattern id="chkP" width="48" height="48" patternUnits="userSpaceOnUse">
+      <rect width="48" height="48" fill="#8fa3bd"/>
+      <rect x="24" width="24" height="24" fill="#2c3d59"/>
+      <rect y="24" width="24" height="24" fill="#2c3d59"/>
+    </pattern>
+    <path id="flowPath" d="M232 226 H1298" fill="none"/>
+    <path id="roadPath" d="M70 606 C 380 584, 720 626, 1000 600 C 1200 582, 1380 598, 1540 588" fill="none"/>
+    <path id="knightPath" d="M612 828 Q622 796 636 780 Q650 796 660 828 Q672 796 684 780 Q696 796 708 828" fill="none"/>
+  </defs>
+
+  <symbol id="coverArt" viewBox="0 0 1600 900">
+    <title>Portada animada del proyecto</title>
+    <desc>Flujo del presupuesto de 773 euros al mes hacia vivienda, internet, servicios, clima, movilidad y comunidad; paisaje de pueblo con torre de conectividad, paseo con perro y bicicleta; y paneles de piano, ajedrez y mapa de pueblos candidatos.</desc>
+
+    <rect x="0" y="0" width="1600" height="900" fill="url(#skyG)"/>
+    <rect x="0" y="0" width="1600" height="900" fill="url(#gridP)" opacity="0.45"/>
+
+    <!-- ===== BLOQUE DE TÍTULO ===== -->
+    <text x="60" y="52" font-family="'Segoe UI',system-ui,sans-serif" font-size="13" letter-spacing="4" fill="#00d4ff" font-weight="700">HOJA DE RUTA · DISEÑO DE VIDA</text>
+    <text x="60" y="88" font-family="'Segoe UI',system-ui,sans-serif" font-size="31" font-weight="800" fill="#f1f5f9" letter-spacing="0.5">PROYECTO VIVIR EN UN PUEBLO DE VALENCIA</text>
+    <text x="60" y="112" font-family="'Segoe UI',system-ui,sans-serif" font-size="14" fill="#64748b">Autonomía · Espacio · Tiempo · Tranquilidad · Vida intelectual</text>
+    <g>
+      <rect x="1250" y="34" width="290" height="76" rx="12" fill="#0f172a" stroke="#00d4ff" stroke-width="2"/>
+      <text x="1395" y="72" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="28" font-weight="800" fill="#00d4ff">773 €/MES
+        <animate attributeName="opacity" values="0.65;1;0.65" dur="3.4s" repeatCount="indefinite"/>
+      </text>
+      <text x="1395" y="94" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" letter-spacing="2.4" fill="#64748b">RESTRICCIÓN DE DISEÑO</text>
+    </g>
+
+    <!-- ===== BANDA 1 · FLUJO DEL PRESUPUESTO ===== -->
+    <rect x="40" y="128" width="1520" height="182" rx="14" fill="#0b1222" stroke="#1e3a5f"/>
+    <text x="60" y="152" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" letter-spacing="2" fill="#64748b">FLUJO DEL DINERO → AUTONOMÍA · ESPACIO · TIEMPO · TRANQUILIDAD · CALIDAD DE VIDA</text>
+
+    <!-- nodo origen -->
+    <g>
+      <rect x="70" y="176" width="160" height="100" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+      <text x="150" y="200" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" letter-spacing="1.8" fill="#64748b">PRESUPUESTO</text>
+      <text x="150" y="238" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="34" font-weight="800" fill="#f59e0b">773 €</text>
+      <text x="150" y="260" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" letter-spacing="2" fill="#94a3b8">/ MES</text>
+    </g>
+
+    <!-- línea de flujo -->
+    <path d="M232 226 H1298" stroke="#1e3a5f" stroke-width="3" fill="none" stroke-dasharray="7 9">
+      <animate attributeName="stroke-dashoffset" from="0" to="-64" dur="2.2s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- monedas en movimiento -->
+    <g>
+      <circle r="9" fill="#f59e0b" opacity="0.95"/>
+      <text y="4" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" font-weight="800" fill="#2b1a03">€</text>
+      <animateMotion dur="5s" begin="0s" repeatCount="indefinite"><mpath href="#flowPath"/></animateMotion>
+    </g>
+    <g>
+      <circle r="9" fill="#fbbf24" opacity="0.9"/>
+      <text y="4" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" font-weight="800" fill="#2b1a03">€</text>
+      <animateMotion dur="5s" begin="1s" repeatCount="indefinite"><mpath href="#flowPath"/></animateMotion>
+    </g>
+    <g>
+      <circle r="9" fill="#f59e0b" opacity="0.85"/>
+      <text y="4" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" font-weight="800" fill="#2b1a03">€</text>
+      <animateMotion dur="5s" begin="2s" repeatCount="indefinite"><mpath href="#flowPath"/></animateMotion>
+    </g>
+    <g>
+      <circle r="9" fill="#fbbf24" opacity="0.85"/>
+      <text y="4" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" font-weight="800" fill="#2b1a03">€</text>
+      <animateMotion dur="5s" begin="3s" repeatCount="indefinite"><mpath href="#flowPath"/></animateMotion>
+    </g>
+    <g>
+      <circle r="9" fill="#f59e0b" opacity="0.8"/>
+      <text y="4" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" font-weight="800" fill="#2b1a03">€</text>
+      <animateMotion dur="5s" begin="4s" repeatCount="indefinite"><mpath href="#flowPath"/></animateMotion>
+    </g>
+
+    <!-- 6 nodos filtro -->
+    <g font-family="'Segoe UI',system-ui,sans-serif">
+      <g><rect x="270" y="184" width="150" height="84" rx="10" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.6">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#1e3a5f;#1e3a5f" keyTimes="0;0.05;0.16;1" dur="5s" begin="0.53s" repeatCount="indefinite"/></rect>
+        <text x="345" y="216" text-anchor="middle" font-size="20">🏠</text>
+        <text x="345" y="242" text-anchor="middle" font-size="11.5" font-weight="700" fill="#dbe6f2">VIVIENDA</text>
+        <text x="345" y="258" text-anchor="middle" font-size="10" fill="#22c55e" font-weight="700">≤ 350 €</text></g>
+
+      <g><rect x="440" y="184" width="150" height="84" rx="10" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.6">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#1e3a5f;#1e3a5f" keyTimes="0;0.05;0.16;1" dur="5s" begin="1.33s" repeatCount="indefinite"/></rect>
+        <text x="515" y="216" text-anchor="middle" font-size="20">📡</text>
+        <text x="515" y="242" text-anchor="middle" font-size="11.5" font-weight="700" fill="#dbe6f2">INTERNET</text>
+        <text x="515" y="258" text-anchor="middle" font-size="10" fill="#475569">FIBRA · 4G/5G</text></g>
+
+      <g><rect x="610" y="184" width="150" height="84" rx="10" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.6">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#1e3a5f;#1e3a5f" keyTimes="0;0.05;0.16;1" dur="5s" begin="2.12s" repeatCount="indefinite"/></rect>
+        <text x="685" y="216" text-anchor="middle" font-size="20">🛒</text>
+        <text x="685" y="242" text-anchor="middle" font-size="11.5" font-weight="700" fill="#dbe6f2">SERVICIOS</text>
+        <text x="685" y="258" text-anchor="middle" font-size="10" fill="#475569">BÁSICOS</text></g>
+
+      <g><rect x="780" y="184" width="150" height="84" rx="10" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.6">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#1e3a5f;#1e3a5f" keyTimes="0;0.05;0.16;1" dur="5s" begin="2.92s" repeatCount="indefinite"/></rect>
+        <text x="855" y="216" text-anchor="middle" font-size="20">🌡️</text>
+        <text x="855" y="242" text-anchor="middle" font-size="11.5" font-weight="700" fill="#dbe6f2">CLIMA</text>
+        <text x="855" y="258" text-anchor="middle" font-size="10" fill="#475569">CALEFACCIÓN</text></g>
+
+      <g><rect x="950" y="184" width="150" height="84" rx="10" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.6">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#1e3a5f;#1e3a5f" keyTimes="0;0.05;0.16;1" dur="5s" begin="3.71s" repeatCount="indefinite"/></rect>
+        <text x="1025" y="216" text-anchor="middle" font-size="20">🚲</text>
+        <text x="1025" y="242" text-anchor="middle" font-size="11.5" font-weight="700" fill="#dbe6f2">MOVILIDAD</text>
+        <text x="1025" y="258" text-anchor="middle" font-size="10" fill="#475569">BICI ELÉCTRICA</text></g>
+
+      <g><rect x="1120" y="184" width="150" height="84" rx="10" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.6">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#1e3a5f;#1e3a5f" keyTimes="0;0.05;0.16;1" dur="5s" begin="4.51s" repeatCount="indefinite"/></rect>
+        <text x="1195" y="216" text-anchor="middle" font-size="20">🗣️</text>
+        <text x="1195" y="242" text-anchor="middle" font-size="11.5" font-weight="700" fill="#dbe6f2">COMUNIDAD</text>
+        <text x="1195" y="258" text-anchor="middle" font-size="10" fill="#475569">VIDA SOCIAL</text></g>
+    </g>
+
+    <!-- nodo resultado -->
+    <g>
+      <rect x="1300" y="176" width="240" height="100" rx="12" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+      <circle cx="1352" cy="226" r="30" fill="none" stroke="#16321f" stroke-width="8"/>
+      <circle cx="1352" cy="226" r="30" fill="none" stroke="#22c55e" stroke-width="8" stroke-linecap="round"
+              stroke-dasharray="188.5" stroke-dashoffset="188.5" transform="rotate(-90 1352 226)">
+        <animate attributeName="stroke-dashoffset" values="188.5;26;188.5" keyTimes="0;0.6;1" dur="7s" repeatCount="indefinite"/>
+      </circle>
+      <text x="1352" y="231" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" font-weight="800" fill="#22c55e">100</text>
+      <text x="1400" y="216" font-family="'Segoe UI',system-ui,sans-serif" font-size="15" font-weight="800" fill="#e2e8f0">VIDA</text>
+      <text x="1400" y="236" font-family="'Segoe UI',system-ui,sans-serif" font-size="15" font-weight="800" fill="#e2e8f0">A MEDIDA</text>
+      <text x="1400" y="258" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" letter-spacing="1.4" fill="#64748b">FASE 12 · PUNTUACIÓN 0–100</text>
+    </g>
+
+    <!-- ===== BANDA 2 · EL PUEBLO ===== -->
+    <rect x="40" y="326" width="1520" height="312" rx="14" fill="#0a1120" stroke="#1e3a5f"/>
+    <text x="60" y="350" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" letter-spacing="2" fill="#64748b">EL PUEBLO · NATURALEZA · TRANQUILIDAD · COMUNIDAD · TIEMPO PROPIO</text>
+
+    <!-- estrellas -->
+    <g fill="#e2e8f0">
+      <circle cx="300" cy="372" r="1.8"><animate attributeName="opacity" values="0.2;1;0.2" dur="3.1s" repeatCount="indefinite"/></circle>
+      <circle cx="520" cy="392" r="1.5"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="4.2s" repeatCount="indefinite"/></circle>
+      <circle cx="700" cy="366" r="2"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.6s" repeatCount="indefinite"/></circle>
+      <circle cx="1080" cy="380" r="1.6"><animate attributeName="opacity" values="1;0.2;1" dur="3.7s" repeatCount="indefinite"/></circle>
+      <circle cx="1300" cy="360" r="1.8"><animate attributeName="opacity" values="0.25;0.95;0.25" dur="4.8s" repeatCount="indefinite"/></circle>
+      <circle cx="200" cy="410" r="1.4"><animate attributeName="opacity" values="0.8;0.15;0.8" dur="3.3s" repeatCount="indefinite"/></circle>
+    </g>
+
+    <!-- luna -->
+    <g>
+      <circle cx="1470" cy="392" r="34" fill="none" stroke="#e2e8f0" opacity="0.18">
+        <animate attributeName="r" values="28;46;28" dur="6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.22;0;0.22" dur="6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1470" cy="392" r="21" fill="#e2e8f0" opacity="0.92"/>
+      <circle cx="1462" cy="386" r="4" fill="#cbd5e1" opacity="0.7"/>
+      <circle cx="1478" cy="399" r="3" fill="#cbd5e1" opacity="0.6"/>
+    </g>
+
+    <!-- montañas -->
+    <path d="M50 556 L150 468 L232 518 L330 438 L430 518 L520 468 L640 542 L740 458 L860 538 L980 468 L1080 532 L1200 452 L1320 538 L1440 478 L1550 552 L1550 638 L50 638 Z"
+          fill="#0d1a2e" stroke="#1e3a5f" stroke-width="1.5"/>
+    <path d="M50 588 L200 528 L380 584 L560 518 L760 588 L960 532 L1160 588 L1360 528 L1550 584 L1550 638 L50 638 Z"
+          fill="#0b1526" stroke="#16294a" stroke-width="1.2" opacity="0.95"/>
+
+    <!-- casas -->
+    <g font-family="'Segoe UI',system-ui,sans-serif">
+      <!-- casa 1 -->
+      <g>
+        <rect x="140" y="536" width="86" height="60" rx="3" fill="#0f172a" stroke="#1e3a5f" stroke-width="2"/>
+        <path d="M132 538 L183 502 L234 538 Z" fill="#101d33" stroke="#1e3a5f" stroke-width="2"/>
+        <rect x="174" y="566" width="18" height="30" fill="#16294a" stroke="#1e3a5f"/>
+        <rect x="152" y="550" width="16" height="16" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="0.15;0.95;0.95;0.15;0.15" keyTimes="0;0.06;0.5;0.58;1" dur="11s" repeatCount="indefinite"/></rect>
+        <rect x="198" y="550" width="16" height="16" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="0.15;0.15;0.95;0.95;0.15" keyTimes="0;0.1;0.18;0.7;0.78" dur="11s" repeatCount="indefinite"/></rect>
+        <rect x="200" y="508" width="10" height="24" fill="#0f172a" stroke="#1e3a5f"/>
+        <g fill="#94a3b8">
+          <circle cx="205" cy="502" r="4" opacity="0">
+            <animate attributeName="cy" values="502;466" dur="4.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0;0.35;0" dur="4.5s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="3;9" dur="4.5s" repeatCount="indefinite"/></circle>
+          <circle cx="205" cy="502" r="4" opacity="0">
+            <animate attributeName="cy" values="502;466" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0;0.28;0" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="3;9" dur="4.5s" begin="1.5s" repeatCount="indefinite"/></circle>
+          <circle cx="205" cy="502" r="4" opacity="0">
+            <animate attributeName="cy" values="502;466" dur="4.5s" begin="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0;0.22;0" dur="4.5s" begin="3s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="3;9" dur="4.5s" begin="3s" repeatCount="indefinite"/></circle>
+        </g>
+      </g>
+      <!-- casa 2 -->
+      <g>
+        <rect x="286" y="546" width="76" height="50" rx="3" fill="#0f172a" stroke="#1e3a5f" stroke-width="2"/>
+        <path d="M278 548 L324 516 L370 548 Z" fill="#101d33" stroke="#1e3a5f" stroke-width="2"/>
+        <rect x="316" y="570" width="16" height="26" fill="#16294a" stroke="#1e3a5f"/>
+        <rect x="296" y="558" width="14" height="14" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="0.9;0.2;0.9" dur="7.5s" repeatCount="indefinite"/></rect>
+        <rect x="340" y="558" width="14" height="14" fill="#00d4ff" opacity="0.25">
+          <animate attributeName="opacity" values="0.25;0.9;0.25" dur="6.2s" repeatCount="indefinite"/></rect>
+      </g>
+      <!-- casa 3 -->
+      <g>
+        <rect x="416" y="540" width="80" height="56" rx="3" fill="#0f172a" stroke="#1e3a5f" stroke-width="2"/>
+        <path d="M408 542 L456 508 L504 542 Z" fill="#101d33" stroke="#1e3a5f" stroke-width="2"/>
+        <rect x="448" y="568" width="17" height="28" fill="#16294a" stroke="#1e3a5f"/>
+        <rect x="426" y="552" width="15" height="15" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="0.2;1;0.2" dur="9s" begin="0.8s" repeatCount="indefinite"/></rect>
+        <rect x="472" y="552" width="15" height="15" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="1;0.2;1" dur="9s" begin="0.8s" repeatCount="indefinite"/></rect>
+      </g>
+      <!-- casa 4 -->
+      <g>
+        <rect x="1206" y="544" width="78" height="52" rx="3" fill="#0f172a" stroke="#1e3a5f" stroke-width="2"/>
+        <path d="M1198 546 L1245 514 L1292 546 Z" fill="#101d33" stroke="#1e3a5f" stroke-width="2"/>
+        <rect x="1236" y="570" width="16" height="26" fill="#16294a" stroke="#1e3a5f"/>
+        <rect x="1216" y="556" width="14" height="14" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="0.2;0.95;0.2" dur="8.4s" begin="2.2s" repeatCount="indefinite"/></rect>
+        <rect x="1260" y="556" width="14" height="14" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="0.95;0.2;0.95" dur="8.4s" begin="2.2s" repeatCount="indefinite"/></rect>
+      </g>
+      <!-- casa 5 -->
+      <g>
+        <rect x="1340" y="538" width="86" height="58" rx="3" fill="#0f172a" stroke="#1e3a5f" stroke-width="2"/>
+        <path d="M1332 540 L1383 504 L1434 540 Z" fill="#101d33" stroke="#1e3a5f" stroke-width="2"/>
+        <rect x="1374" y="566" width="18" height="30" fill="#16294a" stroke="#1e3a5f"/>
+        <rect x="1352" y="550" width="16" height="16" fill="#22c55e" opacity="0.25">
+          <animate attributeName="opacity" values="0.2;0.85;0.2" dur="5.6s" repeatCount="indefinite"/></rect>
+        <rect x="1398" y="550" width="16" height="16" fill="#f59e0b" opacity="0.2">
+          <animate attributeName="opacity" values="0.85;0.2;0.85" dur="10.5s" repeatCount="indefinite"/></rect>
+      </g>
+    </g>
+
+    <!-- árboles -->
+    <g stroke="#22c55e" stroke-width="1.6" fill="#0f2a1f" opacity="0.85">
+      <g transform="translate(560,596)">
+        <animateTransform attributeName="transform" type="rotate" values="-1.4 0 0;1.4 0 0;-1.4 0 0" dur="6s" repeatCount="indefinite" additive="sum"/>
+        <path d="M0 0 V-22"/><path d="M-16 -20 L0 -52 L16 -20 Z"/><path d="M-12 -40 L0 -66 L12 -40 Z"/>
+      </g>
+      <g transform="translate(626,596)">
+        <animateTransform attributeName="transform" type="rotate" values="1.2 0 0;-1.2 0 0;1.2 0 0" dur="7.4s" repeatCount="indefinite" additive="sum"/>
+        <path d="M0 0 V-18"/><path d="M-13 -16 L0 -44 L13 -16 Z"/>
+      </g>
+      <g transform="translate(1128,596)">
+        <animateTransform attributeName="transform" type="rotate" values="-1.1 0 0;1.1 0 0;-1.1 0 0" dur="6.6s" repeatCount="indefinite" additive="sum"/>
+        <path d="M0 0 V-24"/><path d="M-17 -22 L0 -56 L17 -22 Z"/><path d="M-13 -44 L0 -70 L13 -44 Z"/>
+      </g>
+      <g transform="translate(1470,596)">
+        <animateTransform attributeName="transform" type="rotate" values="1.3 0 0;-1.3 0 0;1.3 0 0" dur="8.1s" repeatCount="indefinite" additive="sum"/>
+        <path d="M0 0 V-18"/><path d="M-13 -16 L0 -46 L13 -16 Z"/>
+      </g>
+    </g>
+
+    <!-- torre de conectividad -->
+    <g>
+      <path d="M884 596 L896 470 L908 596" fill="none" stroke="#475569" stroke-width="2.5"/>
+      <path d="M887 566 H905 M889 536 H903 M891 506 H901" stroke="#334155" stroke-width="2"/>
+      <circle cx="896" cy="466" r="4.5" fill="#00d4ff">
+        <animate attributeName="opacity" values="1;0.25;1" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <g fill="none" stroke="#00d4ff">
+        <circle cx="896" cy="470" r="10" opacity="0.7">
+          <animate attributeName="r" values="8;104" dur="3.6s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.75;0" dur="3.6s" repeatCount="indefinite"/></circle>
+        <circle cx="896" cy="470" r="10" opacity="0.7">
+          <animate attributeName="r" values="8;104" dur="3.6s" begin="1.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.75;0" dur="3.6s" begin="1.2s" repeatCount="indefinite"/></circle>
+        <circle cx="896" cy="470" r="10" opacity="0.7">
+          <animate attributeName="r" values="8;104" dur="3.6s" begin="2.4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.75;0" dur="3.6s" begin="2.4s" repeatCount="indefinite"/></circle>
+      </g>
+      <text x="896" y="446" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" letter-spacing="1.4" fill="#00d4ff" font-weight="700">FIBRA · 4G · 5G</text>
+      <text x="896" y="618" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="10" letter-spacing="1.2" fill="#475569">PLAN B: ROUTER + SIM</text>
+    </g>
+
+    <!-- carretera -->
+    <path d="M70 606 C 380 584, 720 626, 1000 600 C 1200 582, 1380 598, 1540 588" fill="none" stroke="#22375a" stroke-width="13" stroke-linecap="round"/>
+    <path d="M70 606 C 380 584, 720 626, 1000 600 C 1200 582, 1380 598, 1540 588" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="16 18" opacity="0.75">
+      <animate attributeName="stroke-dashoffset" from="0" to="-68" dur="1.7s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- persona + perro caminando -->
+    <g>
+      <animateMotion dur="30s" repeatCount="indefinite" rotate="0"><mpath href="#roadPath"/></animateMotion>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -2.5;0 0" dur="0.85s" repeatCount="indefinite"/>
+        <g stroke="#00d4ff" stroke-width="2.6" fill="none" stroke-linecap="round">
+          <circle cx="0" cy="-36" r="6.5"/>
+          <path d="M0 -29 V-14"/>
+          <path d="M0 -25 L-8 -17 M0 -25 L8 -18"/>
+          <path d="M0 -14 L-7 -1 M0 -14 L7 -1">
+            <animate attributeName="d" values="M0 -14 L-7 -1 M0 -14 L7 -1;M0 -14 L-3 -1 M0 -14 L4 -1;M0 -14 L-7 -1 M0 -14 L7 -1" dur="0.85s" repeatCount="indefinite"/>
+          </path>
+        </g>
+        <path d="M8 -19 Q 20 -15 24 -13" stroke="#64748b" stroke-width="1.6" fill="none"/>
+        <g transform="translate(30,0)">
+          <g stroke="#f59e0b" stroke-width="2.2" fill="none" stroke-linecap="round">
+            <path d="M-11 -9 H6 A5 5 0 0 1 11 -4 V-1 H-11 Z"/>
+            <circle cx="13" cy="-12" r="4.4"/>
+            <path d="M16 -15 L20 -19"/>
+            <path d="M-7 -1 V5 M4 -1 V5"/>
+            <path d="M-11 -9 L-18 -14">
+              <animateTransform attributeName="transform" type="rotate" values="-16 -11 -9;16 -11 -9;-16 -11 -9" dur="0.5s" repeatCount="indefinite"/>
+            </path>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- bicicleta eléctrica -->
+    <g>
+      <animateMotion dur="21s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#roadPath"/></animateMotion>
+      <g stroke="#22c55e" stroke-width="2.2" fill="none" stroke-linecap="round">
+        <circle cx="-13" cy="-8" r="8"><animateTransform attributeName="transform" type="rotate" from="0 -13 -8" to="360 -13 -8" dur="0.9s" repeatCount="indefinite"/></circle>
+        <circle cx="13" cy="-8" r="8"><animateTransform attributeName="transform" type="rotate" from="0 13 -8" to="360 13 -8" dur="0.9s" repeatCount="indefinite"/></circle>
+        <path d="M-13 -8 L-2 -20 L11 -20 M-2 -20 L4 -8 L13 -8 M4 -8 L-13 -8"/>
+        <path d="M-4 -26 L0 -20 M-6 -27 H-1"/>
+        <circle cx="-3" cy="-38" r="5.5" stroke="#a855f7"/>
+        <path d="M-3 -32 V-24 M-3 -30 L-9 -24 M-3 -30 L4 -25" stroke="#a855f7"/>
+      </g>
+      <rect x="-16" y="-24" width="10" height="6" rx="2" fill="#00d4ff" opacity="0.85">
+        <animate attributeName="opacity" values="0.85;0.3;0.85" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- ===== BANDA 3 · PILARES ===== -->
+    <!-- PANEL A · PIANO -->
+    <rect x="40" y="654" width="480" height="212" rx="14" fill="#0b1222" stroke="#1e3a5f"/>
+    <text x="60" y="680" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" letter-spacing="2" fill="#64748b">PIANO · MÚSICA · ARMONÍA · COMPOSICIÓN</text>
+    <g>
+      <rect x="64" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <rect x="94" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <rect x="124" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1">
+        <animate attributeName="y" values="726;731;726" keyTimes="0;0.05;0.1" dur="6s" begin="0s" repeatCount="indefinite"/>
+        <animate attributeName="fill" values="#e2e8f0;#7dd3fc;#e2e8f0" keyTimes="0;0.05;0.1" dur="6s" begin="0s" repeatCount="indefinite"/></rect>
+      <rect x="154" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <rect x="184" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1">
+        <animate attributeName="y" values="726;731;726" keyTimes="0;0.05;0.1" dur="6s" begin="0.75s" repeatCount="indefinite"/>
+        <animate attributeName="fill" values="#e2e8f0;#7dd3fc;#e2e8f0" keyTimes="0;0.05;0.1" dur="6s" begin="0.75s" repeatCount="indefinite"/></rect>
+      <rect x="214" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <rect x="244" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1">
+        <animate attributeName="y" values="726;731;726" keyTimes="0;0.05;0.1" dur="6s" begin="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="fill" values="#e2e8f0;#7dd3fc;#e2e8f0" keyTimes="0;0.05;0.1" dur="6s" begin="1.5s" repeatCount="indefinite"/></rect>
+      <rect x="274" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <rect x="304" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1">
+        <animate attributeName="y" values="726;731;726" keyTimes="0;0.05;0.1" dur="6s" begin="2.25s" repeatCount="indefinite"/>
+        <animate attributeName="fill" values="#e2e8f0;#7dd3fc;#e2e8f0" keyTimes="0;0.05;0.1" dur="6s" begin="2.25s" repeatCount="indefinite"/></rect>
+      <rect x="334" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <rect x="364" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1">
+        <animate attributeName="y" values="726;731;726" keyTimes="0;0.05;0.1" dur="6s" begin="3s" repeatCount="indefinite"/>
+        <animate attributeName="fill" values="#e2e8f0;#7dd3fc;#e2e8f0" keyTimes="0;0.05;0.1" dur="6s" begin="3s" repeatCount="indefinite"/></rect>
+      <rect x="394" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <rect x="424" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1">
+        <animate attributeName="y" values="726;731;726" keyTimes="0;0.05;0.1" dur="6s" begin="3.75s" repeatCount="indefinite"/>
+        <animate attributeName="fill" values="#e2e8f0;#7dd3fc;#e2e8f0" keyTimes="0;0.05;0.1" dur="6s" begin="3.75s" repeatCount="indefinite"/></rect>
+      <rect x="454" y="726" width="28" height="104" rx="2" fill="#e2e8f0" stroke="#0a0e1a" stroke-width="1"/>
+      <!-- teclas negras -->
+      <g fill="#0a0e1a">
+        <rect x="84" y="726" width="16" height="62" rx="2"/>
+        <rect x="114" y="726" width="16" height="62" rx="2"/>
+        <rect x="174" y="726" width="16" height="62" rx="2">
+          <animate attributeName="height" values="62;66;62" keyTimes="0;0.05;0.1" dur="6s" begin="1.1s" repeatCount="indefinite"/>
+          <animate attributeName="fill" values="#0a0e1a;#00d4ff;#0a0e1a" keyTimes="0;0.05;0.12" dur="6s" begin="1.1s" repeatCount="indefinite"/></rect>
+        <rect x="204" y="726" width="16" height="62" rx="2"/>
+        <rect x="234" y="726" width="16" height="62" rx="2"/>
+        <rect x="294" y="726" width="16" height="62" rx="2"/>
+        <rect x="324" y="726" width="16" height="62" rx="2">
+          <animate attributeName="height" values="62;66;62" keyTimes="0;0.05;0.1" dur="6s" begin="2.6s" repeatCount="indefinite"/>
+          <animate attributeName="fill" values="#0a0e1a;#00d4ff;#0a0e1a" keyTimes="0;0.05;0.12" dur="6s" begin="2.6s" repeatCount="indefinite"/></rect>
+        <rect x="354" y="726" width="16" height="62" rx="2"/>
+        <rect x="414" y="726" width="16" height="62" rx="2"/>
+        <rect x="444" y="726" width="16" height="62" rx="2"/>
+      </g>
+      <!-- notas flotando -->
+      <g font-family="'Segoe UI',system-ui,sans-serif" fill="#00d4ff">
+        <text x="140" y="716" font-size="20">♪<animate attributeName="opacity" values="0;1;0" dur="4s" begin="0s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0 0;-14 -46" dur="4s" begin="0s" repeatCount="indefinite"/></text>
+        <text x="252" y="712" font-size="17">♫<animate attributeName="opacity" values="0;1;0" dur="4s" begin="1.4s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0 0;12 -52" dur="4s" begin="1.4s" repeatCount="indefinite"/></text>
+        <text x="352" y="716" font-size="22">♩<animate attributeName="opacity" values="0;1;0" dur="4s" begin="2.7s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0 0;-8 -44" dur="4s" begin="2.7s" repeatCount="indefinite"/></text>
+        <text x="452" y="712" font-size="16">♬<animate attributeName="opacity" values="0;1;0" dur="4s" begin="3.5s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0 0;10 -50" dur="4s" begin="3.5s" repeatCount="indefinite"/></text>
+      </g>
+      <text x="64" y="852" font-family="'Segoe UI',system-ui,sans-serif" font-size="11" letter-spacing="1" fill="#475569">SISTEMA AMERICANO · C(I) D(II) E(III) F(IV) G(V) A(VI) B(VII)</text>
+    </g>
+
+    <!-- PANEL B · AJEDREZ -->
+    <rect x="540" y="654" width="480" height="212" rx="14" fill="#0b1222" stroke="#1e3a5f"/>
+    <text x="560" y="680" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" letter-spacing="2" fill="#64748b">AJEDREZ · PENSAMIENTO AJEDRECÍSTICO</text>
+    <g>
+      <rect x="576" y="720" width="144" height="144" fill="url(#chkP)" stroke="#1e3a5f" stroke-width="2" rx="2"/>
+      <g font-family="'Segoe UI',system-ui,sans-serif" font-size="19" text-anchor="middle">
+        <text x="588" y="858" fill="#0a0e1a">♜</text>
+        <text x="708" y="738" fill="#f8fafc">♙</text>
+        <text x="612" y="762" fill="#f8fafc">♔</text>
+      </g>
+      <g>
+        <animateMotion dur="8s" repeatCount="indefinite"><mpath href="#knightPath"/></animateMotion>
+        <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.86;0.92;0.98;1" dur="8s" repeatCount="indefinite"/>
+        <text x="0" y="7" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="21" fill="#0a0e1a">♞</text>
+      </g>
+      <g font-family="'Segoe UI',system-ui,sans-serif">
+        <text x="748" y="730" font-size="12.5" fill="#94a3b8" font-weight="700">NAVEGACIÓN PASO A PASO:</text>
+        <text x="748" y="756" font-size="12" fill="#64748b">Posición inicial</text>
+        <text x="760" y="776" font-size="12" fill="#00d4ff">↓ Movimiento 1 — BLANCAS</text>
+        <text x="760" y="796" font-size="12" fill="#a855f7">↓ Movimiento 2 — NEGRAS</text>
+        <text x="760" y="816" font-size="12" fill="#00d4ff">↓ Movimiento 3 — BLANCAS</text>
+        <text x="748" y="842" font-size="11" fill="#475569">Pieza · Color · Origen → Destino · Explicación</text>
+      </g>
+    </g>
+
+    <!-- PANEL C · MAPA DE PUEBLOS -->
+    <rect x="1040" y="654" width="520" height="212" rx="14" fill="#0b1222" stroke="#1e3a5f"/>
+    <text x="1060" y="680" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" letter-spacing="2" fill="#64748b">UNIVERSO DE PUEBLOS · 30–50 CANDIDATOS</text>
+    <g>
+      <g transform="translate(1140,776)">
+        <circle r="74" fill="#0a1120" stroke="#1e3a5f"/>
+        <circle r="50" fill="none" stroke="#16294a"/>
+        <circle r="26" fill="none" stroke="#16294a"/>
+        <path d="M-74 0 H74 M0 -74 V74" stroke="#16294a"/>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4.6s" repeatCount="indefinite"/>
+          <path d="M0 0 L74 0 A74 74 0 0 0 52 -52 Z" fill="#00d4ff" opacity="0.13"/>
+          <line x1="0" y1="0" x2="74" y2="0" stroke="#00d4ff" stroke-width="2" opacity="0.85"/>
+        </g>
+        <g fill="#22c55e">
+          <circle cx="-42" cy="-24" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="0.3s" repeatCount="indefinite"/></circle>
+          <circle cx="18" cy="-46" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="1.1s" repeatCount="indefinite"/></circle>
+          <circle cx="48" cy="12" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="1.9s" repeatCount="indefinite"/></circle>
+          <circle cx="-14" cy="38" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="2.7s" repeatCount="indefinite"/></circle>
+          <circle cx="-58" cy="20" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="3.5s" repeatCount="indefinite"/></circle>
+          <circle cx="30" cy="-16" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="4.3s" repeatCount="indefinite"/></circle>
+          <circle cx="-26" cy="-56" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="5.1s" repeatCount="indefinite"/></circle>
+          <circle cx="62" cy="-30" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="5.9s" repeatCount="indefinite"/></circle>
+          <circle cx="-4" cy="-8" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="6.7s" repeatCount="indefinite"/></circle>
+          <circle cx="22" cy="48" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="7.5s" repeatCount="indefinite"/></circle>
+          <circle cx="-46" cy="50" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="8.3s" repeatCount="indefinite"/></circle>
+          <circle cx="52" cy="44" r="0"><animate attributeName="r" values="0;3.6;3.6;0" keyTimes="0;0.06;0.88;1" dur="12s" begin="9.1s" repeatCount="indefinite"/></circle>
+        </g>
+        <!-- finalistas -->
+        <circle cx="-20" cy="-30" r="5" fill="#f59e0b"><animate attributeName="opacity" values="0.35;1;0.35" dur="2.2s" repeatCount="indefinite"/></circle>
+        <circle cx="34" cy="26" r="5" fill="#f59e0b"><animate attributeName="opacity" values="1;0.35;1" dur="2.2s" repeatCount="indefinite"/></circle>
+        <circle cx="-38" cy="30" r="5" fill="#f59e0b"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.7s" repeatCount="indefinite"/></circle>
+      </g>
+      <path d="M1214 776 H1246" stroke="#00d4ff" stroke-width="2" stroke-dasharray="34" stroke-dashoffset="34">
+        <animate attributeName="stroke-dashoffset" values="34;0;0;34" keyTimes="0;0.2;0.85;1" dur="7s" repeatCount="indefinite"/></path>
+      <g font-family="'Segoe UI',system-ui,sans-serif">
+        <rect x="1252" y="706" width="288" height="40" rx="9" fill="#0f172a" stroke="#22c55e" stroke-width="1.6"/>
+        <text x="1268" y="731" font-size="13" font-weight="800" fill="#22c55e">TOP 3 · COMPARACIÓN FINAL</text>
+        <rect x="1252" y="756" width="288" height="40" rx="9" fill="#0f172a" stroke="#f59e0b" stroke-width="1.6"/>
+        <text x="1268" y="781" font-size="13" font-weight="800" fill="#f59e0b">GANADOR PROVISIONAL ≠ DEFINITIVO</text>
+        <rect x="1252" y="806" width="288" height="40" rx="9" fill="#0f172a" stroke="#a855f7" stroke-width="1.6"/>
+        <text x="1268" y="831" font-size="13" font-weight="800" fill="#d8b4fe">FASE 14 · VERIFICACIÓN EN EL TERRENO</text>
+        <text x="1252" y="862" font-size="10.5" letter-spacing="1.2" fill="#475569">FASE A · TERRITORIO → FASE H · EXPERIMENTO</text>
+      </g>
+    </g>
+  </symbol>
+</svg>
+
+<script>
+(function(){
+"use strict";
+/* ============================================================
+   0 · UTILIDADES Y ALMACENAMIENTO
+   ============================================================ */
+var store = {};
+try{
+  var raw = localStorage.getItem('ruta773_v1');
+  if(raw) store = JSON.parse(raw) || {};
+}catch(e){ store = {}; }
+function saveStore(){ try{ localStorage.setItem('ruta773_v1', JSON.stringify(store)); }catch(e){} }
+function $(s,c){ return (c||document).querySelector(s); }
+function $$(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); }
+
+/* ============================================================
+   1 · CHECKLISTS INTERACTIVAS
+   ============================================================ */
+function refreshProgress(list){
+  var items = $$('li', list);
+  var done = items.filter(function(li){ return li.classList.contains('done'); }).length;
+  var bar = list.nextElementSibling;
+  if(!bar || !bar.classList.contains('ckp')) return;
+  var pct = items.length ? Math.round(done/items.length*100) : 0;
+  bar.querySelector('.num').textContent = done + '/' + items.length + ' · ' + pct + '%';
+  bar.querySelector('i').style.width = pct + '%';
+}
+function initChecklists(){
+  $$('ul.ck, ol.cknum').forEach(function(list){
+    var key = list.getAttribute('data-k') || ('k'+Math.random().toString(36).slice(2));
+    var items = Array.prototype.slice.call(list.children);
+    items.forEach(function(li, i){
+      var id = key + '-' + i;
+      var cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.className = 'ckb'; cb.dataset.id = id;
+      cb.setAttribute('aria-label', li.textContent.trim().slice(0,80));
+      if(store[id]) { cb.checked = true; li.classList.add('done'); }
+      var span = document.createElement('span');
+      span.className = 'txt';
+      span.innerHTML = li.innerHTML;
+      li.innerHTML = '';
+      li.appendChild(cb); li.appendChild(span);
+      li.addEventListener('click', function(e){
+        if(e.target !== cb){ cb.checked = !cb.checked; }
+        persist(cb, li, list);
+      });
+      cb.addEventListener('change', function(){ persist(cb, li, list); });
+    });
+    var bar = document.createElement('div');
+    bar.className = 'ckp';
+    bar.innerHTML = '<span class="num">0/0</span><span class="track"><i></i></span>';
+    list.parentNode.insertBefore(bar, list.nextSibling);
+    refreshProgress(list);
+  });
+}
+function persist(cb, li, list){
+  li.classList.toggle('done', cb.checked);
+  store[cb.dataset.id] = cb.checked ? 1 : 0;
+  if(!cb.checked) delete store[cb.dataset.id];
+  saveStore();
+  refreshProgress(list);
+}
+
+/* ============================================================
+   2 · ACORDEONES
+   ============================================================ */
+$$('.acc-h').forEach(function(h){
+  h.addEventListener('click', function(){ h.parentNode.classList.toggle('open'); });
+});
+
+/* ============================================================
+   3 · TABS GENÉRICOS
+   ============================================================ */
+function initTabs(tabsId){
+  var wrap = document.getElementById(tabsId);
+  if(!wrap) return;
+  $$('.tab', wrap).forEach(function(t){
+    t.addEventListener('click', function(){
+      $$('.tab', wrap).forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      var target = document.getElementById(t.dataset.tab);
+      var siblings = target ? Array.prototype.slice.call(target.parentNode.children) : [];
+      siblings.forEach(function(s){ if(s.classList.contains('tabpanel')) s.classList.remove('active'); });
+      if(target) target.classList.add('active');
+    });
+  });
+}
+['budTabs','infraTabs','metTabs'].forEach(initTabs);
+
+/* ============================================================
+   4 · NAVEGACIÓN SPA + PROGRESO + VOLVER ARRIBA
+   ============================================================ */
+var navLinks = $$('.nav-link');
+var sections = $$('.section');
+function showSection(id){
+  sections.forEach(function(s){ s.classList.toggle('active', s.id === id); });
+  navLinks.forEach(function(l){ l.classList.toggle('active', l.dataset.target === id); });
+  window.scrollTo({top:0, behavior:'auto'});
+  updateProgress();
+  var act = $('.nav-link.active');
+  if(act && act.scrollIntoView){ try{ act.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'}); }catch(e){} }
+  if(id === 'credits'){ restartCover(); }
+}
+navLinks.forEach(function(l){
+  l.addEventListener('click', function(e){ e.preventDefault(); showSection(l.dataset.target); });
+});
+var pbar = document.getElementById('progressBar');
+var toTop = document.getElementById('toTop');
+function updateProgress(){
+  var doc = document.documentElement;
+  var h = doc.scrollHeight - window.innerHeight;
+  var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+  pbar.style.width = Math.max(0, Math.min(100, p)) + '%';
+  if(window.scrollY > 320) toTop.classList.add('show'); else toTop.classList.remove('show');
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+window.addEventListener('resize', updateProgress);
+toTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+function restartCover(){
+  $$('svg.cover').forEach(function(s){
+    try{
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ s.pauseAnimations(); }
+      else { s.setCurrentTime(0); s.unpauseAnimations(); }
+    }catch(e){}
+  });
+}
+
+/* ============================================================
+   5 · CALCULADORA DE PRESUPUESTO (FASE 8)
+   ============================================================ */
+var INCOME = 773;
+var baseFields = [
+  {k:'alquiler', l:'Alquiler', d:350},
+  {k:'electricidad', l:'Electricidad'},
+  {k:'agua', l:'Agua'},
+  {k:'internet', l:'Internet'},
+  {k:'alimentacion', l:'Alimentación'},
+  {k:'telefono', l:'Teléfono'},
+  {k:'higiene', l:'Higiene/limpieza'},
+  {k:'transporte', l:'Transporte'},
+  {k:'perro', l:'Perro'},
+  {k:'otros', l:'Otros'}
+];
+var winterFields = baseFields.concat([{k:'calefaccion', l:'Calefacción (extra de invierno)'}]);
+var emgFields = [
+  {k:'reparacion', l:'Reparación'},
+  {k:'medicamentos', l:'Medicamentos/gastos sanitarios'},
+  {k:'transporteExtra', l:'Transporte extraordinario'},
+  {k:'bici', l:'Reparación de bicicleta/equipamiento'}
+];
+function buildBudget(container, fields, mode){
+  var html = '<div class="grid g3">';
+  fields.forEach(function(f){
+    html += '<div class="field"><label class="fl" for="'+mode+'_'+f.k+'">'+f.l+' (€)</label>' +
+            '<input type="number" min="0" step="1" id="'+mode+'_'+f.k+'" data-calc="'+mode+'" ' +
+            'placeholder="?" value="'+(f.d!==undefined?f.d:'')+'"></div>';
+  });
+  if(mode === 'emg'){
+    html += '<div class="field"><label class="fl" for="emg_reserva">Reserva económica disponible (€)</label>' +
+            '<input type="number" min="0" step="1" id="emg_reserva" data-calc="emg" placeholder="?"></div>';
+  }
+  html += '</div><div class="score-box">' +
+    '<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">' +
+      '<div><div style="font-size:11px;letter-spacing:1.2px;color:var(--dim);font-weight:800">TOTAL</div>' +
+      '<div class="big-num" id="'+mode+'Total" style="font-size:30px">0 €</div></div>' +
+      '<div><div style="font-size:11px;letter-spacing:1.2px;color:var(--dim);font-weight:800">'+(mode==='emg'?'RESERVA RESTANTE':'RESTANTE DE 773 €')+'</div>' +
+      '<div class="big-num" id="'+mode+'Rest" style="font-size:30px;color:var(--accent)">'+(mode==='emg'?'0 €':INCOME+' €')+'</div></div>' +
+      '<div style="flex:1;min-width:180px"><div class="bar"><i id="'+mode+'Bar"></i></div>' +
+      '<div id="'+mode+'Msg" style="font-size:13px;color:var(--muted)"></div></div>' +
+    '</div></div>';
+  container.innerHTML = html;
+  $$('input[data-calc="'+mode+'"]', container).forEach(function(inp){
+    inp.addEventListener('input', function(){ calcBudget(mode, fields); });
+  });
+  calcBudget(mode, fields);
+}
+function calcBudget(mode, fields){
+  var total = 0, filled = 0;
+  fields.forEach(function(f){
+    var el = document.getElementById(mode+'_'+f.k);
+    if(el && el.value !== '' && !isNaN(parseFloat(el.value))){ total += parseFloat(el.value); filled++; }
+  });
+  var tEl = document.getElementById(mode+'Total');
+  var rEl = document.getElementById(mode+'Rest');
+  var bEl = document.getElementById(mode+'Bar');
+  var mEl = document.getElementById(mode+'Msg');
+  if(tEl) tEl.textContent = total.toFixed(0) + ' €';
+  if(mode === 'emg'){
+    var resEl = document.getElementById('emg_reserva');
+    var reserva = (resEl && resEl.value !== '' && !isNaN(parseFloat(resEl.value))) ? parseFloat(resEl.value) : 0;
+    var rest = reserva - total;
+    if(rEl){ rEl.textContent = rest.toFixed(0) + ' €'; rEl.style.color = rest < 0 ? 'var(--red)' : 'var(--green)'; }
+    if(bEl){ bEl.style.width = (reserva>0 ? Math.min(100, total/reserva*100) : 0) + '%'; }
+    if(mEl){
+      if(reserva === 0) mEl.textContent = 'Introduce la reserva disponible para evaluar el impacto de la emergencia.';
+      else if(rest < 0) mEl.textContent = '⚠ La emergencia supera la reserva: se necesitaría financiación adicional o plan de salida (Fase 22).';
+      else mEl.textContent = 'La emergencia es absorbible con la reserva indicada.';
+    }
+  } else {
+    var restante = INCOME - total;
+    if(rEl){ rEl.textContent = restante.toFixed(0) + ' €'; rEl.style.color = restante < 0 ? 'var(--red)' : 'var(--green)'; }
+    if(bEl){ bEl.style.width = Math.min(100, total/INCOME*100) + '%'; }
+    if(mEl){
+      if(filled === 0) mEl.textContent = 'Introduce los conceptos reales del candidato (el documento los marca con “?”).';
+      else if(restante < 0) mEl.textContent = '⚠ El total supera los 773 €: la vida NO es sostenible con este presupuesto.';
+      else if(restante < 60) mEl.textContent = 'Margen muy estrecho: apenas queda colchón para emergencias (Fase 8.3).';
+      else mEl.textContent = 'Quedan ' + restante.toFixed(0) + ' € al mes como margen tras este presupuesto.';
+    }
+  }
+}
+buildBudget(document.getElementById('bud-normal'), baseFields, 'normal');
+buildBudget(document.getElementById('bud-inv'), winterFields, 'inv');
+buildBudget(document.getElementById('bud-emg'), emgFields, 'emg');
+
+/* ============================================================
+   6 · PUNTUADOR DE CANDIDATOS (FASE 12)
+   ============================================================ */
+var factors = [
+  {n:'Vivienda ≤350 €', w:25},
+  {n:'Internet', w:15},
+  {n:'Servicios', w:10},
+  {n:'Clima/calefacción', w:10},
+  {n:'Bicicleta/movilidad', w:10},
+  {n:'Naturaleza/tranquilidad', w:10},
+  {n:'Perro', w:5},
+  {n:'Comunidad/socialización', w:5},
+  {n:'Espacio para piano/estudio', w:5},
+  {n:'Potencial de vida intelectual', w:5}
+];
+(function(){
+  var wrap = document.getElementById('scorer');
+  if(!wrap) return;
+  var html = '';
+  factors.forEach(function(f, i){
+    html += '<div class="factor-row">' +
+      '<div class="fn">'+f.n+'</div>' +
+      '<div class="fv" id="sv'+i+'">0</div>' +
+      '<input type="range" min="0" max="10" step="1" value="0" id="sr'+i+'" aria-label="Puntuar '+f.n+'">' +
+      '<div class="fw" style="grid-column:1/-1">PESO '+f.w+' · aporte actual <span id="sw'+i+'">0.0</span> pts</div>' +
+      '</div>';
+  });
+  wrap.innerHTML = html;
+  function calc(){
+    var total = 0;
+    factors.forEach(function(f, i){
+      var v = parseInt(document.getElementById('sr'+i).value, 10) || 0;
+      var aporte = v/10*f.w;
+      total += aporte;
+      document.getElementById('sv'+i).textContent = v;
+      document.getElementById('sw'+i).textContent = aporte.toFixed(1);
+    });
+    document.getElementById('scoreTotal').textContent = total.toFixed(1);
+    document.getElementById('scoreBar').style.width = total + '%';
+    var v = '';
+    if(total < 40) v = 'Inviable con los criterios actuales: descartar o renegociar condiciones.';
+    else if(total < 60) v = 'Marginal: solo avanzar si aparece una ventaja extraordinaria.';
+    else if(total < 75) v = 'Aceptable: puede entrar en el TOP 10.';
+    else if(total <= 86) v = 'Bueno: candidato serio para el TOP 5.';
+    else v = 'Excelente: candidato firme para el TOP 3 y la visita sobre el terreno.';
+    document.getElementById('scoreVerdict').textContent = v;
+  }
+  factors.forEach(function(f, i){
+    document.getElementById('sr'+i).addEventListener('input', calc);
+  });
+  calc();
+})();
+
+/* ============================================================
+   7 · PLANIFICADOR DE RUTINA (FASE 11.2)
+   ============================================================ */
+var routineBlocks = [
+  {e:'🎹', n:'Música'}, {e:'🤖', n:'IA'}, {e:'🧮', n:'Matemáticas/física'},
+  {e:'🧠', n:'Filosofía/neurociencia'}, {e:'♟️', n:'Ajedrez'}, {e:'🏃', n:'Ejercicio'},
+  {e:'🐕', n:'Paseos con perro'}, {e:'✍️', n:'Creación de contenidos'}, {e:'🗣️', n:'Socialización'}
+];
+(function(){
+  var wrap = document.getElementById('routine');
+  if(!wrap) return;
+  var html = '';
+  routineBlocks.forEach(function(b, i){
+    html += '<div class="rblock"><div class="rn"><span>'+b.e+'</span> '+b.n+'</div>' +
+      '<input type="range" min="0" max="8" step="0.5" value="0" id="rt'+i+'">' +
+      '<div class="rh"><span id="rtv'+i+'">0</span> h / día</div></div>';
+  });
+  wrap.innerHTML = html;
+  function calc(){
+    var t = 0;
+    routineBlocks.forEach(function(b, i){
+      var v = parseFloat(document.getElementById('rt'+i).value) || 0;
+      t += v;
+      document.getElementById('rtv'+i).textContent = v;
+    });
+    document.getElementById('rtTotal').textContent = t.toFixed(1) + ' h';
+    document.getElementById('rtBar').style.width = Math.min(100, t/24*100) + '%';
+  }
+  routineBlocks.forEach(function(b, i){ document.getElementById('rt'+i).addEventListener('input', calc); });
+  calc();
+})();
+
+/* ============================================================
+   8 · MÉTRICAS (FASE 20)
+   ============================================================ */
+(function(){
+  var eco = [
+    {k:'ingreso', l:'Ingreso', d:773},
+    {k:'alq', l:'Alquiler'}, {k:'ele', l:'Electricidad'}, {k:'ali', l:'Alimentación'},
+    {k:'tra', l:'Transporte'}, {k:'otr', l:'Otros'}
+  ];
+  var wrap = document.getElementById('metEco');
+  if(wrap){
+    var html = '<div class="grid g3">';
+    eco.forEach(function(f){
+      html += '<div class="field"><label class="fl" for="eco_'+f.k+'">'+f.l+' (€)</label>' +
+        '<input type="number" min="0" step="1" id="eco_'+f.k+'" placeholder="?" value="'+(f.d!==undefined?f.d:'')+'"></div>';
+    });
+    html += '</div>';
+    wrap.innerHTML = html;
+    function calc(){
+      var ing = parseFloat(($('eco_ingreso')||{}).value) || 0;
+      var gast = 0;
+      ['alq','ele','ali','tra','otr'].forEach(function(k){
+        var el = document.getElementById('eco_'+k);
+        if(el && el.value !== '' && !isNaN(parseFloat(el.value))) gast += parseFloat(el.value);
+      });
+      var rest = ing - gast;
+      $('ecoTotal').textContent = gast.toFixed(0) + ' €';
+      $('ecoRest').textContent = rest.toFixed(0) + ' €';
+      $('ecoRest').style.color = rest < 0 ? 'var(--red)' : 'var(--green)';
+      $('ecoBar').style.width = (ing>0 ? Math.min(100, gast/ing*100) : 0) + '%';
+      $('ecoMsg').textContent = rest < 0 ? '⚠ Gasto superior al ingreso.' : 'Dinero restante del mes.';
+    }
+    eco.forEach(function(f){
+      var el = document.getElementById('eco_'+f.k);
+      if(el) el.addEventListener('input', calc);
+    });
+    calc();
+  }
+
+  var timeBlocks = ['Horas de estudio','Horas de música','Horas de IA','Horas de ajedrez','Horas de ejercicio','Horas de creación','Horas de socialización'];
+  var tw = document.getElementById('metTime');
+  if(tw){
+    var h2 = '';
+    timeBlocks.forEach(function(n, i){
+      h2 += '<div class="rblock"><div class="rn">'+n+'</div>' +
+        '<input type="number" min="0" step="0.5" id="tm'+i+'" placeholder="0">' +
+        '<div class="rh">horas / semana</div></div>';
+    });
+    tw.innerHTML = h2;
+    function calcT(){
+      var t = 0;
+      timeBlocks.forEach(function(n, i){
+        var v = parseFloat(document.getElementById('tm'+i).value);
+        if(!isNaN(v)) t += v;
+      });
+      $('timeTotal').textContent = t.toFixed(1) + ' h';
+    }
+    timeBlocks.forEach(function(n, i){ document.getElementById('tm'+i).addEventListener('input', calcT); });
+    calcT();
+  }
+
+  var qol = ['Tranquilidad','Libertad','Privacidad','Contacto con naturaleza','Vida social','Satisfacción con vivienda','Satisfacción intelectual','Satisfacción general'];
+  var qw = document.getElementById('qol');
+  if(qw){
+    var h3 = '';
+    qol.forEach(function(n, i){
+      h3 += '<div class="factor-row"><div class="fn">'+n+'</div><div class="fv" id="qv'+i+'">0</div>' +
+        '<input type="range" min="0" max="10" step="1" value="0" id="qr'+i+'" aria-label="Puntuar '+n+'"></div>';
+    });
+    qw.innerHTML = h3;
+    function calcQ(){
+      var t = 0;
+      qol.forEach(function(n, i){
+        var v = parseInt(document.getElementById('qr'+i).value, 10) || 0;
+        t += v;
+        document.getElementById('qv'+i).textContent = v;
+      });
+      var avg = t / qol.length;
+      $('qolAvg').textContent = avg.toFixed(1);
+      $('qolBar').style.width = (avg*10) + '%';
+    }
+    qol.forEach(function(n, i){ document.getElementById('qr'+i).addEventListener('input', calcQ); });
+    calcQ();
+  }
+})();
+
+/* ============================================================
+   9 · PLANTILLA DE CONTACTO (FASE 16)
+   ============================================================ */
+(function(){
+  var ta = document.getElementById('tpl');
+  if(!ta) return;
+  ta.value =
+"Asunto: [NOMBRE] — interesado en alquilar una vivienda completa en [PUEBLO] de forma estable\n\n" +
+"Buenos días,\n\n" +
+"1) QUIÉN SOY\n" +
+"Mi nombre es [NOMBRE]. Soy [BREVE PRESENTACIÓN: edad / situación / procedencia].\n\n" +
+"2) QUÉ BUSCO\n" +
+"Busco una vivienda completa (no habitación compartida) en [PUEBLO], con una habitación principal, cocina funcional, baño propio y espacio para una mesa de trabajo y un piano.\n\n" +
+"3) ESTANCIA ESTABLE\n" +
+"Quiero establecerme de forma estable, con un contrato de larga duración y condiciones claras para ambas partes.\n\n" +
+"4) VIVIRÍA SOLO\n" +
+"La vivienda sería ocupada únicamente por mí. Mi proyecto de vida allí es de estudio, música y trabajo en remoto, por lo que el uso de la casa es tranquilo.\n\n" +
+"5) CUIDADO DE LA VIVIENDA\n" +
+"Tengo intención de cuidar la vivienda como si fuera mía: limpieza, mantenimiento y comunicación inmediata de cualquier incidencia.\n\n" +
+"6) INTERNET\n" +
+"Necesito una conexión a Internet suficiente para trabajar. Si la vivienda no dispone de fibra, puedo instalar un router 4G/5G con SIM de datos, siempre que la cobertura móvil lo permita.\n\n" +
+"7) PERRO\n" +
+"Tengo un perro [RAZA/TAMAÑO/EDAD]. Necesito confirmar que las mascotas están permitidas y que el entorno permite paseos diarios.\n\n" +
+"8) RELACIÓN CONTRACTUAL CLARA\n" +
+"Busco una relación contractual clara: contrato escrito, duración, fianza, gastos incluidos y no incluidos, y condiciones sobre mascotas y calefacción.\n\n" +
+"Puedo aportar [INGRESOS / REFERENCIAS] y visitar la vivienda cuando indiquen.\n\n" +
+"Gracias por su tiempo.\n" +
+"[NOMBRE] · [TELÉFONO] · [EMAIL]";
+  var btn = document.getElementById('copyTpl');
+  var msg = document.getElementById('copyMsg');
+  btn.addEventListener('click', function(){
+    var done = function(){ msg.textContent = '✔ Plantilla copiada al portapapeles.'; setTimeout(function(){ msg.textContent=''; }, 2600); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(ta.value).then(done, function(){ ta.select(); try{document.execCommand('copy'); done();}catch(e){} });
+    } else {
+      ta.select(); try{ document.execCommand('copy'); done(); }catch(e){ msg.textContent='Selecciona el texto y copia manualmente.'; }
+    }
+  });
+})();
+
+/* ============================================================
+   10 · BASE DE DATOS DE PUEBLOS (TASK 01)
+   ============================================================ */
+(function(){
+  var form = document.getElementById('dbForm');
+  if(!form) return;
+  var dbFields = [
+    {k:'nombre', l:'Nombre', t:'text'},
+    {k:'hab', l:'Habitantes aproximados', t:'number'},
+    {k:'comarca', l:'Comarca / grupo', t:'select',
+      opts:['Rincón de Ademuz','Interior norte','Interior centro','Interior sur','Zonas montañosas','Zonas rurales próximas a Valencia','Otras zonas interesantes de la provincia']},
+    {k:'dist', l:'Distancia a Valencia (km)', t:'number'},
+    {k:'alt', l:'Altitud (m)', t:'number'},
+    {k:'serv', l:'Servicios básicos', t:'text'},
+    {k:'alq', l:'Existencia de alquileres ≤350 €', t:'select', opts:['Sí','No','Sin comprobar','Ambiguo/temporada']},
+    {k:'net', l:'Internet/fibra', t:'select', opts:['Fibra','4G/5G','Fibra + 4G','Sin comprobar','Deficiente']},
+    {k:'acc', l:'Acceso por carretera', t:'text'},
+    {k:'obs', l:'Observaciones', t:'text'}
+  ];
+  var db = [];
+  try{ var r = localStorage.getItem('ruta773_db'); if(r) db = JSON.parse(r) || []; }catch(e){}
+  function saveDb(){ try{ localStorage.setItem('ruta773_db', JSON.stringify(db)); }catch(e){} }
+
+  var html = '';
+  dbFields.forEach(function(f){
+    html += '<div class="field"><label class="fl" for="db_'+f.k+'">'+f.l+'</label>';
+    if(f.t === 'select'){
+      html += '<select id="db_'+f.k+'"><option value="">—</option>' + f.opts.map(function(o){ return '<option>'+o+'</option>'; }).join('') + '</select>';
+    } else {
+      html += '<input type="'+f.t+'" id="db_'+f.k+'" '+(f.t==='number'?'min="0" step="1"':'')+' placeholder="…">';
+    }
+    html += '</div>';
+  });
+  form.innerHTML = html;
+
+  function render(){
+    var body = document.getElementById('dbBody');
+    body.innerHTML = '';
+    if(db.length === 0){
+      body.innerHTML = '<tr><td colspan="11" style="color:var(--dim);text-align:center;padding:18px">Sin candidatos registrados. Empieza a construir el universo de pueblos (Fase 2).</td></tr>';
+    } else {
+      db.forEach(function(row, idx){
+        var tr = document.createElement('tr');
+        var cells = ['nombre','hab','comarca','dist','alt','serv','alq','net','acc','obs'];
+        cells.forEach(function(c){
+          var td = document.createElement('td');
+          td.textContent = row[c] === undefined || row[c] === '' ? '—' : row[c];
+          tr.appendChild(td);
+        });
+        var td = document.createElement('td');
+        var b = document.createElement('button');
+        b.className = 'btn sm danger'; b.textContent = '✕';
+        b.setAttribute('aria-label','Eliminar '+ (row.nombre||'candidato'));
+        b.addEventListener('click', function(){ db.splice(idx,1); saveDb(); render(); });
+        td.appendChild(b); tr.appendChild(td);
+        body.appendChild(tr);
+      });
+    }
+    document.getElementById('dbCount').textContent = db.length;
+    var pct = Math.min(100, db.length/50*100);
+    document.getElementById('dbBar').style.width = pct + '%';
+    var msg = document.getElementById('dbMsg');
+    if(db.length === 0) msg.textContent = 'Aún no hay candidatos. La lista debe crecer antes de investigar en profundidad.';
+    else if(db.length < 30) msg.textContent = 'Lista en construcción: ' + db.length + ' de 30–50 candidatos. No pasar todavía a la investigación profunda.';
+    else msg.textContent = '✔ Lista suficientemente grande (' + db.length + ' candidatos). Ya se puede aplicar el primer filtro económico.';
+  }
+  document.getElementById('dbAdd').addEventListener('click', function(){
+    var row = {};
+    dbFields.forEach(function(f){
+      var el = document.getElementById('db_'+f.k);
+      row[f.k] = el ? el.value.trim() : '';
+    });
+    if(!row.nombre){ row.nombre = 'Sin nombre'; }
+    db.push(row); saveDb(); render();
+    dbFields.forEach(function(f){ var el = document.getElementById('db_'+f.k); if(el) el.value = ''; });
+    var first = document.getElementById('db_nombre'); if(first) first.focus();
+  });
+  document.getElementById('dbClear').addEventListener('click', function(){
+    if(db.length === 0) return;
+    if(confirm('¿Borrar todos los candidatos registrados?')){ db = []; saveDb(); render(); }
+  });
+  document.getElementById('dbCsv').addEventListener('click', function(){
+    if(db.length === 0) return;
+    var head = dbFields.map(function(f){ return '"'+f.l+'"'; }).join(';');
+    var lines = db.map(function(row){
+      return dbFields.map(function(f){ return '"'+String(row[f.k]||'').replace(/"/g,'""')+'"'; }).join(';');
+    });
+    var csv = head + '\n' + lines.join('\n');
+    var blob = new Blob(["\ufeff"+csv], {type:'text/csv;charset=utf-8;'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'pueblos_candidatos_valencia.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+  render();
+})();
+
+/* ============================================================
+   11 · CANDIDATOS DEL TABLERO MAESTRO (persistencia)
+   ============================================================ */
+(function(){
+  $$('input[data-cand]').forEach(function(inp){
+    var key = 'cand' + inp.dataset.cand;
+    if(store[key]) inp.value = store[key];
+    inp.addEventListener('input', function(){
+      store[key] = inp.value; saveStore();
+    });
+  });
+})();
+
+/* ============================================================
+   12 · TABLERO DE AJEDREZ DE ESTUDIO (FASE 11)
+   ============================================================ */
+var FILES = ['a','b','c','d','e','f','g','h'];
+var RANKS = ['8','7','6','5','4','3','2','1'];
+var GLYPH = {K:'♔',Q:'♕',R:'♖',B:'♗',N:'♘',P:'♙',k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
+var PNAME = {K:'Rey',Q:'Dama',R:'Torre',B:'Alfil',N:'Caballo',P:'Peón'};
+var PABBR = {K:'R',Q:'D',R:'T',B:'A',N:'C',P:''};
+function initialPosition(){
+  var back = ['r','n','b','q','k','b','n','r'];
+  var p = {};
+  FILES.forEach(function(f, i){
+    p[f+'8'] = back[i];
+    p[f+'7'] = 'p';
+    p[f+'2'] = 'P';
+    p[f+'1'] = back[i].toUpperCase();
+  });
+  return p;
+}
+function ChessStudy(cfg){
+  var grid = cfg.grid, rowC = cfg.rowCoords, colC = cfg.colCoords;
+  var positions = [initialPosition()];
+  var moves = [];
+  var idx = 0;
+  var sel = null;
+  var flipped = false;
+
+  function squares(){
+    var out = [];
+    var ranks = flipped ? RANKS.slice().reverse() : RANKS;
+    var files = flipped ? FILES.slice().reverse() : FILES;
+    for(var r=0;r<8;r++){ for(var f=0;f<8;f++){ out.push(files[f]+ranks[r]); } }
+    return out;
+  }
+  function isLight(sq){
+    var f = FILES.indexOf(sq[0]); var r = RANKS.indexOf(sq[1]);
+    return (f + r) % 2 === 0;
+  }
+  function buildGrid(){
+    grid.innerHTML = '';
+    rowC.innerHTML = ''; colC.innerHTML = '';
+    var ranks = flipped ? RANKS.slice().reverse() : RANKS;
+    var files = flipped ? FILES.slice().reverse() : FILES;
+    ranks.forEach(function(r){ var s = document.createElement('span'); s.textContent = r; rowC.appendChild(s); });
+    files.forEach(function(f){ var s = document.createElement('span'); s.textContent = f; colC.appendChild(s); });
+    squares().forEach(function(sq){
+      var d = document.createElement('div');
+      d.className = 'sq ' + (isLight(sq) ? 'light' : 'dark');
+      d.dataset.sq = sq;
+      d.setAttribute('role','button');
+      d.addEventListener('click', function(){ onSquare(sq); });
+      grid.appendChild(d);
+    });
+  }
+  function pieceName(code){
+    return PNAME[code.toUpperCase()];
+  }
+  function colorName(code){ return code === code.toUpperCase() ? 'BLANCAS' : 'NEGRAS'; }
+  function renderBoard(){
+    var pos = positions[idx];
+    var last = idx > 0 ? moves[idx-1] : null;
+    $$('.sq', grid).forEach(function(d){
+      var sq = d.dataset.sq;
+      var code = pos[sq];
+      d.innerHTML = '';
+      d.classList.remove('hl','sel');
+      if(code){
+        var s = document.createElement('span');
+        s.className = 'pc ' + (code === code.toUpperCase() ? 'w' : 'b');
+        s.textContent = GLYPH[code];
+        d.appendChild(s);
+        d.setAttribute('aria-label', pieceName(code) + ' ' + colorName(code) + ' en ' + sq);
+      } else {
+        d.setAttribute('aria-label', 'casilla vacía ' + sq);
+      }
+      if(last && (last.from === sq || last.to === sq)) d.classList.add('hl');
+      if(sel === sq) d.classList.add('sel');
+    });
+  }
+  function notation(m){
+    var letter = PABBR[m.piece.toUpperCase()] || '';
+    if(m.piece.toUpperCase() === 'P' && m.capture) letter = m.from[0];
+    return letter + (m.capture ? 'x' : '–') + m.to + (m.mate ? '#' : (m.check ? '+' : ''));
+  }
+  function logText(i){
+    var m = moves[i];
+    var col = colorName(m.piece);
+    var pn = pieceName(m.piece).toLowerCase();
+    return (i+1) + ' · ' + col + ' — ' + pn + ': ' + m.from + ' → ' + m.to +
+           (m.capture ? ' (captura)' : '') + (m.mate ? ' — JAQUE MATE' : (m.check ? ' — JAQUE' : ''));
+  }
+  function renderLog(){
+    var ul = cfg.log;
+    ul.innerHTML = '';
+    if(moves.length === 0){
+      ul.innerHTML = '<li style="cursor:default;color:var(--dim)">Sin movimientos todavía. Pulsa una pieza del tablero para empezar.</li>';
+      return;
+    }
+    moves.forEach(function(m, i){
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="cn">'+(i+1)+'.</span>' + logText(i).replace(/^\d+ · /,'');
+      if(i === idx-1) li.classList.add('cur');
+      li.addEventListener('click', function(){ idx = i+1; sel = null; renderAll(); });
+      ul.appendChild(li);
+    });
+  }
+  function renderPanel(){
+    var panel = cfg.panel;
+    if(idx === 0){
+      panel.innerHTML =
+        '<div class="mp-h b">POSICIÓN INICIAL</div>' +
+        '<div class="mp-m">Las 32 piezas colocadas</div>' +
+        '<div class="mp-n">position[0] · 8×8 · coordenadas a–h / 1–8</div>' +
+        '<div class="q">¿Qué ocurre?</div><p class="a">El tablero muestra la posición inicial estándar. Todavía no se ha realizado ningún movimiento.</p>' +
+        '<div class="q">¿Por qué es importante?</div><p class="a">Toda secuencia de estudio parte de esta posición. Pulsa <strong>Siguiente ▶</strong> para revisar los movimientos ya realizados o pulsa una pieza para añadir uno nuevo.</p>';
+      return;
+    }
+    var m = moves[idx-1];
+    var col = colorName(m.piece);
+    var pn = pieceName(m.piece);
+    var colAdj = m.piece === m.piece.toUpperCase() ? 'blanco' : 'negro';
+    var numJugada = Math.ceil(idx/2);
+    var flag = m.mate ? ' — JAQUE MATE' : (m.check ? ' — JAQUE' : '');
+    var q2 = '';
+    if(m.mate){
+      q2 = 'El movimiento produce <strong>jaque mate</strong>: el rey queda en jaque y la posición finaliza. Verifica en el tablero por qué el rey no puede escapar, por qué no puede capturar al atacante y por qué no puede bloquear el ataque.';
+    } else if(m.check){
+      q2 = 'El movimiento produce <strong>jaque</strong>: el rey queda atacado y debe responderse (mover, capturar o bloquear).';
+    } else {
+      q2 = m.note ? m.note : '<em>Añade aquí tu propio análisis: qué consigue este movimiento (centro, desarrollo, seguridad del rey, líneas, material, tiempo).</em>';
+    }
+    panel.innerHTML =
+      '<div class="mp-h '+(col==='BLANCAS'?'b':'')+'">MOVIMIENTO '+idx+' — '+col+flag+'</div>' +
+      '<div class="mp-m">'+pn+' '+colAdj+': '+m.from+' → '+m.to+(m.capture?' <span style="color:var(--red);font-size:15px">· CAPTURA</span>':'')+'</div>' +
+      '<div class="mp-n">Notación: '+notation(m)+' · Jugada completa nº '+numJugada+'</div>' +
+      '<div class="q">¿Qué ocurre?</div>' +
+      '<p class="a">Las <strong>'+col+'</strong> desplazan el <strong>'+pn.toLowerCase()+'</strong> desde <strong>'+m.from+'</strong> hasta <strong>'+m.to+'</strong>.' +
+      (m.capture ? ' En '+m.to+' había una pieza contraria, que es <strong>capturada y retirada del tablero</strong>.' : ' La casilla '+m.to+' estaba vacía.') + '</p>' +
+      '<div class="q">¿Por qué es importante?</div><p class="a">'+q2+'</p>' +
+      '<div class="field" style="margin-top:10px"><label class="fl" for="noteInp">Tu anotación para este movimiento</label>' +
+      '<input type="text" id="noteInp" placeholder="p. ej.: ocupa el centro y abre la diagonal del alfil" value="'+(m.note?String(m.note).replace(/"/g,'&quot;'):'')+'"></div>' +
+      '<div class="flagbtns">' +
+        '<button class="fb '+(m.check?'on-check':'')+'" id="fbCheck">+ JAQUE</button>' +
+        '<button class="fb '+(m.mate?'on-mate':'')+'" id="fbMate">+ JAQUE MATE</button>' +
+      '</div>';
+    var ni = document.getElementById('noteInp');
+    if(ni) ni.addEventListener('input', function(){ m.note = ni.value; renderLog(); });
+    var bc = document.getElementById('fbCheck');
+    var bm = document.getElementById('fbMate');
+    if(bc) bc.addEventListener('click', function(){ m.check = !m.check; if(m.check) m.mate = false; renderAll(); });
+    if(bm) bm.addEventListener('click', function(){ m.mate = !m.mate; if(m.mate) m.check = false; renderAll(); });
+  }
+  function renderIndicator(){
+    var el = cfg.ind;
+    if(idx === 0){
+      el.textContent = 'Posición inicial · Movimiento 0 de ' + moves.length;
+    } else {
+      var m = moves[idx-1];
+      el.innerHTML = 'Movimiento ' + idx + ' de ' + moves.length +
+        ' · <span style="color:'+(colorName(m.piece)==='BLANCAS'?'#cbeefc':'#f59e0b')+'">' + colorName(m.piece) + '</span>' +
+        ' · Jugada completa nº ' + Math.ceil(idx/2);
+    }
+    cfg.slider.max = moves.length;
+    cfg.slider.value = idx;
+    cfg.btnPrev.disabled = (idx === 0);
+    cfg.btnFirst.disabled = (idx === 0);
+    cfg.btnNext.disabled = (idx === moves.length);
+    cfg.btnLast.disabled = (idx === moves.length);
+    cfg.btnUndo.disabled = (moves.length === 0);
+  }
+  function renderAll(){ renderBoard(); renderPanel(); renderLog(); renderIndicator(); }
+
+  function onSquare(sq){
+    var pos = positions[idx];
+    var code = pos[sq];
+    if(sel === null){
+      if(code){ sel = sq; renderBoard(); }
+      return;
+    }
+    if(sel === sq){ sel = null; renderBoard(); return; }
+    var fromCode = pos[sel];
+    if(code && code === code.toUpperCase() && fromCode === fromCode.toUpperCase() ||
+       code && code === code.toLowerCase() && fromCode === fromCode.toLowerCase()){
+      if(code){ sel = sq; renderBoard(); }
+      return;
+    }
+    // truncar si se está navegando en el historial
+    if(idx < moves.length){
+      moves = moves.slice(0, idx);
+      positions = positions.slice(0, idx+1);
+    }
+    var capture = !!code;
+    var np = {};
+    for(var k in pos) if(Object.prototype.hasOwnProperty.call(pos,k)) np[k] = pos[k];
+    delete np[sel];
+    np[sq] = fromCode;
+    moves.push({from: sel, to: sq, piece: fromCode, capture: capture, check:false, mate:false, note:''});
+    positions.push(np);
+    idx = moves.length;
+    sel = null;
+    renderAll();
+  }
+
+  cfg.btnNext.addEventListener('click', function(){ if(idx < moves.length){ idx++; sel=null; renderAll(); } });
+  cfg.btnPrev.addEventListener('click', function(){ if(idx > 0){ idx--; sel=null; renderAll(); } });
+  cfg.btnLast.addEventListener('click', function(){ idx = moves.length; sel=null; renderAll(); });
+  cfg.btnFirst.addEventListener('click', function(){ idx = 0; sel=null; renderAll(); });
+  cfg.btnReset.addEventListener('click', function(){
+    positions = [initialPosition()]; moves = []; idx = 0; sel = null; flipped = false; buildGrid(); renderAll();
+  });
+  cfg.btnUndo.addEventListener('click', function(){
+    if(moves.length === 0) return;
+    moves.pop(); positions.pop();
+    if(idx > moves.length) idx = moves.length;
+    sel = null; renderAll();
+  });
+  cfg.btnClear.addEventListener('click', function(){
+    if(!confirm('¿Vaciar el tablero y borrar la secuencia?')) return;
+    positions = [{}]; moves = []; idx = 0; sel = null; buildGrid(); renderAll();
+  });
+  cfg.btnFlip.addEventListener('click', function(){ flipped = !flipped; sel = null; buildGrid(); renderAll(); });
+  cfg.slider.addEventListener('input', function(){ idx = parseInt(cfg.slider.value,10)||0; sel=null; renderAll(); });
+
+  buildGrid(); renderAll();
+}
+ChessStudy({
+  grid: document.getElementById('boardGrid'),
+  rowCoords: document.getElementById('rowCoords'),
+  colCoords: document.getElementById('colCoords'),
+  panel: document.getElementById('movePanel'),
+  log: document.getElementById('moveLog'),
+  ind: document.getElementById('moveInd'),
+  slider: document.getElementById('moveSlider'),
+  btnNext: document.getElementById('btnNext'),
+  btnPrev: document.getElementById('btnPrev'),
+  btnLast: document.getElementById('btnLast'),
+  btnFirst: document.getElementById('btnFirst'),
+  btnReset: document.getElementById('btnReset'),
+  btnUndo: document.getElementById('btnUndo'),
+  btnClear: document.getElementById('btnClear'),
+  btnFlip: document.getElementById('btnFlip')
+});
+
+/* ============================================================
+   13 · TECLADO (accesibilidad del tablero y navegación)
+   ============================================================ */
+document.addEventListener('keydown', function(e){
+  if(e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
+  var boardVisible = document.getElementById('intelectual').classList.contains('active');
+  if(boardVisible){
+    if(e.key === 'ArrowRight'){ var b = document.getElementById('btnNext'); if(!b.disabled) b.click(); }
+    if(e.key === 'ArrowLeft'){ var p = document.getElementById('btnPrev'); if(!p.disabled) p.click(); }
+  }
+});
+
+/* ============================================================
+   14 · INICIO
+   ============================================================ */
+initChecklists();
+updateProgress();
+restartCover();
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  $$('svg.cover').forEach(function(s){ try{ s.pauseAnimations(); }catch(e){} });
+}
+})();
+</script>
+</body>
+</html>
