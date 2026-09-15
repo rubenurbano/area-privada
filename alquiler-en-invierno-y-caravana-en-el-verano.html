@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alquiler en invierno y caravana en verano · Estrategia de vivienda 4.200 €/año</title>
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --card:#0f172a;
+    --border:#1e3a5f;
+    --accent:#00d4ff;
+    --green:#22c55e;
+    --amber:#f59e0b;
+    --red:#ef4444;
+    --purple:#a855f7;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    line-height:1.65;
+    padding-top:74px;
+    min-height:100vh;
+  }
+  /* ============ BARRA DE PROGRESO + NAVBAR ============ */
+  #topbar{position:fixed;top:0;left:0;right:0;z-index:100;}
+  #progress{height:4px;background:#0f172a;}
+  #progressBar{height:100%;width:0;background:linear-gradient(90deg,#00d4ff,#a855f7,#22c55e);transition:width .12s linear;}
+  #navbar{background:rgba(10,14,26,.97);border-bottom:1px solid var(--border);backdrop-filter:blur(8px);}
+  .nav-inner{display:flex;align-items:center;gap:10px;padding:6px 10px;max-width:1300px;margin:0 auto;}
+  .brand{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:1.4px;white-space:nowrap;flex-shrink:0;padding-left:4px;}
+  .nav-scroll{display:flex;gap:6px;overflow-x:auto;flex:1;padding:2px 0;scrollbar-width:thin;}
+  .nav-scroll::-webkit-scrollbar{height:4px}
+  .nav-scroll::-webkit-scrollbar-thumb{background:#1e3a5f;border-radius:4px}
+  .nav-btn{
+    white-space:nowrap;background:#0f172a;border:1px solid var(--border);color:#94a3b8;
+    padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;
+    transition:.2s;font-family:inherit;
+  }
+  .nav-btn:hover{color:var(--accent);border-color:var(--accent);}
+  .nav-btn.active{background:rgba(0,212,255,.12);color:var(--accent);border-color:var(--accent);box-shadow:0 0 12px rgba(0,212,255,.28);}
+  @media(max-width:640px){ .brand{display:none} }
+
+  /* ============ PÁGINAS SPA ============ */
+  .page{display:none;max-width:1080px;margin:0 auto;padding:22px 15px 40px;animation:fadeIn .35s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ============ HERO ============ */
+  .hero-badge{
+    display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--accent);
+    border:1px solid var(--border);background:rgba(0,212,255,.07);
+    padding:6px 14px;border-radius:20px;margin-bottom:14px;
+  }
+  .svg-wrap{
+    width:100%;margin:0 0 26px;border-radius:16px;overflow:hidden;
+    border:1px solid var(--border);background:#070b14;
+    box-shadow:0 0 48px rgba(0,212,255,.10);
+  }
+  .portada-svg{display:block;width:100%;height:auto;aspect-ratio:16/9;}
+  h1.hero-title{
+    font-size:clamp(1.55rem,4.4vw,2.5rem);line-height:1.18;font-weight:800;
+    background:linear-gradient(100deg,#00d4ff 0%,#a855f7 55%,#22c55e 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    margin-bottom:10px;
+  }
+  .hero-sub{font-size:clamp(.95rem,2.4vw,1.1rem);color:var(--muted);margin-bottom:20px;}
+
+  /* ============ TIPOGRAFÍA DE SECCIÓN ============ */
+  h2.sec-title{
+    font-size:clamp(1.3rem,3.6vw,1.85rem);font-weight:800;color:#fff;margin-bottom:6px;
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  h2.sec-title .ico{font-size:1.4rem;}
+  .sec-sub{color:var(--muted);font-size:.94rem;margin-bottom:20px;}
+  h3{font-size:1.05rem;font-weight:800;color:var(--accent);margin:18px 0 8px;letter-spacing:.3px;}
+  h4{font-size:.95rem;font-weight:700;color:#e2e8f0;margin:12px 0 6px;}
+  p{margin-bottom:12px;}
+  ul,ol{margin:0 0 14px 20px;}
+  li{margin-bottom:7px;}
+  strong{color:#fff;}
+  a{color:var(--accent);word-break:break-word;}
+
+  /* ============ CARDS ============ */
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:18px 18px;margin-bottom:16px;
+  }
+  .card.accent{border-left:4px solid var(--accent);}
+  .card.green{border-left:4px solid var(--green);}
+  .card.amber{border-left:4px solid var(--amber);}
+  .card.purple{border-left:4px solid var(--purple);}
+  .card.red{border-left:4px solid var(--red);}
+  .grid{display:grid;gap:14px;}
+  .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .mini-card{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:15px 16px;transition:.25s;
+  }
+  .mini-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .mini-card .ttl{font-size:.78rem;font-weight:800;letter-spacing:1.4px;color:var(--accent);margin-bottom:6px;text-transform:uppercase;}
+  .mini-card p{margin-bottom:0;font-size:.92rem;color:#cbd5e1;}
+  .metric{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:16px 12px;text-align:center;
+  }
+  .metric .val{
+    display:block;font-size:clamp(1.2rem,4vw,1.7rem);font-weight:800;
+    color:var(--accent);line-height:1.15;margin-bottom:4px;
+  }
+  .metric .lbl{font-size:.74rem;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;line-height:1.35;}
+
+  /* ============ CITA ============ */
+  .quote{
+    background:linear-gradient(100deg,rgba(0,212,255,.09),rgba(168,85,247,.09));
+    border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:12px;padding:20px 22px;margin:22px 0;
+    font-size:1.02rem;font-style:italic;color:#e2e8f0;
+  }
+  .quote::before{content:"❝";color:var(--accent);font-size:1.5rem;margin-right:8px;font-style:normal;}
+
+  /* ============ CALLOUTS ============ */
+  .callout{border-radius:10px;padding:13px 16px;margin:14px 0;font-size:.92rem;border:1px solid;}
+  .callout .tag{display:block;font-size:.7rem;font-weight:900;letter-spacing:1.6px;margin-bottom:5px;}
+  .callout.info{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.4);}
+  .callout.info .tag{color:var(--accent);}
+  .callout.example{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.4);}
+  .callout.example .tag{color:var(--green);}
+  .callout.warn{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.4);}
+  .callout.warn .tag{color:var(--amber);}
+  .callout.error{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.4);}
+  .callout.error .tag{color:var(--red);}
+
+  /* ============ BADGES / CHIPS ============ */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px;}
+  .chip{
+    font-size:.76rem;font-weight:700;padding:5px 12px;border-radius:20px;
+    background:rgba(0,212,255,.09);border:1px solid rgba(0,212,255,.35);color:var(--accent);
+  }
+  .chip.g{background:rgba(34,197,94,.09);border-color:rgba(34,197,94,.35);color:var(--green);}
+  .chip.a{background:rgba(245,158,11,.09);border-color:rgba(245,158,11,.35);color:var(--amber);}
+  .chip.p{background:rgba(168,85,247,.09);border-color:rgba(168,85,247,.35);color:var(--purple);}
+  .chip.r{background:rgba(239,68,68,.09);border-color:rgba(239,68,68,.35);color:var(--red);}
+
+  /* ============ TABLAS ============ */
+  .table-wrap{overflow-x:auto;margin:14px 0;border-radius:10px;border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;min-width:520px;font-size:.88rem;}
+  th{
+    background:#0d1526;color:var(--accent);font-size:.74rem;letter-spacing:1.2px;
+    text-transform:uppercase;text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);
+    white-space:nowrap;
+  }
+  td{padding:12px 14px;border-bottom:1px solid rgba(30,58,95,.6);vertical-align:top;color:#cbd5e1;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(0,212,255,.04);}
+
+  /* ============ PASOS NUMERADOS ============ */
+  .steps{counter-reset:st;list-style:none;margin-left:0;}
+  .steps li{
+    counter-increment:st;position:relative;padding-left:46px;margin-bottom:14px;
+  }
+  .steps li::before{
+    content:counter(st);position:absolute;left:0;top:0;
+    width:30px;height:30px;border-radius:8px;
+    background:rgba(0,212,255,.1);border:1px solid var(--accent);
+    color:var(--accent);font-weight:800;font-size:.85rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ============ ACORDEÓN ============ */
+  .acc{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+  .acc-head{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:14px 16px;cursor:pointer;font-weight:700;font-size:.93rem;color:#e2e8f0;
+    user-select:none;
+  }
+  .acc-head:hover{color:var(--accent);}
+  .acc-arrow{color:var(--accent);transition:transform .3s;font-size:.8rem;flex-shrink:0;}
+  .acc.open .acc-arrow{transform:rotate(90deg);}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 16px;}
+  .acc.open .acc-body{max-height:700px;padding:0 16px 16px;}
+  .acc-body p:last-child,.acc-body ul:last-child{margin-bottom:0;}
+
+  /* ============ CALCULADORA ============ */
+  .calc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;}
+  .calc label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:10px;font-weight:600;}
+  .calc label strong{color:var(--accent);font-size:1.05rem;}
+  input[type=range]{
+    width:100%;-webkit-appearance:none;appearance:none;height:7px;border-radius:6px;
+    background:linear-gradient(90deg,#00d4ff,#a855f7);outline:none;margin-bottom:18px;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+    background:#0f172a;border:3px solid #00d4ff;cursor:pointer;box-shadow:0 0 10px rgba(0,212,255,.6);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:20px;height:20px;border-radius:50%;background:#0f172a;border:3px solid #00d4ff;cursor:pointer;
+  }
+  .calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  .calc-out div{background:#0b1222;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+  .calc-out span{display:block;font-size:1.25rem;font-weight:800;color:var(--green);}
+  .calc-out small{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.5px;margin-top:3px;}
+
+  /* ============ CHECKLIST INTERACTIVA ============ */
+  .checklist{list-style:none;margin-left:0;}
+  .checklist li{
+    display:flex;align-items:flex-start;gap:12px;padding:11px 14px;margin-bottom:8px;
+    background:var(--card);border:1px solid var(--border);border-radius:10px;cursor:pointer;
+    transition:.2s;font-size:.92rem;
+  }
+  .checklist li:hover{border-color:var(--accent);}
+  .checklist li.done{border-color:var(--green);background:rgba(34,197,94,.06);}
+  .checklist .box{
+    width:20px;height:20px;border-radius:5px;border:2px solid var(--border);
+    flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;color:transparent;font-weight:900;
+  }
+  .checklist li.done .box{background:var(--green);border-color:var(--green);color:#04121c;}
+
+  /* ============ FOOTER ============ */
+  footer{
+    max-width:1080px;margin:0 auto;padding:26px 15px 40px;
+    border-top:1px solid var(--border);text-align:center;
+    color:var(--muted);font-size:.84rem;
+  }
+  footer p{margin-bottom:6px;}
+  footer .latin{color:var(--purple);font-style:italic;margin-top:10px;}
+
+  /* ============ BOTÓN VOLVER ARRIBA ============ */
+  #toTop{
+    position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,#00d4ff,#a855f7);color:#04121c;
+    border:none;font-size:20px;font-weight:900;cursor:pointer;
+    opacity:0;pointer-events:none;transition:.3s;z-index:90;
+    box-shadow:0 6px 22px rgba(0,212,255,.35);
+  }
+  #toTop.show{opacity:1;pointer-events:auto;}
+  #toTop:active{transform:scale(.92);}
+
+  /* ============ CRÉDITOS ============ */
+  .credits-card{text-align:center;}
+  .credits-card ul{list-style:none;margin:14px 0 0 0;}
+  .credits-card li{margin-bottom:8px;font-size:.95rem;}
+  .latin{color:var(--purple);font-style:italic;font-weight:600;letter-spacing:.5px;}
+
+  .muted{color:var(--muted);font-size:.86rem;}
+
+  @media(max-width:420px){
+    .nav-btn{padding:8px 11px;font-size:12px;}
+    .card{padding:15px 14px;}
+    .quote{padding:16px 16px;font-size:.95rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= BARRA DE PROGRESO + NAVBAR ================= -->
+<div id="topbar">
+  <div id="progress"><div id="progressBar"></div></div>
+  <nav id="navbar">
+    <div class="nav-inner">
+      <span class="brand">🏠 VIVIENDA 4.200 €/AÑO</span>
+      <div class="nav-scroll" id="navScroll">
+        <button class="nav-btn active" data-target="inicio">Inicio</button>
+        <button class="nav-btn" data-target="objetivo">Objetivo</button>
+        <button class="nav-btn" data-target="contexto">Contexto</button>
+        <button class="nav-btn" data-target="territorio">Territorio</button>
+        <button class="nav-btn" data-target="alternativa">Alternativa 9+3</button>
+        <button class="nav-btn" data-target="propuesta">Propuesta</button>
+        <button class="nav-btn" data-target="principios">Principios</button>
+        <button class="nav-btn" data-target="estado">Estado actual</button>
+        <button class="nav-btn" data-target="fuentes">Fuentes</button>
+        <button class="nav-btn" data-target="creditos">Créditos</button>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- ============================================================ -->
+<!-- ========================== INICIO ========================== -->
+<!-- ============================================================ -->
+<section id="inicio" class="page active">
+  <div class="hero-badge">PROYECTO PERSONAL · ESTRATEGIA DE VIVIENDA · COMUNIDAD VALENCIANA</div>
+
+  <div class="svg-wrap">
+    <svg id="portadaSVG" class="portada-svg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet"
+         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+         role="img" aria-label="Portada animada: 9 meses de alquiler y 3 meses de caravana para completar 12 meses de vivienda con 4.200 euros al año">
+      <defs>
+        <linearGradient id="pBg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#070b14">
+            <animate attributeName="stop-color" values="#070b14;#0b1a30;#160b2a;#070b14" dur="14s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="50%" stop-color="#0a0e1a">
+            <animate attributeName="stop-color" values="#0a0e1a;#122238;#0d1a33;#0a0e1a" dur="11s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="100%" stop-color="#050810">
+            <animate attributeName="stop-color" values="#050810;#0a1220;#1a0a20;#050810" dur="17s" repeatCount="indefinite"/>
+          </stop>
+        </linearGradient>
+
+        <radialGradient id="pHaloBlue" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="pHaloAmber" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="pHaloPurple" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#a855f7" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+        </radialGradient>
+
+        <pattern id="pGrid" width="34" height="34" patternUnits="userSpaceOnUse">
+          <path d="M34 0H0V34" fill="none" stroke="#1e3a5f" stroke-width="0.8"/>
+        </pattern>
+
+        <filter id="pGlow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="3.5" result="b"/>
+          <feMerge>
+            <feMergeNode in="b"/>
+            <feMergeNode in="b"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+
+        <path id="pTop" d="M285 188 C 340 78 460 78 515 188" fill="none"/>
+        <path id="pBottom" d="M515 268 C 460 378 340 378 285 268" fill="none"/>
+      </defs>
+
+      <!-- FONDO -->
+      <rect x="0" y="0" width="800" height="450" rx="18" fill="url(#pBg)"/>
+      <rect x="0" y="0" width="800" height="450" rx="18" fill="url(#pGrid)" opacity="0.3">
+        <animate attributeName="opacity" values="0.12;0.42;0.12" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="1" y="1" width="798" height="448" rx="17" fill="none" stroke="#1e3a5f" stroke-width="1.5">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#a855f7;#1e3a5f" dur="12s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- ANILLOS ORBITALES -->
+      <g fill="none">
+        <circle cx="400" cy="225" r="150" stroke="#00d4ff" stroke-width="1" stroke-dasharray="6 14" opacity="0.35">
+          <animateTransform attributeName="transform" type="rotate" from="0 400 225" to="360 400 225" dur="42s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-dasharray" values="6 14;20 10;6 14" dur="9s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="400" cy="225" r="185" stroke="#a855f7" stroke-width="1" stroke-dasharray="20 24" opacity="0.3">
+          <animateTransform attributeName="transform" type="rotate" from="360 400 225" to="0 400 225" dur="30s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="400" cy="225" r="216" stroke="#22c55e" stroke-width="0.8" stroke-dasharray="3 26" opacity="0.22">
+          <animateTransform attributeName="transform" type="rotate" from="0 400 225" to="360 400 225" dur="64s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+
+      <!-- RUTAS DEL CICLO ANUAL -->
+      <g fill="none" stroke-linecap="round">
+        <path d="M285 188 C 340 78 460 78 515 188" stroke="#00d4ff" stroke-width="2.5" stroke-dasharray="12 10" opacity="0.8">
+          <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="4s" repeatCount="indefinite"/>
+        </path>
+        <path d="M515 268 C 460 378 340 378 285 268" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="12 10" opacity="0.8">
+          <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="5s" repeatCount="indefinite"/>
+        </path>
+      </g>
+
+      <!-- FLECHAS -->
+      <polygon points="515,188 503,181 503,195" fill="#00d4ff" opacity="0.9">
+        <animate attributeName="opacity" values="0.35;1;0.35" dur="2.5s" repeatCount="indefinite"/>
+      </polygon>
+      <polygon points="285,268 297,261 297,275" fill="#f59e0b" opacity="0.9">
+        <animate attributeName="opacity" values="1;0.35;1" dur="3.1s" repeatCount="indefinite"/>
+      </polygon>
+
+      <!-- PARTÍCULAS SOBRE LA RUTA SUPERIOR -->
+      <circle r="4" fill="#00d4ff" filter="url(#pGlow)">
+        <animateMotion dur="4s" repeatCount="indefinite" begin="0s"><mpath xlink:href="#pTop" href="#pTop"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3" fill="#a855f7" filter="url(#pGlow)">
+        <animateMotion dur="4s" repeatCount="indefinite" begin="1.3s"><mpath xlink:href="#pTop" href="#pTop"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4s" repeatCount="indefinite" begin="1.3s"/>
+      </circle>
+      <circle r="3.5" fill="#22c55e" filter="url(#pGlow)">
+        <animateMotion dur="4s" repeatCount="indefinite" begin="2.6s"><mpath xlink:href="#pTop" href="#pTop"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4s" repeatCount="indefinite" begin="2.6s"/>
+      </circle>
+
+      <!-- PARTÍCULAS SOBRE LA RUTA INFERIOR -->
+      <circle r="4" fill="#f59e0b" filter="url(#pGlow)">
+        <animateMotion dur="5s" repeatCount="indefinite" begin="0.5s"><mpath xlink:href="#pBottom" href="#pBottom"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="5s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>
+      <circle r="3" fill="#22c55e" filter="url(#pGlow)">
+        <animateMotion dur="5s" repeatCount="indefinite" begin="2s"><mpath xlink:href="#pBottom" href="#pBottom"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="5s" repeatCount="indefinite" begin="2s"/>
+      </circle>
+      <circle r="3.5" fill="#a855f7" filter="url(#pGlow)">
+        <animateMotion dur="5s" repeatCount="indefinite" begin="3.5s"><mpath xlink:href="#pBottom" href="#pBottom"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="5s" repeatCount="indefinite" begin="3.5s"/>
+      </circle>
+
+      <!-- ELEMENTOS FANTASMA: vivienda viajando hacia el verano -->
+      <g opacity="0">
+        <animateMotion dur="4s" repeatCount="indefinite"><mpath xlink:href="#pTop" href="#pTop"/></animateMotion>
+        <animate attributeName="opacity" values="0;0.55;0.55;0" keyTimes="0;0.15;0.8;1" dur="4s" repeatCount="indefinite"/>
+        <path d="M-10 -2 L0 -12 L10 -2 L10 9 L-10 9 Z" fill="none" stroke="#00d4ff" stroke-width="1.3" opacity="0.9"/>
+      </g>
+      <!-- ELEMENTOS FANTASMA: caravana viajando hacia el invierno -->
+      <g opacity="0">
+        <animateMotion dur="5s" repeatCount="indefinite"><mpath xlink:href="#pBottom" href="#pBottom"/></animateMotion>
+        <animate attributeName="opacity" values="0;0.55;0.55;0" keyTimes="0;0.15;0.8;1" dur="5s" repeatCount="indefinite"/>
+        <rect x="-11" y="-6" width="22" height="13" rx="3" fill="none" stroke="#f59e0b" stroke-width="1.3" opacity="0.9"/>
+      </g>
+
+      <!-- NÚCLEO CENTRAL: 12 MESES -->
+      <g transform="translate(400,225)">
+        <circle r="62" fill="url(#pHaloPurple)">
+          <animate attributeName="opacity" values="0.25;0.75;0.25" dur="3.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="48" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="10 8" opacity="0.85">
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-dashoffset" from="0" to="-180" dur="6s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="36" fill="#0f172a" stroke="#1e3a5f" stroke-width="1.5" opacity="0.95"/>
+        <circle r="36" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.5">
+          <animate attributeName="r" values="36;41;36" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.55;0.08;0.55" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <text y="2" text-anchor="middle" font-size="19" font-weight="800" fill="#a855f7" font-family="'Segoe UI',system-ui,sans-serif">12</text>
+        <text y="18" text-anchor="middle" font-size="8" fill="#94a3b8" letter-spacing="1.6" font-family="'Segoe UI',system-ui,sans-serif">MESES</text>
+      </g>
+
+      <!-- VIVIENDA · 9 MESES -->
+      <g transform="translate(230,225)">
+        <circle r="70" fill="url(#pHaloBlue)">
+          <animate attributeName="r" values="58;78;58" dur="4.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.55;0.95;0.55" dur="4.2s" repeatCount="indefinite"/>
+        </circle>
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="0 0; 0 -4; 0 0" dur="4.5s" repeatCount="indefinite"/>
+          <path d="M-54 -6 L0 -50 L54 -6 Z" fill="#0f172a" stroke="#00d4ff" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="-42" y="-6" width="84" height="56" rx="4" fill="#0f172a" stroke="#00d4ff" stroke-width="2.5"/>
+          <rect x="-12" y="22" width="24" height="28" rx="2" fill="#00d4ff" opacity="0.65">
+            <animate attributeName="opacity" values="0.35;0.85;0.35" dur="3.2s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="16" y="8" width="16" height="15" rx="2" fill="#22c55e" opacity="0.8">
+            <animate attributeName="opacity" values="0.25;0.95;0.25" dur="2.8s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="-32" y="8" width="16" height="15" rx="2" fill="#22c55e" opacity="0.6">
+            <animate attributeName="opacity" values="0.9;0.2;0.9" dur="3.6s" repeatCount="indefinite"/>
+          </rect>
+        </g>
+        <circle r="62" fill="none" stroke="#00d4ff" stroke-width="1.2" stroke-dasharray="16 12" opacity="0.8">
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="9s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="62" fill="none" stroke="#22c55e" stroke-width="1.2" stroke-dasharray="4 28" opacity="0.6">
+          <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="7s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+
+      <!-- CARAVANA · 3 MESES -->
+      <g transform="translate(570,225)">
+        <circle r="70" fill="url(#pHaloAmber)">
+          <animate attributeName="r" values="60;78;60" dur="5.1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.5;0.9;0.5" dur="5.1s" repeatCount="indefinite"/>
+        </circle>
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="0 0; 0 -3; 0 0" dur="3.6s" repeatCount="indefinite"/>
+          <rect x="-58" y="-26" width="116" height="50" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+          <rect x="-42" y="-14" width="30" height="22" rx="4" fill="#f59e0b" opacity="0.6">
+            <animate attributeName="opacity" values="0.25;0.85;0.25" dur="2.6s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="-4" y="-16" width="22" height="40" rx="3" fill="#00d4ff" opacity="0.45">
+            <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3.9s" repeatCount="indefinite"/>
+          </rect>
+          <circle cx="-30" cy="30" r="10" fill="#0a0e1a" stroke="#94a3b8" stroke-width="2.5"/>
+          <circle cx="30" cy="30" r="10" fill="#0a0e1a" stroke="#94a3b8" stroke-width="2.5"/>
+          <path d="M58 -6 L80 -6" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <circle r="62" fill="none" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="16 12" opacity="0.8">
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="11s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+
+      <!-- EXPLOSIONES RADIALES -->
+      <g transform="translate(230,225)">
+        <g opacity="0">
+          <animate attributeName="opacity" values="0;0.9;0" dur="5s" repeatCount="indefinite" begin="1.5s"/>
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="0.4;1.7" dur="5s" repeatCount="indefinite" begin="1.5s"/>
+            <line x1="0" y1="0" x2="0" y2="-78" stroke="#00d4ff" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="68" y2="-39" stroke="#00d4ff" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="68" y2="39" stroke="#22c55e" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="0" y2="78" stroke="#22c55e" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="-68" y2="39" stroke="#a855f7" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="-68" y2="-39" stroke="#a855f7" stroke-width="1.5" opacity="0.85"/>
+          </g>
+        </g>
+      </g>
+      <g transform="translate(570,225)">
+        <g opacity="0">
+          <animate attributeName="opacity" values="0;0.85;0" dur="6s" repeatCount="indefinite" begin="3s"/>
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="0.4;1.6" dur="6s" repeatCount="indefinite" begin="3s"/>
+            <line x1="0" y1="0" x2="0" y2="-76" stroke="#f59e0b" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="66" y2="-38" stroke="#f59e0b" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="66" y2="38" stroke="#ef4444" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="0" y2="76" stroke="#ef4444" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="-66" y2="38" stroke="#a855f7" stroke-width="1.5" opacity="0.85"/>
+            <line x1="0" y1="0" x2="-66" y2="-38" stroke="#a855f7" stroke-width="1.5" opacity="0.85"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- CABECERA DE TEXTO -->
+      <text x="30" y="44" font-size="15" font-weight="800" fill="#00d4ff" letter-spacing="2.4" font-family="'Segoe UI',system-ui,sans-serif">
+        COMUNIDAD VALENCIANA
+        <animate attributeName="fill" values="#00d4ff;#a855f7;#22c55e;#00d4ff" dur="12s" repeatCount="indefinite"/>
+      </text>
+      <text x="30" y="66" font-size="11" fill="#94a3b8" letter-spacing="1.2" font-family="'Segoe UI',system-ui,sans-serif">
+        ESTRATEGIA DE VIVIENDA DE BAJO COSTE
+        <animate attributeName="opacity" values="0.45;1;0.45" dur="4s" repeatCount="indefinite"/>
+      </text>
+
+      <!-- INDICADOR LIVE -->
+      <g transform="translate(690,36)">
+        <circle r="7" fill="#ef4444" opacity="0.35">
+          <animate attributeName="r" values="6;14;6" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.55;0;0.55" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="4.5" fill="#ef4444">
+          <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="14" y="5" font-size="12" font-weight="800" fill="#ef4444" letter-spacing="2.2" font-family="'Segoe UI',system-ui,sans-serif">LIVE</text>
+      </g>
+
+      <!-- ETIQUETAS DE ESTADO ALTERNAS -->
+      <text x="770" y="66" text-anchor="end" font-size="10" fill="#a855f7" letter-spacing="1.6" font-family="'Segoe UI',system-ui,sans-serif">GENERANDO OPCIONES
+        <animate attributeName="opacity" values="1;1;0;0;0;0;1" keyTimes="0;0.3;0.34;0.63;0.67;0.96;1" dur="12s" repeatCount="indefinite"/>
+      </text>
+      <text x="770" y="66" text-anchor="end" font-size="10" fill="#22c55e" letter-spacing="1.6" font-family="'Segoe UI',system-ui,sans-serif">COMPROBANDO VIABILIDAD
+        <animate attributeName="opacity" values="0;0;1;1;0;0;0" keyTimes="0;0.3;0.34;0.63;0.67;0.96;1" dur="12s" repeatCount="indefinite"/>
+      </text>
+      <text x="770" y="66" text-anchor="end" font-size="10" fill="#f59e0b" letter-spacing="1.6" font-family="'Segoe UI',system-ui,sans-serif">BUSCANDO OPORTUNIDADES
+        <animate attributeName="opacity" values="0;0;0;0;1;1;0" keyTimes="0;0.3;0.34;0.63;0.67;0.96;1" dur="12s" repeatCount="indefinite"/>
+      </text>
+
+      <!-- ETIQUETAS DE LOS DOS BLOQUES -->
+      <text x="230" y="320" text-anchor="middle" font-size="13" font-weight="800" fill="#00d4ff" letter-spacing="1.6" font-family="'Segoe UI',system-ui,sans-serif">9 MESES · ALQUILER</text>
+      <text x="230" y="338" text-anchor="middle" font-size="10" fill="#94a3b8" font-family="'Segoe UI',system-ui,sans-serif">interior o costa · temporada baja</text>
+
+      <text x="570" y="320" text-anchor="middle" font-size="13" font-weight="800" fill="#f59e0b" letter-spacing="1.6" font-family="'Segoe UI',system-ui,sans-serif">3 MESES · CARAVANA</text>
+      <text x="570" y="338" text-anchor="middle" font-size="10" fill="#94a3b8" font-family="'Segoe UI',system-ui,sans-serif">verano · puede estar en otro pueblo</text>
+
+      <!-- TEXTO CULMINANTE -->
+      <text x="400" y="428" text-anchor="middle" font-size="21" font-weight="800" letter-spacing="0.8" font-family="'Segoe UI',system-ui,sans-serif">
+        <tspan fill="#22c55e">4.200 €</tspan>
+        <tspan fill="#94a3b8"> → </tspan>
+        <tspan fill="#00d4ff">12 MESES DE VIVIENDA</tspan>
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="3.4s" repeatCount="indefinite"/>
+      </text>
+
+      <!-- FIRMA -->
+      <text x="778" y="440" text-anchor="end" font-size="10" fill="#94a3b8" font-family="'Segoe UI',system-ui,sans-serif">
+        Rubén Sbarsky
+        <animate attributeName="opacity" values="0.3;0.95;0.3" dur="5.5s" repeatCount="indefinite"/>
+      </text>
+    </svg>
+  </div>
+
+  <h1 class="hero-title">Alquiler en invierno y caravana en verano</h1>
+  <p class="hero-sub">Diseñar 12 meses de vivienda con 4.200 € al año en la Comunidad Valenciana</p>
+
+  <div class="card accent">
+    <p>Este tutorial reúne la estrategia para conseguir una <strong>vida independiente, tranquila y de bajo coste</strong> en la Comunidad Valenciana, utilizando aproximadamente <strong>4.200 € al año</strong> como presupuesto máximo objetivo para vivienda.</p>
+    <p>No se limita a buscar un alquiler convencional: explora <strong>soluciones no convencionales</strong> y combinaciones de <strong>vivienda, territorio, temporada y movilidad</strong>.</p>
+  </div>
+
+  <blockquote class="quote">"Si no puedes explicarlo de forma sencilla, es que no lo entiendes lo suficientemente bien."</blockquote>
+
+  <div class="grid grid-3" style="margin-bottom:20px;">
+    <div class="metric"><span class="val">4.200 €</span><span class="lbl">Presupuesto anual de vivienda</span></div>
+    <div class="metric"><span class="val">773 €/mes</span><span class="lbl">RVI concedida</span></div>
+    <div class="metric"><span class="val">9.276 €</span><span class="lbl">RVI al año (12 pagos)</span></div>
+    <div class="metric"><span class="val">12</span><span class="lbl">Meses que hay que cubrir</span></div>
+    <div class="metric"><span class="val">9 + 3</span><span class="lbl">Reparto de la alternativa destacada</span></div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="mini-card">
+      <div class="ttl">Fecha</div>
+      <p style="font-size:1.05rem;font-weight:700;color:#fff;">14/09/2026</p>
+    </div>
+    <div class="mini-card">
+      <div class="ttl">Hora</div>
+      <p style="font-size:1.05rem;font-weight:700;color:#fff;">16:15:16</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ========================= OBJETIVO ========================= -->
+<!-- ============================================================ -->
+<section id="objetivo" class="page">
+  <h2 class="sec-title"><span class="ico">🎯</span> Objetivo principal</h2>
+  <p class="sec-sub">Qué se persigue y con qué presupuesto</p>
+
+  <div class="card accent">
+    <h3>La meta</h3>
+    <p>Diseñar una estrategia para conseguir una <strong>vida independiente, tranquila y de bajo coste</strong> en la <strong>Comunidad Valenciana</strong>, utilizando aproximadamente <strong>4.200 € al año</strong> como presupuesto máximo objetivo para vivienda.</p>
+    <p>El planteamiento <strong>no se limita a buscar un alquiler convencional</strong>. La intención es explorar <strong>soluciones no convencionales</strong> y <strong>combinaciones</strong> de:</p>
+    <div class="chips">
+      <span class="chip">Vivienda</span>
+      <span class="chip g">Territorio</span>
+      <span class="chip a">Temporada</span>
+      <span class="chip p">Movilidad</span>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="tag">INFO · LA PREGUNTA CENTRAL</span>
+    «¿Cómo puedo convertir 4.200 € en 12 meses de vivienda?»
+  </div>
+
+  <div class="card">
+    <h3>Por qué se piensa en 12 meses y no en un alquiler mensual</h3>
+    <p>El enfoque actual es pensar en <strong>12 meses</strong>, no en una renta mensual. Plantear el problema como un presupuesto anual abre <strong>muchas más configuraciones posibles</strong> que plantearlo como «buscar un piso por X euros al mes».</p>
+  </div>
+
+  <h3>Calculadora de presupuesto anual</h3>
+  <p class="muted">Mueve el control para ver el equivalente mensual del presupuesto y su peso sobre la RVI anual.</p>
+  <div class="calc">
+    <label>Presupuesto anual de vivienda: <strong id="calcVal">4.200 €</strong></label>
+    <input type="range" id="calcRange" min="1000" max="10000" step="100" value="4200" aria-label="Presupuesto anual de vivienda">
+    <div class="calc-out">
+      <div><span id="calcMes">350 €</span><small>Equivalente mensual</small></div>
+      <div><span id="calcPct">45,3 %</span><small>De la RVI anual (9.276 €)</small></div>
+      <div><span id="calcResto">5.076 €</span><small>Margen restante de la RVI</small></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="tag">ADVERTENCIA</span>
+    Estos cálculos son únicamente una ayuda de lectura del presupuesto. Los datos de partida son los del documento: RVI de 773 €/mes (9.276 €/año, 12 pagos) y un presupuesto objetivo de vivienda de unos 4.200 € al año.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ========================= CONTEXTO ========================= -->
+<!-- ============================================================ -->
+<section id="contexto" class="page">
+  <h2 class="sec-title"><span class="ico">🧭</span> Contexto y decisiones importantes</h2>
+  <p class="sec-sub">Punto de partida económico y decisiones ya tomadas</p>
+
+  <div class="grid grid-2">
+    <div class="mini-card">
+      <div class="ttl">RVI concedida</div>
+      <p><strong>773 €/mes</strong>, es decir, <strong>9.276 €/año</strong> (12 pagos).</p>
+    </div>
+    <div class="mini-card">
+      <div class="ttl">Presupuesto de vivienda</div>
+      <p>El presupuesto anual que se está utilizando para vivienda es de aproximadamente <strong>4.200 €</strong>.</p>
+    </div>
+    <div class="mini-card">
+      <div class="ttl">Enfoque temporal</div>
+      <p>Pensar en <strong>12 meses</strong>, no en un alquiler mensual. La pregunta es: «¿Cómo puedo convertir 4.200 € en 12 meses de vivienda?». Esto abre muchas más configuraciones.</p>
+    </div>
+    <div class="mini-card">
+      <div class="ttl">Punto de partida territorial</div>
+      <p>No empezar por <strong>Valencia capital</strong>. El mercado inmobiliario valenciano está muy concentrado y existen oportunidades en <strong>zonas con baja demanda</strong>.</p>
+    </div>
+    <div class="mini-card">
+      <div class="ttl">Interior de Valencia</div>
+      <p>Muchos pueblos con <strong>poca población</strong> y numerosas <strong>viviendas cerradas</strong>, heredadas de abuelos o utilizadas solamente en agosto.</p>
+    </div>
+    <div class="mini-card">
+      <div class="ttl">Costa valenciana</div>
+      <p>Localidades que quedan <strong>muy vacías durante gran parte del año</strong> y se llenan en verano.</p>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <h3>Hipótesis importante: el mercado inmobiliario «invisible»</h3>
+    <p>Existe un mercado inmobiliario <strong>«invisible»</strong> de viviendas <strong>no anunciadas</strong>. Algunos propietarios podrían preferir tener a <strong>alguien responsable viviendo y cuidando una propiedad vacía</strong>.</p>
+  </div>
+
+  <div class="card green">
+    <h3>Actitud de partida</h3>
+    <p>No empezar pensando en problemas o en «no se puede». Primero se generan <strong>soluciones y combinaciones</strong>; después se comprueba <strong>legalidad, costes y viabilidad</strong>.</p>
+    <div class="chips">
+      <span class="chip g">«Soluciones, no problemas»</span>
+      <span class="chip g">«Huir del “no se puede” mental»</span>
+    </div>
+  </div>
+
+  <div class="card amber">
+    <h3>Principio de desplazamiento</h3>
+    <p>Si una actividad o necesidad está <strong>localizada</strong>, hay que <strong>desplazarse hacia donde está el recurso o la oportunidad</strong>, no esperar que la oportunidad venga a uno.</p>
+    <div class="callout example" style="margin-bottom:0;">
+      <span class="tag">EJEMPLO</span>
+      Analogía: «si viviera de cortar naranjas no esperaría que me traigan los árboles a mi casa».
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ======================== TERRITORIO ======================== -->
+<!-- ============================================================ -->
+<section id="territorio" class="page">
+  <h2 class="sec-title"><span class="ico">🗺️</span> Territorio y búsqueda</h2>
+  <p class="sec-sub">Dónde están los desajustes entre oferta y demanda</p>
+
+  <h3>Por qué no empezar por Valencia capital</h3>
+  <div class="card">
+    <p>El mercado inmobiliario valenciano está <strong>muy concentrado</strong> y existen oportunidades en <strong>zonas con baja demanda</strong>. Por eso el punto de partida no es la capital.</p>
+  </div>
+
+  <h3>Dos grandes escenarios</h3>
+  <div class="grid grid-2">
+    <div class="card accent">
+      <h4>🏘️ Interior de Valencia</h4>
+      <p>Muchos pueblos con <strong>poca población</strong> y numerosas <strong>viviendas cerradas</strong>, heredadas de abuelos o utilizadas solamente en agosto.</p>
+    </div>
+    <div class="card amber">
+      <h4>🌊 Costa valenciana</h4>
+      <p>Localidades que quedan <strong>muy vacías durante gran parte del año</strong> y se llenan en verano.</p>
+    </div>
+  </div>
+
+  <h3>Mercado inmobiliario «invisible»</h3>
+  <div class="card purple">
+    <p>Hipótesis de trabajo: existe un mercado de viviendas <strong>no anunciadas</strong>. Algunos propietarios podrían preferir tener a <strong>alguien responsable viviendo y cuidando una propiedad vacía</strong>.</p>
+    <p class="muted" style="margin-bottom:0;">Consecuencia práctica: no limitar la búsqueda a los anuncios.</p>
+  </div>
+
+  <h3>Canales de búsqueda a explorar</h3>
+  <p class="muted">Marca los canales que se quieran rastrear. La búsqueda no debe limitarse a los anuncios.</p>
+  <ul class="checklist" id="canales">
+    <li><span class="box">✓</span><span>Propietarios particulares</span></li>
+    <li><span class="box">✓</span><span>Inmobiliarias locales</span></li>
+    <li><span class="box">✓</span><span>Administradores</span></li>
+    <li><span class="box">✓</span><span>Vecinos</span></li>
+    <li><span class="box">✓</span><span>Viviendas cerradas</span></li>
+    <li><span class="box">✓</span><span>Anuncios convencionales</span></li>
+  </ul>
+
+  <h3>Localidades mencionadas</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Localidad / zona</th><th>Situación en el análisis</th><th>Comentario</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Ademuz</strong></td>
+          <td><span class="chip r">Sin compromiso</span></td>
+          <td>Fue considerado anteriormente, pero ahora parece <strong>caro</strong> y no hay compromiso con ese municipio.</td>
+        </tr>
+        <tr>
+          <td><strong>Cullera</strong></td>
+          <td><span class="chip a">Posible</span></td>
+          <td>Mencionada como posible zona costera.</td>
+        </tr>
+        <tr>
+          <td><strong>Tavernes de la Valldigna</strong></td>
+          <td><span class="chip g">Especialmente interesante</span></td>
+          <td>Queda <strong>muy vacío en invierno</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Otros pueblos de la costa valenciana</strong></td>
+          <td><span class="chip">Posibles</span></td>
+          <td>Se mencionaron como posibles zonas costeras.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <span class="tag">INFO</span>
+    No se ha elegido definitivamente ninguna localidad.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ======================= ALTERNATIVA 9+3 ==================== -->
+<!-- ============================================================ -->
+<section id="alternativa" class="page">
+  <h2 class="sec-title"><span class="ico">🏕️</span> Alternativa destacada: 9 meses + 3 meses</h2>
+  <p class="sec-sub">La configuración que combina alquiler de temporada baja y caravana de verano</p>
+
+  <div class="card accent">
+    <h3>La estrategia</h3>
+    <ul>
+      <li><strong>9 meses</strong> viviendo en un <strong>pueblo interior o localidad costera durante temporada baja</strong>.</li>
+      <li>Hasta <strong>4.200 € por esos 9 meses</strong>, idealmente pagando los <strong>4.200 € completos por adelantado</strong>.</li>
+      <li>Los otros <strong>3 meses de verano</strong> vivir en una <strong>caravana barata</strong>.</li>
+      <li>La caravana <strong>puede estar en otro pueblo</strong>; no tiene que estar cerca de la vivienda de los 9 meses.</li>
+      <li>Ejemplo: <strong>9 meses en un pueblo del interior + 3 meses en un pueblo costero</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Bloque</th><th>Duración</th><th>Ubicación</th><th>Coste</th><th>Función principal</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Vivienda convencional</strong></td>
+          <td>9 meses (temporada baja)</td>
+          <td>Pueblo del interior o localidad costera</td>
+          <td>Hasta 4.200 €, idealmente por adelantado</td>
+          <td>Vivir y resolver el <strong>empadronamiento</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Caravana</strong></td>
+          <td>3 meses (verano)</td>
+          <td>Otro pueblo; no tiene que estar cerca</td>
+          <td>Caravana barata</td>
+          <td>Vivir durante el verano</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout example">
+    <span class="tag">EJEMPLO</span>
+    9 meses en un pueblo del interior + 3 meses en un pueblo costero.
+  </div>
+
+  <h3>Ventaja especialmente importante</h3>
+  <div class="card green">
+    <p>La vivienda convencional de los 9 meses podría <strong>resolver el problema del empadronamiento</strong>.</p>
+  </div>
+
+  <h3>Opciones abiertas y problemas pendientes</h3>
+  <div class="grid grid-2">
+    <div class="card amber">
+      <h4>Caravana permanente 12 meses</h4>
+      <p>Sigue siendo una <strong>posibilidad abierta</strong>, pero el <strong>empadronamiento</strong> es actualmente el <strong>principal problema conceptual</strong> que habría que resolver.</p>
+    </div>
+    <div class="card">
+      <h4>Elección de localidad</h4>
+      <p><strong>No se ha elegido definitivamente ninguna localidad.</strong> Ademuz fue considerado anteriormente, pero ahora parece caro y no hay compromiso con ese municipio.</p>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="tag">ADVERTENCIA</span>
+    Todas estas configuraciones están en fase de generación de posibilidades. Todavía no se ha comprobado legalidad, costes ni viabilidad.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ========================= PROPUESTA ======================== -->
+<!-- ============================================================ -->
+<section id="propuesta" class="page">
+  <h2 class="sec-title"><span class="ico">🤝</span> Propuesta a propietarios</h2>
+  <p class="sec-sub">Cómo se plantea la oferta al propietario de una vivienda vacía</p>
+
+  <div class="quote" style="font-style:normal;">
+    «Te cuido tu propiedad durante 9 meses y te pago 4.200 €.»
+  </div>
+
+  <div class="card green">
+    <h3>La lógica de la propuesta</h3>
+    <p>El propietario obtiene:</p>
+    <ul>
+      <li><strong>Ocupación</strong> de la vivienda.</li>
+      <li><strong>Cuidado</strong> de la propiedad.</li>
+      <li><strong>Pago por adelantado</strong> durante meses en los que quizá la vivienda estaría vacía.</li>
+    </ul>
+  </div>
+
+  <div class="card purple">
+    <h3>Efecto a medio plazo</h3>
+    <p>Si la relación funciona, <strong>el segundo año podría ser el propietario quien quiera que vuelva</strong>.</p>
+  </div>
+
+  <div class="callout info">
+    <span class="tag">INFO</span>
+    La propuesta se apoya en el desajuste temporal: son meses en los que, en muchas localidades del interior y de la costa valenciana, la vivienda permanecería vacía.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ======================== PRINCIPIOS ======================== -->
+<!-- ============================================================ -->
+<section id="principios" class="page">
+  <h2 class="sec-title"><span class="ico">🧠</span> Principios de trabajo</h2>
+  <p class="sec-sub">Las reglas de pensamiento que guían toda la estrategia</p>
+
+  <div class="acc open">
+    <div class="acc-head"><span>1 · Pensar en presupuesto anual, no mensual</span><span class="acc-arrow">▶</span></div>
+    <div class="acc-body"><p>El marco de referencia es el año completo, no la renta mensual. Esto permite comparar configuraciones muy distintas entre sí.</p></div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-head"><span>2 · Buscar desajustes entre oferta y demanda espacial y temporal</span><span class="acc-arrow">▶</span></div>
+    <div class="acc-body"><p>Las oportunidades aparecen donde la oferta y la demanda no coinciden ni en el espacio ni en el tiempo: pueblos vacíos en invierno, costa vacía fuera del verano.</p></div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-head"><span>3 · No asumir que lo que no aparece anunciado no existe</span><span class="acc-arrow">▶</span></div>
+    <div class="acc-body"><p>Existe un mercado inmobiliario «invisible» de viviendas no anunciadas. La búsqueda no debe limitarse a los anuncios.</p></div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-head"><span>4 · No enamorarse de una solución concreta</span><span class="acc-arrow">▶</span></div>
+    <div class="acc-body"><p>Mantener varias alternativas abiertas y compararlas después.</p></div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-head"><span>5 · Primero imaginación; después evidencia</span><span class="acc-arrow">▶</span></div>
+    <div class="acc-body"><p>Primero imaginación y generación de posibilidades; después evidencia y comprobación.</p></div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-head"><span>6 · Evitar el pensamiento convencional, pero comprobar la viabilidad</span><span class="acc-arrow">▶</span></div>
+    <div class="acc-body"><p>Evitar el pensamiento convencional cuando limita artificialmente las opciones, pero no asumir que una idea es viable hasta comprobarla.</p></div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-head"><span>7 · El objetivo no es «un alquiler barato»</span><span class="acc-arrow">▶</span></div>
+    <div class="acc-body"><p>El objetivo no es encontrar «un alquiler barato», sino <strong>diseñar un año de vida bueno</strong> dentro de unos 4.200 € de vivienda.</p></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ======================== ESTADO ACTUAL ===================== -->
+<!-- ============================================================ -->
+<section id="estado" class="page">
+  <h2 class="sec-title"><span class="ico">📌</span> Estado actual y siguiente fase</h2>
+  <p class="sec-sub">Dónde quedó el análisis y qué toca hacer después</p>
+
+  <div class="card accent">
+    <h3>Último estado</h3>
+    <p>La conversación quedó centrada en esta <strong>filosofía de exploración</strong>: ampliar radicalmente el abanico de alternativas y <strong>buscar dónde están las oportunidades inmobiliarias</strong>, en vez de intentar encajar la vida en el mercado convencional de Valencia capital.</p>
+  </div>
+
+  <div class="card green">
+    <h3>Siguiente fase lógica</h3>
+    <ol class="steps">
+      <li>Seguir <strong>generando configuraciones posibles</strong> de vivienda, territorio, temporada y movilidad.</li>
+      <li>Cuando corresponda, <strong>investigar oportunidades reales concretas</strong>.</li>
+      <li>No <strong>cerrar prematuramente</strong> ninguna vía.</li>
+    </ol>
+  </div>
+
+  <div class="callout info">
+    <span class="tag">INFO</span>
+    El objetivo no es «encontrar un alquiler barato», sino <strong>diseñar un año de vida bueno</strong> dentro de unos 4.200 € de vivienda.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ========================== FUENTES ========================= -->
+<!-- ============================================================ -->
+<section id="fuentes" class="page">
+  <h2 class="sec-title"><span class="ico">📚</span> Fuentes</h2>
+  <p class="sec-sub">Origen de la información utilizada en este tutorial</p>
+
+  <div class="card accent">
+    <p>Este tutorial se ha construido <strong>exclusivamente</strong> a partir del documento fuente proporcionado por el usuario:</p>
+    <ul>
+      <li><strong>Documento:</strong> «alquiler en invierno y caravana en verano» — contexto de conversación para continuar el diseño de la estrategia de vivienda.</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <span class="tag">ADVERTENCIA</span>
+    El documento original <strong>no incluía enlaces, URLs ni vídeos</strong>. No se ha consultado ni añadido ninguna fuente externa. Todo el contenido procede del documento aportado.
+  </div>
+
+  <div class="card">
+    <h3>Datos citados en el documento</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dato</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>RVI concedida (mensual)</td><td>773 €/mes</td></tr>
+          <tr><td>RVI concedida (anual, 12 pagos)</td><td>9.276 €/año</td></tr>
+          <tr><td>Presupuesto anual objetivo de vivienda</td><td>≈ 4.200 €</td></tr>
+          <tr><td>Reparto de la alternativa destacada</td><td>9 meses + 3 meses</td></tr>
+          <tr><td>Zona geográfica considerada</td><td>Comunidad Valenciana</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ========================= CRÉDITOS ========================= -->
+<!-- ============================================================ -->
+<section id="creditos" class="page">
+  <h2 class="sec-title"><span class="ico">🏅</span> Créditos</h2>
+  <p class="sec-sub">Información de autoría y datos de emisión del tutorial</p>
+
+  <div class="svg-wrap" id="creditsSvgWrap">
+    <div id="creditsSvgHolder"></div>
+  </div>
+
+  <div class="card purple credits-card">
+    <h3 style="margin-top:0;">Alquiler en invierno y caravana en verano</h3>
+    <p class="muted">Estrategia de vivienda de bajo coste en la Comunidad Valenciana</p>
+    <ul>
+      <li>👨‍💻 Créditos: <strong>Rubén Sbarsky</strong></li>
+      <li>📅 Fecha: <strong>14/09/2026</strong></li>
+      <li>🕒 Hora: <strong>16:15:16</strong></li>
+    </ul>
+    <p style="margin-top:16px;">📚 Tutorial solo con fines Educativos y Divulgación</p>
+    <p class="latin">Fiat iustitia, ruat caelum.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ========================== FOOTER ========================== -->
+<!-- ============================================================ -->
+<footer>
+  <p>📚 Tutorial solo con fines Educativos y Divulgación</p>
+  <p>👨‍💻 Créditos: Rubén Sbarsky</p>
+  <p>📅 FECHA: 14/09/2026</p>
+  <p>Hora: 16:15:16</p>
+  <p class="latin">Fiat iustitia, ruat caelum.</p>
+</footer>
+
+<button id="toTop" aria-label="Volver arriba">↑</button>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============ NAVEGACIÓN SPA ============ */
+  var pages = document.querySelectorAll('.page');
+  var navBtns = document.querySelectorAll('.nav-btn');
+
+  function showPage(id){
+    var found = false;
+    for(var i=0;i<pages.length;i++){
+      if(pages[i].id === id){ pages[i].classList.add('active'); found = true; }
+      else { pages[i].classList.remove('active'); }
+    }
+    if(!found){ return; }
+    for(var j=0;j<navBtns.length;j++){
+      navBtns[j].classList.toggle('active', navBtns[j].getAttribute('data-target') === id);
+    }
+    window.scrollTo(0,0);
+    if(id === 'creditos'){ mountCredits(); }
+    updateProgress();
+  }
+
+  for(var k=0;k<navBtns.length;k++){
+    navBtns[k].addEventListener('click', function(){
+      showPage(this.getAttribute('data-target'));
+    });
+  }
+
+  /* ============ BARRA DE PROGRESO ============ */
+  var progressBar = document.getElementById('progressBar');
+  function updateProgress(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    if(p < 0){ p = 0; }
+    if(p > 100){ p = 100; }
+    progressBar.style.width = p + '%';
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  window.addEventListener('resize', updateProgress);
+
+  /* ============ BOTÓN VOLVER ARRIBA ============ */
+  var toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 300){ toTop.classList.add('show'); }
+    else { toTop.classList.remove('show'); }
+  }, {passive:true});
+  toTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ============ ACORDEONES ============ */
+  var heads = document.querySelectorAll('.acc-head');
+  for(var a=0;a<heads.length;a++){
+    heads[a].addEventListener('click', function(){
+      this.parentElement.classList.toggle('open');
+    });
+  }
+
+  /* ============ CHECKLIST DE CANALES ============ */
+  var checks = document.querySelectorAll('#canales li');
+  for(var c=0;c<checks.length;c++){
+    checks[c].addEventListener('click', function(){
+      this.classList.toggle('done');
+    });
+  }
+
+  /* ============ CALCULADORA ============ */
+  var range = document.getElementById('calcRange');
+  var calcVal = document.getElementById('calcVal');
+  var calcMes = document.getElementById('calcMes');
+  var calcPct = document.getElementById('calcPct');
+  var calcResto = document.getElementById('calcResto');
+  var RVI_ANUAL = 9276;
+
+  function fmt(n){
+    return Math.round(n).toLocaleString('es-ES') + ' €';
+  }
+  function updateCalc(){
+    var v = parseInt(range.value, 10);
+    calcVal.textContent = fmt(v);
+    calcMes.textContent = fmt(v / 12);
+    calcPct.textContent = ((v / RVI_ANUAL) * 100).toFixed(1).replace('.', ',') + ' %';
+    calcResto.textContent = fmt(RVI_ANUAL - v);
+  }
+  if(range){
+    range.addEventListener('input', updateCalc);
+    updateCalc();
+  }
+
+  /* ============ REUTILIZACIÓN DEL SVG EN CRÉDITOS ============ */
+  var reduceMotion = false;
+  try{
+    reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }catch(e){ reduceMotion = false; }
+
+  function mountCredits(){
+    var holder = document.getElementById('creditsSvgHolder');
+    var source = document.getElementById('portadaSVG');
+    if(!holder || !source){ return; }
+
+    if(!holder.getAttribute('data-mounted')){
+      var clone = source.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.setAttribute('class', 'portada-svg');
+      clone.setAttribute('aria-hidden', 'true');
+      holder.appendChild(clone);
+      holder.setAttribute('data-mounted', '1');
+    }
+
+    var svg = holder.querySelector('svg');
+    if(svg && typeof svg.setCurrentTime === 'function'){
+      try{ svg.setCurrentTime(0); }catch(e){}
+    }
+    if(reduceMotion && svg && typeof svg.pauseAnimations === 'function'){
+      try{ svg.pauseAnimations(); }catch(e){}
+    }
+  }
+
+  /* Reducción de movimiento en la portada principal */
+  if(reduceMotion){
+    var mainSvg = document.getElementById('portadaSVG');
+    if(mainSvg && typeof mainSvg.pauseAnimations === 'function'){
+      try{ mainSvg.pauseAnimations(); }catch(e){}
+    }
+  }
+
+  /* ============ INICIALIZACIÓN ============ */
+  updateProgress();
+  if(reduceMotion){
+    var accs = document.querySelectorAll('.acc');
+    for(var m=0;m<accs.length;m++){ accs[m].classList.add('open'); }
+  }
+})();
+</script>
+</body>
+</html>
