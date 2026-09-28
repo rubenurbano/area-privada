@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Ayudas al Alquiler en València · Tutorial Interactivo</title>
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --card:#0f172a;
+    --border:#1e3a5f;
+    --accent:#00d4ff;
+    --green:#22c55e;
+    --amber:#f59e0b;
+    --red:#ef4444;
+    --purple:#a855f7;
+    --txt:#cbd5e1;
+    --txt-dim:#8296b0;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--txt);
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    line-height:1.65;
+    padding-top:78px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* ---------- PROGRESS ---------- */
+  #progressTrack{
+    position:fixed;top:0;left:0;right:0;height:4px;
+    background:#0d1524;z-index:1200;
+  }
+  #progressBar{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,#00d4ff,#a855f7,#22c55e);
+    box-shadow:0 0 10px rgba(0,212,255,.7);
+    transition:width .12s linear;
+  }
+  /* ---------- NAVBAR ---------- */
+  nav{
+    position:fixed;top:4px;left:0;right:0;height:62px;
+    background:rgba(10,14,26,.92);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    z-index:1100;
+    display:flex;align-items:center;
+    padding:0 10px;
+  }
+  .nav-inner{
+    display:flex;align-items:center;gap:6px;
+    overflow-x:auto;overflow-y:hidden;
+    width:100%;
+    scrollbar-width:thin;
+    scrollbar-color:#1e3a5f transparent;
+    -webkit-overflow-scrolling:touch;
+    padding:6px 2px;
+  }
+  .nav-inner::-webkit-scrollbar{height:5px;}
+  .nav-inner::-webkit-scrollbar-thumb{background:#1e3a5f;border-radius:4px;}
+  .nav-btn{
+    flex:0 0 auto;
+    background:transparent;
+    border:1px solid transparent;
+    color:var(--txt-dim);
+    font-family:inherit;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.5px;
+    padding:8px 13px;
+    border-radius:8px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.22s;
+    text-transform:uppercase;
+  }
+  .nav-btn:hover{color:var(--accent);border-color:#1e3a5f;background:#0f172a;}
+  .nav-btn.active{
+    color:#04121c;
+    background:linear-gradient(135deg,#00d4ff,#38bdf8);
+    border-color:#00d4ff;
+    box-shadow:0 0 14px rgba(0,212,255,.45);
+  }
+  .nav-btn.credits.active{
+    background:linear-gradient(135deg,#a855f7,#7c3aed);
+    border-color:#a855f7;
+    color:#fff;
+    box-shadow:0 0 14px rgba(168,85,247,.5);
+  }
+  /* ---------- LAYOUT ---------- */
+  main{max-width:1180px;margin:0 auto;padding:18px 14px 60px;}
+  .section{display:none;animation:fadeUp .45s ease both;}
+  .section.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  /* ---------- SVG HOST ---------- */
+  .svg-host{
+    width:100%;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    background:#070b14;
+    box-shadow:0 0 40px rgba(0,212,255,.10), inset 0 0 60px rgba(0,0,0,.6);
+    margin-bottom:22px;
+    line-height:0;
+  }
+  .svg-host svg{width:100%;height:auto;display:block;}
+  /* ---------- HOME ---------- */
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(0,212,255,.10);
+    border:1px solid rgba(0,212,255,.4);
+    color:var(--accent);
+    font-size:11px;font-weight:700;letter-spacing:1.6px;
+    padding:6px 14px;border-radius:999px;text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .badge .dot{
+    width:7px;height:7px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 8px var(--green);
+    animation:pulseDot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.75);}}
+  h1{
+    font-size:clamp(26px,5vw,44px);
+    line-height:1.15;
+    font-weight:800;
+    color:#eaf6ff;
+    letter-spacing:-.5px;
+    margin-bottom:12px;
+  }
+  h1 span{
+    background:linear-gradient(90deg,#00d4ff,#a855f7,#22c55e);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .subtitle{
+    font-size:clamp(14px,2.2vw,18px);
+    color:#94a9c4;
+    max-width:820px;
+    margin-bottom:20px;
+  }
+  .quote{
+    border-left:3px solid var(--accent);
+    background:linear-gradient(90deg,rgba(0,212,255,.08),transparent);
+    padding:14px 18px;
+    border-radius:0 var(--radius) var(--radius) 0;
+    font-style:italic;
+    color:#a9c6dd;
+    font-size:15px;
+    max-width:820px;
+    margin-bottom:26px;
+  }
+  .metrics{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:26px;
+  }
+  .metric{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px 14px;
+    position:relative;
+    overflow:hidden;
+  }
+  .metric::before{
+    content:"";position:absolute;top:0;left:0;width:100%;height:3px;
+    background:linear-gradient(90deg,var(--accent),transparent);
+  }
+  .metric .val{font-size:clamp(20px,3.4vw,26px);font-weight:800;color:var(--accent);line-height:1.2;}
+  .metric .lbl{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--txt-dim);margin-top:4px;}
+  .metric.g .val{color:var(--green);} .metric.g::before{background:linear-gradient(90deg,var(--green),transparent);}
+  .metric.a .val{color:var(--amber);} .metric.a::before{background:linear-gradient(90deg,var(--amber),transparent);}
+  .metric.p .val{color:var(--purple);} .metric.p::before{background:linear-gradient(90deg,var(--purple),transparent);}
+  /* ---------- HEADERS ---------- */
+  .sec-head{
+    display:flex;align-items:center;gap:14px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:14px;margin-bottom:22px;
+  }
+  .sec-icon{
+    width:44px;height:44px;flex:0 0 auto;
+    border-radius:11px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:21px;
+    background:rgba(0,212,255,.10);
+    border:1px solid rgba(0,212,255,.35);
+  }
+  .sec-head h2{font-size:clamp(19px,3.4vw,26px);color:#eaf6ff;font-weight:700;letter-spacing:-.3px;}
+  .sec-head .kicker{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--txt-dim);}
+  /* ---------- CARDS ---------- */
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px;
+    margin-bottom:16px;
+  }
+  .card h3{
+    font-size:16px;color:#eaf6ff;margin-bottom:10px;font-weight:700;
+    display:flex;align-items:center;gap:9px;
+  }
+  .card h3 .ico{font-size:18px;}
+  .card p{margin-bottom:10px;font-size:14.5px;}
+  .card p:last-child{margin-bottom:0;}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  ul.list{list-style:none;padding-left:0;}
+  ul.list li{
+    position:relative;padding-left:22px;margin-bottom:8px;font-size:14.5px;
+  }
+  ul.list li::before{
+    content:"";position:absolute;left:4px;top:10px;
+    width:7px;height:7px;border-radius:2px;
+    background:var(--accent);
+    box-shadow:0 0 8px rgba(0,212,255,.8);
+  }
+  ul.list.g li::before{background:var(--green);box-shadow:0 0 8px rgba(34,197,94,.8);}
+  ul.list.a li::before{background:var(--amber);box-shadow:0 0 8px rgba(245,158,11,.8);}
+  ul.list.p li::before{background:var(--purple);box-shadow:0 0 8px rgba(168,85,247,.8);}
+  /* ---------- TABLE ---------- */
+  .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);-webkit-overflow-scrolling:touch;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px;}
+  thead th{
+    background:#111c31;
+    color:var(--accent);
+    text-transform:uppercase;
+    font-size:10.5px;
+    letter-spacing:1.3px;
+    padding:12px 14px;
+    text-align:left;
+    border-bottom:1px solid var(--border);
+    white-space:nowrap;
+  }
+  tbody td{
+    padding:12px 14px;
+    border-bottom:1px solid rgba(30,58,95,.6);
+    vertical-align:top;
+    color:#b8c9dd;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(0,212,255,.045);}
+  .tag{
+    display:inline-block;
+    font-size:10.5px;font-weight:700;
+    padding:3px 9px;border-radius:999px;
+    letter-spacing:.4px;
+    white-space:nowrap;
+  }
+  .tag.si{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.4);}
+  .tag.no{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.4);}
+  .tag.cond{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.4);}
+  /* ---------- ACCORDION ---------- */
+  .acc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    margin-bottom:12px;
+    overflow:hidden;
+    transition:border-color .25s;
+  }
+  .acc.open{border-color:rgba(0,212,255,.55);box-shadow:0 0 22px rgba(0,212,255,.09);}
+  .acc-head{
+    width:100%;
+    display:flex;align-items:center;gap:13px;
+    background:transparent;border:none;
+    color:#eaf6ff;
+    font-family:inherit;
+    font-size:15px;font-weight:700;
+    text-align:left;
+    padding:16px 16px;
+    cursor:pointer;
+    transition:background .2s;
+  }
+  .acc-head:hover{background:rgba(0,212,255,.05);}
+  .acc-num{
+    flex:0 0 auto;
+    width:32px;height:32px;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:800;
+    background:rgba(0,212,255,.12);
+    border:1px solid rgba(0,212,255,.4);
+    color:var(--accent);
+  }
+  .acc.open .acc-num{background:var(--accent);color:#04121c;border-color:var(--accent);}
+  .acc-title{flex:1;min-width:0;}
+  .acc-arrow{
+    flex:0 0 auto;color:var(--txt-dim);font-size:13px;
+    transition:transform .3s;
+  }
+  .acc.open .acc-arrow{transform:rotate(180deg);color:var(--accent);}
+  .acc-body{
+    max-height:0;overflow:hidden;
+    transition:max-height .38s ease;
+  }
+  .acc.open .acc-body{max-height:2600px;}
+  .acc-inner{padding:0 18px 20px 18px;font-size:14.5px;}
+  .acc-inner p{margin-bottom:10px;}
+  /* ---------- CALLOUTS ---------- */
+  .callout{
+    border-radius:var(--radius);
+    padding:14px 16px;
+    margin:14px 0;
+    border-left:4px solid;
+    font-size:14px;
+    display:flex;gap:11px;align-items:flex-start;
+  }
+  .callout .ci{font-size:17px;line-height:1.2;flex:0 0 auto;}
+  .callout.info{background:rgba(0,212,255,.07);border-color:var(--accent);color:#bfe9f7;}
+  .callout.ex{background:rgba(34,197,94,.07);border-color:var(--green);color:#c4f0d3;}
+  .callout.warn{background:rgba(245,158,11,.08);border-color:var(--amber);color:#f7e3bd;}
+  .callout.err{background:rgba(239,68,68,.08);border-color:var(--red);color:#f8cdcd;}
+  .callout b{color:#fff;}
+  /* ---------- CHECKLIST ---------- */
+  .check-item{
+    display:flex;align-items:flex-start;gap:13px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:.22s;
+    user-select:none;
+  }
+  .check-item:hover{border-color:rgba(0,212,255,.5);}
+  .check-item.done{border-color:rgba(34,197,94,.55);background:rgba(34,197,94,.06);}
+  .check-box{
+    flex:0 0 auto;width:22px;height:22px;border-radius:6px;
+    border:2px solid #2b4a70;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:transparent;
+    transition:.22s;margin-top:2px;
+  }
+  .check-item.done .check-box{background:var(--green);border-color:var(--green);color:#04121c;}
+  .check-txt{font-size:14.5px;transition:.22s;}
+  .check-item.done .check-txt{color:#7f9bb5;text-decoration:line-through;}
+  .check-counter{
+    font-size:12px;color:var(--txt-dim);letter-spacing:1px;
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  .check-counter b{color:var(--accent);}
+  /* ---------- LINKS ---------- */
+  .link-card{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:15px 16px;
+    margin-bottom:11px;
+    text-decoration:none;
+    transition:.22s;
+  }
+  .link-card:hover{border-color:rgba(0,212,255,.6);transform:translateX(4px);background:#111c31;}
+  .link-ico{
+    flex:0 0 auto;width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);
+    font-size:17px;
+  }
+  .link-body{min-width:0;flex:1;}
+  .link-title{color:#eaf6ff;font-weight:700;font-size:14.5px;margin-bottom:3px;}
+  .link-url{
+    color:var(--accent);font-size:12px;
+    word-break:break-all;
+    font-family:'Consolas','Courier New',monospace;
+    opacity:.85;
+  }
+  /* ---------- CREDITS ---------- */
+  .credit-card{
+    background:linear-gradient(160deg,#0f172a,#0b1120);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:26px 22px;
+    text-align:center;
+  }
+  .credit-name{
+    font-size:clamp(22px,4vw,32px);font-weight:800;
+    background:linear-gradient(90deg,#00d4ff,#a855f7);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:6px;
+  }
+  .credit-role{font-size:12px;letter-spacing:2.4px;text-transform:uppercase;color:var(--txt-dim);margin-bottom:20px;}
+  .credit-meta{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;margin-top:20px;
+  }
+  .credit-meta div{
+    background:rgba(0,212,255,.05);
+    border:1px solid var(--border);
+    border-radius:9px;padding:12px;
+  }
+  .credit-meta .k{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--txt-dim);}
+  .credit-meta .v{font-size:15px;color:var(--accent);font-weight:700;margin-top:3px;}
+  .latin{
+    margin-top:22px;font-style:italic;color:#8fa8c2;font-size:15px;
+    border-top:1px solid var(--border);padding-top:18px;
+  }
+  /* ---------- BACK TO TOP ---------- */
+  #toTop{
+    position:fixed;right:16px;bottom:16px;
+    width:46px;height:46px;border-radius:13px;
+    background:linear-gradient(135deg,#00d4ff,#0284c7);
+    border:none;color:#04121c;font-size:19px;font-weight:800;
+    cursor:pointer;z-index:900;
+    box-shadow:0 6px 22px rgba(0,212,255,.35);
+    opacity:0;pointer-events:none;
+    transition:opacity .3s,transform .3s;
+  }
+  #toTop.show{opacity:1;pointer-events:auto;}
+  #toTop:hover{transform:translateY(-3px);}
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--border);
+    background:#080d18;
+    padding:26px 16px 34px;
+    text-align:center;
+    font-size:13px;
+    color:var(--txt-dim);
+  }
+  footer p{margin-bottom:7px;}
+  footer .f-latin{margin-top:14px;font-style:italic;color:#8fa8c2;}
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:640px){
+    body{padding-top:74px;}
+    nav{height:58px;}
+    .nav-btn{font-size:11px;padding:7px 11px;letter-spacing:.3px;}
+    main{padding:14px 11px 50px;}
+    .card{padding:16px;}
+    .acc-inner{padding:0 14px 16px 14px;}
+    .sec-icon{width:38px;height:38px;font-size:18px;}
+    .check-item{padding:12px 13px;}
+    #toTop{width:42px;height:42px;right:12px;bottom:12px;}
+    thead th,tbody td{padding:10px 11px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progressTrack"><div id="progressBar"></div></div>
+
+<nav>
+  <div class="nav-inner" id="navInner">
+    <button class="nav-btn active" data-target="home">Inicio</button>
+    <button class="nav-btn" data-target="situacion">Situación</button>
+    <button class="nav-btn" data-target="plan">Plan paso a paso</button>
+    <button class="nav-btn" data-target="noaplica">No te corresponde</button>
+    <button class="nav-btn" data-target="checklist">Checklist</button>
+    <button class="nav-btn" data-target="fuentes">Fuentes</button>
+    <button class="nav-btn credits" data-target="creditos">Créditos</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ HOME ============ -->
+  <section class="section active" id="home">
+    <div class="svg-host" id="svgHostHome"></div>
+
+    <div class="badge"><span class="dot"></span> Guía técnica · Actualizada</div>
+    <h1>Plan de acción: <span>ayudas para alquilar</span> en València</h1>
+    <p class="subtitle">
+      Guía práctica para una persona de 69 años con ingresos de 773 €/mes (Renta Valenciana),
+      residente en València. Rutas de acceso, documentación, plazos y convocatorias.
+    </p>
+
+    <div class="quote">
+      "Si no puedes explicarlo de forma sencilla, es que no lo entiendes lo suficientemente bien."
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="val">69</div>
+        <div class="lbl">Años</div>
+      </div>
+      <div class="metric g">
+        <div class="val">773 €</div>
+        <div class="lbl">Ingreso mensual</div>
+      </div>
+      <div class="metric a">
+        <div class="val">València</div>
+        <div class="lbl">Localidad</div>
+      </div>
+      <div class="metric p">
+        <div class="val">6</div>
+        <div class="lbl">Líneas de ayuda analizadas</div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="ci">ℹ️</span>
+      <div>
+        <b>Elaborado el 28 de septiembre de 2026.</b> Las convocatorias cambian cada año: antes de tramitar
+        nada, confirma siempre los plazos y requisitos en las bases oficiales.
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3><span class="ico">🎯</span> Qué encontrarás aquí</h3>
+        <ul class="list">
+          <li>La situación de partida y el resumen de cada ayuda disponible.</li>
+          <li>El plan de actuación ordenado en seis pasos.</li>
+          <li>Los requisitos, importes y plazos conocidos.</li>
+          <li>Lo que <b>no</b> corresponde y por qué.</li>
+          <li>Una lista de comprobación accionable.</li>
+          <li>Los enlaces oficiales para verificar cada trámite.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ico">⚡</span> Prioridad inmediata</h3>
+        <p>Si te afectó el temporal de octubre de 2024 (DANA), el plazo de las ayudas urgentes de alquiler
+        termina el <b style="color:#f87171">30 de septiembre de 2026</b>. Es la única actuación con fecha límite inminente.</p>
+        <div class="callout warn" style="margin-bottom:0">
+          <span class="ci">⚠️</span>
+          <div>El resto de convocatorias están cerradas o pendientes de apertura: el trabajo ahora es <b>preparar la documentación</b>.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SITUACIÓN ============ -->
+  <section class="section" id="situacion">
+    <div class="sec-head">
+      <div class="sec-icon">📋</div>
+      <div>
+        <div class="kicker">Punto de partida</div>
+        <h2>Situación y resumen rápido</h2>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-bottom:18px;">
+      <div class="card" style="margin-bottom:0;text-align:center;">
+        <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-dim);">Edad</div>
+        <div style="font-size:30px;font-weight:800;color:var(--accent);">69</div>
+        <div style="font-size:13px;color:#94a9c4;">años</div>
+      </div>
+      <div class="card" style="margin-bottom:0;text-align:center;">
+        <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-dim);">Ingresos</div>
+        <div style="font-size:30px;font-weight:800;color:var(--green);">773 €</div>
+        <div style="font-size:13px;color:#94a9c4;">al mes · Renta Valenciana</div>
+      </div>
+      <div class="card" style="margin-bottom:0;text-align:center;">
+        <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-dim);">Localidad</div>
+        <div style="font-size:30px;font-weight:800;color:var(--amber);">València</div>
+        <div style="font-size:13px;color:#94a9c4;">Comunitat Valenciana</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="ico">🗂️</span> Resumen rápido de ayudas</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ayuda</th>
+              <th>¿Te sirve?</th>
+              <th>Estado a 28/09/2026</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Ayudas al alquiler de la Generalitat</b><br><span style="font-size:12.5px;color:#8296b0;">Convocatoria general</span></td>
+              <td><span class="tag si">Sí, es la principal</span></td>
+              <td>Sin convocatoria abierta confirmada; la de 2026 parece cerrada (algunas ayudas se podían pedir solo hasta el 21 de julio). Preparar la de 2027.</td>
+            </tr>
+            <tr>
+              <td><b>Ayudas municipales del Ayuntamiento de València</b></td>
+              <td><span class="tag si">Sí</span></td>
+              <td>Consultar si hay plazo abierto (010 o Sede València).</td>
+            </tr>
+            <tr>
+              <td><b>Partida municipal de especial vulnerabilidad (2026)</b></td>
+              <td><span class="tag si">Sí, probablemente</span></td>
+              <td>Consultar disponibilidad y requisitos.</td>
+            </tr>
+            <tr>
+              <td><b>Programa de mediación de la Generalitat</b><br><span style="font-size:12.5px;color:#8296b0;">Pisos del parque público</span></td>
+              <td><span class="tag si">Sí, si buscas piso o el actual es caro</span></td>
+              <td>Consultar oferta en la AVHRE.</td>
+            </tr>
+            <tr>
+              <td><b>Ayuda DANA al alquiler</b></td>
+              <td><span class="tag cond">Solo si te afectó el temporal de octubre de 2024</span></td>
+              <td>Plazo hasta el <b style="color:#f87171">30 de septiembre de 2026</b>.</td>
+            </tr>
+            <tr>
+              <td><b>Bono Alquiler Joven</b></td>
+              <td><span class="tag no">No</span></td>
+              <td>No aplicable (es para menores de 35 años).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout ex">
+      <span class="ci">✅</span>
+      <div>
+        <b>Lectura rápida:</b> tu vía principal es la <b>convocatoria general de la Generalitat</b>, complementada
+        con las <b>ayudas municipales de València</b> y la <b>partida de especial vulnerabilidad</b>. Mientras tanto,
+        el programa de mediación puede reducir el precio del alquiler entre un 20 % y un 35 %.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PLAN ============ -->
+  <section class="section" id="plan">
+    <div class="sec-head">
+      <div class="sec-icon">🧭</div>
+      <div>
+        <div class="kicker">Hoja de ruta</div>
+        <h2>Plan paso a paso</h2>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="ci">ℹ️</span>
+      <div>Pulsa sobre cada paso para desplegar su contenido completo. El <b>Paso 1</b> está abierto por defecto.</div>
+    </div>
+
+    <!-- PASO 1 -->
+    <div class="acc open">
+      <button class="acc-head">
+        <span class="acc-num">1</span>
+        <span class="acc-title">Esta semana: reúne la documentación</span>
+        <span class="acc-arrow">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <p>Confirma la lista exacta en las bases de cada convocatoria, pero normalmente se pide:</p>
+          <ul class="list">
+            <li><b>Contrato de alquiler a tu nombre.</b> En las ayudas de 2025 había que ser titular del contrato de arrendamiento de una vivienda en la Comunitat Valenciana.</li>
+            <li><b>DNI</b> y <b>certificado de empadronamiento</b>.</li>
+            <li><b>Certificado o resolución de la Renta Valenciana.</b></li>
+            <li><b>Datos de tu cuenta bancaria</b> (IBAN del que eres titular).</li>
+            <li><b>Justificantes de pago del alquiler.</b> Paga siempre por transferencia y guarda cada justificante: las personas beneficiarias deben acreditar que la ayuda se destina al pago de la renta.</li>
+            <li><b>Certificado digital o Cl@ve</b>, si vas a tramitar por internet.</li>
+          </ul>
+          <div class="callout warn">
+            <span class="ci">⚠️</span>
+            <div>El pago en efectivo dificulta la justificación. <b>Usa siempre transferencia bancaria</b> y conserva los recibos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="acc">
+      <button class="acc-head">
+        <span class="acc-num">2</span>
+        <span class="acc-title">Ayuntamiento de València: ayudas municipales</span>
+        <span class="acc-arrow">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <ul class="list a">
+            <li>La convocatoria municipal <b>2025-2026</b> cubre hasta el <b>40 % del alquiler mensual</b>, con un máximo anual de <b>4.320 €</b> para vivienda (<b>2.160 €</b> para habitación), durante hasta <b>24 meses</b>. Se cobra en un único pago anual, previa justificación de los recibos.</li>
+            <li>Requisitos que constan: ser <b>residente en el término municipal de València</b> y que ni la persona solicitante ni su unidad de convivencia tengan <b>vivienda en propiedad o usufructo en España</b>.</li>
+            <li>Para <b>2026</b> se mantiene además una partida de <b>800.000 €</b> destinada a subvencionar hasta el <b>30 % de la renta anual</b> en casos de <b>especial vulnerabilidad económica</b>. Con tus ingresos, merece la pena preguntar por ella.</li>
+            <li><b>Cómo hacerlo:</b> llama al <b>010</b> o consulta la <b>Sede València</b> para saber si hay plazo abierto y pedir cita.</li>
+          </ul>
+          <div class="callout ex">
+            <span class="ci">💡</span>
+            <div>Dos vías complementarias dentro del mismo Ayuntamiento: la convocatoria general de alquiler y la partida de especial vulnerabilidad. <b>Pregunta por ambas.</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="acc">
+      <button class="acc-head">
+        <span class="acc-num">3</span>
+        <span class="acc-title">Servicios Sociales de tu barrio</span>
+        <span class="acc-arrow">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <ul class="list p">
+            <li>Pide cita en los <b>Servicios Sociales municipales</b>.</li>
+            <li>Pueden orientarte sobre <b>todas las ayudas</b> a las que tienes acceso, informarte de <b>ayudas de emergencia</b> y acompañarte con el papeleo.</li>
+            <li>Si prefieres tramitar de forma <b>presencial y asistida</b>, también hay oficinas de la <b>Red Xaloc</b> en la Comunitat Valenciana. Mapa disponible en <span style="color:var(--accent);word-break:break-all;">https://xarxaloc.es/mapa/</span>.</li>
+          </ul>
+          <div class="callout info">
+            <span class="ci">ℹ️</span>
+            <div>Los Servicios Sociales son la puerta de entrada más útil cuando hay dudas sobre qué convocatoria encaja mejor con tu perfil.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 4 -->
+    <div class="acc">
+      <button class="acc-head">
+        <span class="acc-num">4</span>
+        <span class="acc-title">Si buscas piso, o el actual es caro: programa de mediación</span>
+        <span class="acc-arrow">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <ul class="list g">
+            <li>La Generalitat ofrece un <b>programa de mediación</b> que pone en contacto a propietarios e inquilinos de <b>renta media-baja</b>, con <b>cobro garantizado</b> para el arrendador.</li>
+            <li>Para el inquilino supone acceder a viviendas del <b>parque público</b> con precios entre un <b>20 % y un 35 % inferiores</b> a los de mercado.</li>
+            <li>El parque disponible se consulta en el portal de la <b>Agència Valenciana de l'Habitatge i la Rehabilitació (AVHRE)</b>.</li>
+          </ul>
+          <div class="callout ex">
+            <span class="ci">🏠</span>
+            <div>Es una alternativa de <b>reducción estructural del coste</b>, no una subvención puntual: si el alquiler actual es alto, esta vía puede ser más determinante que la propia ayuda.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 5 -->
+    <div class="acc">
+      <button class="acc-head">
+        <span class="acc-num">5</span>
+        <span class="acc-title">Prepárate para la próxima convocatoria de la Generalitat</span>
+        <span class="acc-arrow">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <ul class="list">
+            <li>La de <b>2025</b> tuvo un plazo de solicitud del <b>22 de julio al 11 de agosto de 2025</b>, así que conviene esperar algo similar en <b>verano de 2027</b>.</li>
+            <li>Revisa cada pocas semanas, sobre todo desde <b>junio</b>:
+              <ul class="list" style="margin-top:8px;">
+                <li>Web de Vivienda de la Generalitat: <span style="color:var(--accent);word-break:break-all;">https://habitatge.gva.es</span></li>
+                <li>Sede electrónica de la Generalitat: <span style="color:var(--accent);word-break:break-all;">https://sede.gva.es</span></li>
+              </ul>
+            </li>
+            <li>Ten el <b>contrato y los justificantes de pago al día</b> para presentar la solicitud el primer día.</li>
+            <li>Estas ayudas van dirigidas principalmente a <b>personas y familias en situación de vulnerabilidad económica</b> o de <b>colectivos de especial atención</b>.</li>
+          </ul>
+          <div class="callout warn">
+            <span class="ci">⏰</span>
+            <div>Los plazos suelen ser <b>cortos</b> (pocas semanas). Tener la documentación preparada con antelación es la diferencia entre solicitarla o quedarse fuera.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 6 -->
+    <div class="acc">
+      <button class="acc-head">
+        <span class="acc-num">6</span>
+        <span class="acc-title">Solo si te afectó el temporal de octubre de 2024 (DANA)</span>
+        <span class="acc-arrow">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <ul class="list" style="--accent:#ef4444;">
+            <li>El plazo de solicitud de las <b>ayudas urgentes de alquiler por la DANA</b> termina el <b style="color:#f87171">30 de septiembre de 2026</b>.</li>
+            <li>Si es tu caso, <b>actúa ya</b>: puedes presentar la documentación presencialmente con ayuda de <b>personal funcionario habilitado</b>.</li>
+            <li>Si hubiera algún <b>requerimiento de subsanación</b>, se dispone de <b>10 días hábiles</b> desde la notificación.</li>
+          </ul>
+          <div class="callout err">
+            <span class="ci">🚨</span>
+            <div><b>Fecha límite crítica:</b> 30/09/2026. Es la única actuación de este plan con el reloj corriendo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NO APLICA ============ -->
+  <section class="section" id="noaplica">
+    <div class="sec-head">
+      <div class="sec-icon">🚫</div>
+      <div>
+        <div class="kicker">Filtro de elegibilidad</div>
+        <h2>Lo que no te corresponde</h2>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:rgba(239,68,68,.4);">
+      <h3><span class="ico">❌</span> Bono Alquiler Joven 2026</h3>
+      <p>Solo para personas de <b>18 a 35 años</b>.</p>
+      <p>Su plazo fue del <b>24/08/2026 al 11/09/2026</b>.</p>
+      <div class="callout err" style="margin-bottom:0;">
+        <span class="ci">🚫</span>
+        <div>Con 69 años <b>no cumples el requisito de edad</b>, por lo que esta ayuda queda descartada. No pierdas tiempo en ella: concentra el esfuerzo en la convocatoria general de la Generalitat y en las ayudas municipales.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="ico">🧮</span> Cómo leer esta exclusión</h3>
+      <p>El resto de líneas del resumen rápido <b>sí</b> son aplicables a tu perfil, aunque algunas estén condicionadas
+      a la apertura de plazo o a la disponibilidad presupuestaria. La única ayuda estructuralmente incompatible es
+      el Bono Alquiler Joven, porque el criterio de edad es excluyente y no admite excepciones.</p>
+    </div>
+  </section>
+
+  <!-- ============ CHECKLIST ============ -->
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <div class="sec-icon">✅</div>
+      <div>
+        <div class="kicker">Acción</div>
+        <h2>Lista de comprobación</h2>
+      </div>
+    </div>
+
+    <div class="check-counter">Completado: <b><span id="checkCount">0</span> / 7</b></div>
+
+    <div id="checkList">
+      <div class="check-item" data-check>
+        <div class="check-box">✓</div>
+        <div class="check-txt">Reunir contrato, DNI, empadronamiento y certificado de la Renta Valenciana.</div>
+      </div>
+      <div class="check-item" data-check>
+        <div class="check-box">✓</div>
+        <div class="check-txt">Empezar a pagar (y guardar justificantes) del alquiler siempre por transferencia.</div>
+      </div>
+      <div class="check-item" data-check>
+        <div class="check-box">✓</div>
+        <div class="check-txt">Llamar al 010 o consultar la Sede València por las ayudas municipales.</div>
+      </div>
+      <div class="check-item" data-check>
+        <div class="check-box">✓</div>
+        <div class="check-txt">Pedir cita en Servicios Sociales.</div>
+      </div>
+      <div class="check-item" data-check>
+        <div class="check-box">✓</div>
+        <div class="check-txt">Revisar la oferta de vivienda del programa de mediación (AVHRE).</div>
+      </div>
+      <div class="check-item" data-check>
+        <div class="check-box">✓</div>
+        <div class="check-txt">Comprobar si te afectó la DANA antes del 30/09/2026.</div>
+      </div>
+      <div class="check-item" data-check>
+        <div class="check-box">✓</div>
+        <div class="check-txt">Poner un recordatorio para vigilar la convocatoria de la Generalitat desde junio de 2027.</div>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:22px;">
+      <span class="ci">⚠️</span>
+      <div>
+        <b>Aviso.</b> Este documento es informativo y no sustituye a las bases oficiales de cada convocatoria
+        ni al asesoramiento de Servicios Sociales o de un profesional. Verifica plazos, importes y requisitos
+        antes de presentar cualquier solicitud.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FUENTES ============ -->
+  <section class="section" id="fuentes">
+    <div class="sec-head">
+      <div class="sec-icon">🔗</div>
+      <div>
+        <div class="kicker">Verificación</div>
+        <h2>Fuentes y enlaces útiles</h2>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="ci">ℹ️</span>
+      <div>Comprueba siempre los plazos y requisitos en las bases oficiales antes de presentar cualquier solicitud.</div>
+    </div>
+
+    <a class="link-card" href="https://habitatge.gva.es/es/web/vivienda-y-calidad-en-la-edificacion/ajudes-convocatories-2026" target="_blank" rel="noopener">
+      <div class="link-ico">🏛️</div>
+      <div class="link-body">
+        <div class="link-title">Vivienda y Calidad en la Edificación (Generalitat)</div>
+        <div class="link-url">https://habitatge.gva.es/es/web/vivienda-y-calidad-en-la-edificacion/ajudes-convocatories-2026</div>
+      </div>
+    </a>
+
+    <a class="link-card" href="https://sede.gva.es/es/detall-tramit?id_proc=g105708" target="_blank" rel="noopener">
+      <div class="link-ico">📄</div>
+      <div class="link-body">
+        <div class="link-title">Ayudas al alquiler de vivienda (convocatoria 2025, Sede GVA)</div>
+        <div class="link-url">https://sede.gva.es/es/detall-tramit?id_proc=g105708</div>
+      </div>
+    </a>
+
+    <a class="link-card" href="https://sede.gva.es/es/detall-tramit?id_proc=G110626" target="_blank" rel="noopener">
+      <div class="link-ico">🌊</div>
+      <div class="link-body">
+        <div class="link-title">Ayudas DANA alquiler (Sede GVA)</div>
+        <div class="link-url">https://sede.gva.es/es/detall-tramit?id_proc=G110626</div>
+      </div>
+    </a>
+
+    <a class="link-card" href="https://sede.valencia.es/sede/registro/procedimiento/VI.AY.25?lang=1" target="_blank" rel="noopener">
+      <div class="link-ico">🏙️</div>
+      <div class="link-body">
+        <div class="link-title">Ayudas municipales al alquiler (Sede València)</div>
+        <div class="link-url">https://sede.valencia.es/sede/registro/procedimiento/VI.AY.25?lang=1</div>
+      </div>
+    </a>
+
+    <a class="link-card" href="https://www.valencia.es/cas/campa%C3%B1as-municipales/-/content/ayudas-municipales-alquiler-2025" target="_blank" rel="noopener">
+      <div class="link-ico">📢</div>
+      <div class="link-body">
+        <div class="link-title">Ayudas municipales al alquiler 2025-2026 (Ayuntamiento de València)</div>
+        <div class="link-url">https://www.valencia.es/cas/campa%C3%B1as-municipales/-/content/ayudas-municipales-alquiler-2025</div>
+      </div>
+    </a>
+
+    <a class="link-card" href="https://xarxaloc.es/mapa/" target="_blank" rel="noopener">
+      <div class="link-ico">🗺️</div>
+      <div class="link-body">
+        <div class="link-title">Red Xaloc (oficinas de ayuda)</div>
+        <div class="link-url">https://xarxaloc.es/mapa/</div>
+      </div>
+    </a>
+
+    <a class="link-card" href="https://www.valenciaextra.com/es/valencia/ayudas-alquiler-este-julio-2026-ofrecen-gva-ayuntamiento-valencia_591227_102.html" target="_blank" rel="noopener">
+      <div class="link-ico">📰</div>
+      <div class="link-body">
+        <div class="link-title">Resumen de ayudas en Valencia (Valencia Extra, julio 2026)</div>
+        <div class="link-url">https://www.valenciaextra.com/es/valencia/ayudas-alquiler-este-julio-2026-ofrecen-gva-ayuntamiento-valencia_591227_102.html</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- ============ CRÉDITOS ============ -->
+  <section class="section" id="creditos">
+    <div class="sec-head">
+      <div class="sec-icon">🎬</div>
+      <div>
+        <div class="kicker">Autoría</div>
+        <h2>Créditos</h2>
+      </div>
+    </div>
+
+    <div class="svg-host" id="svgHostCred"></div>
+
+    <div class="credit-card">
+      <div class="credit-name">Rubén Sbarsky</div>
+      <div class="credit-role">Autor del tutorial</div>
+      <div style="color:#cbd5e1;font-size:15px;max-width:640px;margin:0 auto;">
+        Plan de acción: ayudas para alquilar en València
+      </div>
+      <div class="credit-meta">
+        <div>
+          <div class="k">Fecha</div>
+          <div class="v">28/09/2026</div>
+        </div>
+        <div>
+          <div class="k">Hora</div>
+          <div class="v">05:56:16</div>
+        </div>
+        <div>
+          <div class="k">Finalidad</div>
+          <div class="v">Educativa</div>
+        </div>
+      </div>
+      <div class="latin">Fiat iustitia, ruat caelum.</div>
+    </div>
+
+    <div class="callout info" style="margin-top:20px;">
+      <span class="ci">📚</span>
+      <div>Este material tiene finalidad exclusivamente <b>educativa y divulgativa</b>. No constituye asesoramiento jurídico ni sustituye a las bases oficiales de cada convocatoria.</div>
+    </div>
+  </section>
+
+</main>
+
+<button id="toTop" aria-label="Volver arriba">↑</button>
+
+<footer>
+  <p>📚 Tutorial solo con fines Educativos y Divulgación</p>
+  <p>👨‍💻 Créditos: Rubén Sbarsky</p>
+  <p>📅 FECHA: 28/09/2026</p>
+  <p>Hora: 05:56:16</p>
+  <p class="f-latin">Fiat iustitia, ruat caelum.</p>
+</footer>
+
+<script>
+/* =========================================================
+   SVG ANIMADO — PORTADA TÉCNICA "AYUDAS AL ALQUILER"
+   Se monta una única instancia a la vez para reutilizar el mismo SVG.
+   ========================================================= */
+function buildSVG(){
+  return `
+<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     preserveAspectRatio="xMidYMid meet" role="img"
+     aria-label="Proceso animado de solicitud de ayudas al alquiler en València">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070b14">
+        <animate attributeName="stop-color" values="#070b14;#0d1a2e;#0a0e1a;#140726;#070b14" dur="14s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#0a0e1a">
+        <animate attributeName="stop-color" values="#0a0e1a;#111d36;#0f172a;#1a0f2e;#0a0e1a" dur="17s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#0f172a">
+        <animate attributeName="stop-color" values="#0f172a;#132a45;#0b1224;#1c1030;#0f172a" dur="11s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <radialGradient id="vign" cx="50%" cy="50%" r="72%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.72"/>
+    </radialGradient>
+
+    <pattern id="gridPat" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 L0 0 L0 40" fill="none" stroke="#1e3a5f" stroke-width="1"/>
+    </pattern>
+
+    <filter id="glowA" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowB" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="35%" stop-color="#a855f7"/>
+      <stop offset="70%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+      <animate attributeName="x1" values="0%;-40%;0%" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="100%;60%;100%" dur="9s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <path id="flowPath" d="M110,250 Q205,190 300,250 T490,250 T680,250" fill="none"/>
+
+    <g id="houseShape">
+      <path d="M0,-11 L13,0 L9,0 L9,11 L-9,11 L-9,0 L-13,0 Z"
+            fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <!-- FONDO -->
+  <rect width="800" height="450" fill="url(#bgGrad)"/>
+  <rect width="800" height="450" fill="url(#gridPat)" opacity="0.35">
+    <animate attributeName="opacity" values="0.18;0.5;0.18" dur="6.5s" repeatCount="indefinite"/>
+  </rect>
+  <rect width="800" height="450" fill="url(#vign)"/>
+
+  <!-- ANILLOS ORBITALES -->
+  <g transform="translate(400,225)">
+    <circle r="208" fill="none" stroke="#00d4ff" stroke-width="1" stroke-dasharray="5 14" opacity="0.28">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="34s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dasharray" values="5 14;14 8;5 14" dur="13s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="176" fill="none" stroke="#a855f7" stroke-width="1" stroke-dasharray="3 10" opacity="0.26">
+      <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="24s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dasharray" values="3 10;10 5;3 10" dur="11s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="144" fill="none" stroke="#22c55e" stroke-width="1" stroke-dasharray="2 12" opacity="0.22">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dasharray" values="2 12;12 4;2 12" dur="9s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- CASA FANTASMA CENTRAL (objetivo: la vivienda) -->
+  <g transform="translate(400,196)" color="#00d4ff" opacity="0.13" filter="url(#glowB)">
+    <g transform="scale(2.9)">
+      <use xlink:href="#houseShape" href="#houseShape"/>
+    </g>
+    <animateTransform attributeName="transform" type="translate" values="400 196;400 190;400 196" dur="7s" repeatCount="indefinite" additive="replace"/>
+  </g>
+
+  <!-- LÍNEA DE FLUJO -->
+  <use xlink:href="#flowPath" href="#flowPath" stroke="#1e3a5f" stroke-width="7" opacity="0.5"/>
+  <use xlink:href="#flowPath" href="#flowPath" stroke="url(#flowGrad)" stroke-width="2.4"
+       stroke-dasharray="16 12" opacity="0.95" filter="url(#glowA)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-280" dur="4s" repeatCount="indefinite"/>
+  </use>
+
+  <!-- PARTÍCULAS VIAJERAS -->
+  <g filter="url(#glowA)">
+    <circle r="4.2" fill="#00d4ff">
+      <animateMotion dur="5s" repeatCount="indefinite"><mpath xlink:href="#flowPath" href="#flowPath"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="3.4" fill="#a855f7">
+      <animateMotion dur="6.4s" begin="0.7s" repeatCount="indefinite"><mpath xlink:href="#flowPath" href="#flowPath"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" dur="6.4s" begin="0.7s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="3.8" fill="#f59e0b">
+      <animateMotion dur="7.6s" begin="1.6s" repeatCount="indefinite"><mpath xlink:href="#flowPath" href="#flowPath"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" dur="7.6s" begin="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="3" fill="#22c55e">
+      <animateMotion dur="4.3s" begin="2.4s" repeatCount="indefinite"><mpath xlink:href="#flowPath" href="#flowPath"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" dur="4.3s" begin="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="3.6" fill="#00d4ff">
+      <animateMotion dur="8.2s" begin="3.1s" repeatCount="indefinite"><mpath xlink:href="#flowPath" href="#flowPath"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" dur="8.2s" begin="3.1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- GHOST: LA VIVIENDA QUE RECORRE EL CIRCUITO -->
+  <g color="#22c55e" opacity="0">
+    <animateMotion dur="9s" repeatCount="indefinite"><mpath xlink:href="#flowPath" href="#flowPath"/></animateMotion>
+    <animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.08;0.86;1" dur="9s" repeatCount="indefinite"/>
+    <g transform="translate(-13,-13) scale(0.95)"><use xlink:href="#houseShape" href="#houseShape"/></g>
+  </g>
+  <g color="#00d4ff" opacity="0">
+    <animateMotion dur="9s" begin="4.5s" repeatCount="indefinite"><mpath xlink:href="#flowPath" href="#flowPath"/></animateMotion>
+    <animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.08;0.86;1" dur="9s" begin="4.5s" repeatCount="indefinite"/>
+    <g transform="translate(-11,-11) scale(0.8)"><use xlink:href="#houseShape" href="#houseShape"/></g>
+  </g>
+
+  <!-- NODO 1 · SOLICITUD -->
+  <g transform="translate(110,250)">
+    <circle r="42" fill="none" stroke="#00d4ff" stroke-width="1" stroke-dasharray="6 7" opacity="0.55">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="33" fill="#00d4ff" opacity="0.09" stroke="#00d4ff" stroke-width="1.6">
+      <animate attributeName="opacity" values="0.06;0.2;0.06" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="46" fill="none" stroke="#00d4ff" stroke-width="1.2" opacity="0">
+      <animate attributeName="r" values="34;58" dur="3.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+    <g transform="translate(0,-3)">
+      <path d="M-9,-13 L3,-13 L10,-6 L10,13 L-9,13 Z" fill="none" stroke="#00d4ff" stroke-width="1.9" stroke-linejoin="round"/>
+      <path d="M3,-13 L3,-6 L10,-6" fill="none" stroke="#00d4ff" stroke-width="1.6"/>
+      <line x1="-5" y1="0" x2="6" y2="0" stroke="#00d4ff" stroke-width="1.5" opacity="0.85"/>
+      <line x1="-5" y1="4" x2="6" y2="4" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+      <line x1="-5" y1="8" x2="2" y2="8" stroke="#00d4ff" stroke-width="1.5" opacity="0.4"/>
+    </g>
+    <g transform="translate(0,-3)">
+      <animateTransform attributeName="transform" type="translate" values="0 -3;0 -6;0 -3" dur="3.1s" repeatCount="indefinite"/>
+    </g>
+    <text y="66" text-anchor="middle" fill="#00d4ff" font-size="11.5" font-weight="700" letter-spacing="1.4" font-family="Segoe UI, sans-serif">SOLICITUD</text>
+  </g>
+
+  <!-- NODO 2 · EXPEDIENTE -->
+  <g transform="translate(300,250)">
+    <circle r="42" fill="none" stroke="#a855f7" stroke-width="1" stroke-dasharray="6 7" opacity="0.55">
+      <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="23s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="33" fill="#a855f7" opacity="0.09" stroke="#a855f7" stroke-width="1.6">
+      <animate attributeName="opacity" values="0.06;0.2;0.06" dur="4.1s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="46" fill="none" stroke="#a855f7" stroke-width="1.2" opacity="0">
+      <animate attributeName="r" values="34;58" dur="4.1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0" dur="4.1s" repeatCount="indefinite"/>
+    </circle>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3.7s" repeatCount="indefinite"/>
+      <path d="M-13,-9 L-3,-9 L0,-5 L13,-5 L13,11 L-13,11 Z" fill="none" stroke="#a855f7" stroke-width="1.9" stroke-linejoin="round"/>
+      <line x1="-8" y1="1" x2="8" y2="1" stroke="#a855f7" stroke-width="1.4" opacity="0.7"/>
+      <line x1="-8" y1="5" x2="4" y2="5" stroke="#a855f7" stroke-width="1.4" opacity="0.45"/>
+    </g>
+    <text y="66" text-anchor="middle" fill="#a855f7" font-size="11.5" font-weight="700" letter-spacing="1.4" font-family="Segoe UI, sans-serif">EXPEDIENTE</text>
+  </g>
+
+  <!-- NODO 3 · RESOLUCIÓN -->
+  <g transform="translate(490,250)">
+    <circle r="42" fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="6 7" opacity="0.55">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="26s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="33" fill="#f59e0b" opacity="0.09" stroke="#f59e0b" stroke-width="1.6">
+      <animate attributeName="opacity" values="0.06;0.22;0.06" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="46" fill="none" stroke="#f59e0b" stroke-width="1.2" opacity="0">
+      <animate attributeName="r" values="34;58" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3.5;0 0" dur="4.4s" repeatCount="indefinite"/>
+      <circle r="11" fill="none" stroke="#f59e0b" stroke-width="1.9"/>
+      <path d="M-5,0 L-1.5,4 L6,-4.5" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text y="66" text-anchor="middle" fill="#f59e0b" font-size="11.5" font-weight="700" letter-spacing="1.4" font-family="Segoe UI, sans-serif">RESOLUCIÓN</text>
+  </g>
+
+  <!-- NODO 4 · PAGO -->
+  <g transform="translate(670,250)">
+    <circle r="42" fill="none" stroke="#22c55e" stroke-width="1" stroke-dasharray="6 7" opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="19s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="33" fill="#22c55e" opacity="0.10" stroke="#22c55e" stroke-width="1.6">
+      <animate attributeName="opacity" values="0.07;0.24;0.07" dur="2.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="46" fill="none" stroke="#22c55e" stroke-width="1.4" opacity="0">
+      <animate attributeName="r" values="34;62" dur="2.9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0" dur="2.9s" repeatCount="indefinite"/>
+    </circle>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3.3s" repeatCount="indefinite"/>
+      <circle r="11.5" fill="none" stroke="#22c55e" stroke-width="1.9"/>
+      <text y="5" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="700" font-family="Segoe UI, sans-serif">€</text>
+    </g>
+    <text y="66" text-anchor="middle" fill="#22c55e" font-size="11.5" font-weight="700" letter-spacing="1.4" font-family="Segoe UI, sans-serif">PAGO</text>
+  </g>
+
+  <!-- EXPLOSIÓN RADIAL FINAL -->
+  <g transform="translate(670,250)">
+    <circle r="34" fill="none" stroke="#22c55e" stroke-width="2">
+      <animate attributeName="r" values="34;86" dur="3.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.85;0" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="34" fill="none" stroke="#22c55e" stroke-width="1.5">
+      <animate attributeName="r" values="34;86" dur="3.6s" begin="1.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0" dur="3.6s" begin="1.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- FLASH CULMINANTE -->
+  <g transform="translate(670,166)">
+    <text text-anchor="middle" fill="#22c55e" font-size="19" font-weight="800" letter-spacing="3"
+          font-family="Segoe UI, sans-serif" filter="url(#glowA)" opacity="0">
+      ¡CONCEDIDA!
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.55;0.62;0.82;0.9;1" dur="6s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="scale" values="0.7;1.12;1" keyTimes="0;0.62;0.7" dur="6s" repeatCount="indefinite" additive="sum"/>
+    </text>
+  </g>
+
+  <!-- TEXTOS SUPERIORES -->
+  <text x="36" y="50" fill="#00d4ff" font-size="20" font-weight="800" letter-spacing="1.2" font-family="Segoe UI, sans-serif" filter="url(#glowA)">
+    AYUDAS AL ALQUILER
+    <animate attributeName="fill" values="#00d4ff;#a855f7;#22c55e;#f59e0b;#00d4ff" dur="12s" repeatCount="indefinite"/>
+  </text>
+  <text x="36" y="74" fill="#8296b0" font-size="10.5" letter-spacing="2.6" font-family="Segoe UI, sans-serif">
+    VALÈNCIA · GENERALITAT · AYUNTAMIENTO
+    <animate attributeName="opacity" values="0.45;1;0.45" dur="4.2s" repeatCount="indefinite"/>
+  </text>
+
+  <!-- INDICADOR LIVE -->
+  <g transform="translate(690,42)">
+    <rect x="-58" y="-14" width="116" height="28" rx="14" fill="rgba(239,68,68,0.10)" stroke="#ef4444" stroke-width="1" opacity="0.95">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite"/>
+    </rect>
+    <circle cx="-38" cy="0" r="5" fill="#ef4444" filter="url(#glowA)">
+      <animate attributeName="r" values="5;7.5;5" dur="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.35;1" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <text x="4" y="5" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="800" letter-spacing="2.4" font-family="Segoe UI, sans-serif">LIVE</text>
+  </g>
+
+  <!-- TICKER INFERIOR -->
+  <g transform="translate(400,394)">
+    <text text-anchor="middle" fill="#8296b0" font-size="10.5" letter-spacing="2.4" font-family="Segoe UI, sans-serif">
+      DOCUMENTACIÓN · PLAZOS · REQUISITOS
+      <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.42;0.5;0.92;1" dur="8s" repeatCount="indefinite"/>
+    </text>
+    <text text-anchor="middle" fill="#00d4ff" font-size="10.5" letter-spacing="2.4" font-family="Segoe UI, sans-serif" opacity="0">
+      SOLICITUD · JUSTIFICANTES · PAGO
+      <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.42;0.5;0.92;1" dur="8s" repeatCount="indefinite"/>
+    </text>
+  </g>
+
+  <!-- FIRMA -->
+  <text x="36" y="428" fill="#4d6b8a" font-size="9.5" letter-spacing="2.6" font-family="Segoe UI, sans-serif">
+    RUBÉN SBARSKY
+    <animate attributeName="opacity" values="0.35;0.9;0.35" dur="5.6s" repeatCount="indefinite"/>
+  </text>
+  <text x="764" y="428" text-anchor="end" fill="#4d6b8a" font-size="9.5" letter-spacing="1.6" font-family="Segoe UI, sans-serif">
+    28/09/2026 · 05:56
+    <animate attributeName="opacity" values="0.85;0.4;0.85" dur="6.4s" repeatCount="indefinite"/>
+  </text>
+</svg>`;
+}
+
+/* =========================================================
+   MONTAJE DEL SVG (una sola instancia reutilizada)
+   ========================================================= */
+const svgHostHome = document.getElementById('svgHostHome');
+const svgHostCred = document.getElementById('svgHostCred');
+
+function mountSVG(host){
+  if(!host) return;
+  host.innerHTML = buildSVG();
+}
+
+/* =========================================================
+   NAVEGACIÓN SPA
+   ========================================================= */
+const navButtons = document.querySelectorAll('.nav-btn');
+const sections = document.querySelectorAll('.section');
+
+function showSection(id){
+  sections.forEach(s => s.classList.toggle('active', s.id === id));
+  navButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+
+  // Desmontar ambos hosts y montar únicamente donde corresponde
+  if(svgHostHome) svgHostHome.innerHTML = '';
+  if(svgHostCred) svgHostCred.innerHTML = '';
+
+  if(id === 'home') mountSVG(svgHostHome);
+  if(id === 'creditos') mountSVG(svgHostCred);
+
+  window.scrollTo({top:0, behavior:'auto'});
+  updateProgress();
+}
+
+navButtons.forEach(btn => {
+  btn.addEventListener('click', () => showSection(btn.dataset.target));
+});
+
+/* =========================================================
+   BARRA DE PROGRESO
+   ========================================================= */
+const progressBar = document.getElementById('progressBar');
+function updateProgress(){
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+window.addEventListener('resize', updateProgress);
+
+/* =========================================================
+   BOTÓN VOLVER ARRIBA
+   ========================================================= */
+const toTop = document.getElementById('toTop');
+window.addEventListener('scroll', () => {
+  toTop.classList.toggle('show', window.scrollY > 320);
+}, {passive:true});
+toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+/* =========================================================
+   ACORDEONES
+   ========================================================= */
+document.querySelectorAll('.acc-head').forEach(head => {
+  head.addEventListener('click', () => {
+    const acc = head.parentElement;
+    acc.classList.toggle('open');
+  });
+});
+
+/* =========================================================
+   CHECKLIST INTERACTIVA
+   ========================================================= */
+const checkItems = document.querySelectorAll('[data-check]');
+const checkCount = document.getElementById('checkCount');
+
+function refreshCheck(){
+  const done = document.querySelectorAll('[data-check].done').length;
+  if(checkCount) checkCount.textContent = done;
+}
+checkItems.forEach(item => {
+  item.addEventListener('click', () => {
+    item.classList.toggle('done');
+    refreshCheck();
+  });
+});
+refreshCheck();
+
+/* =========================================================
+   INICIALIZACIÓN
+   ========================================================= */
+mountSVG(svgHostHome);
+updateProgress();
+</script>
+</body>
+</html>
