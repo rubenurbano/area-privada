@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MARTE EN VALENCIA — Tutorial interactivo de resiliencia tecnológica</title>
+<style>
+:root{
+  --bg:#0a0e1a;
+  --card:#0f172a;
+  --accent:#1e3a5f;
+  --accent2:#38bdf8;
+  --text:#dbe7f5;
+  --muted:#8ba3c0;
+  --border:#1e3a5f;
+  --ok:#22c55e;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+  --radius:14px;
+  --fs:16px;
+}
+html.light{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --accent:#dbe7f5;
+  --accent2:#0369a1;
+  --text:#0f172a;
+  --muted:#4a6280;
+  --border:#c7d6e8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:var(--fs);
+  line-height:1.68;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ---------- BARRA SUPERIOR ---------- */
+.topbar{
+  position:sticky;top:0;z-index:60;
+  background:rgba(10,14,26,.94);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
+}
+html.light .topbar{background:rgba(244,247,251,.96)}
+.progress-bar{height:3px;background:transparent}
+#progressFill{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#22c55e);transition:width .08s linear}
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;
+  padding:8px 12px 4px;max-width:1040px;margin:0 auto;
+}
+.brand{
+  font-weight:800;letter-spacing:.16em;font-size:.7rem;
+  color:#7dd3fc;white-space:nowrap;
+}
+html.light .brand{color:#0369a1}
+.tools{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tools input[type=search]{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  border-radius:999px;padding:6px 12px;font-size:.78rem;min-width:130px;max-width:190px;
+  outline:none;
+}
+.tools input[type=search]:focus{border-color:var(--accent2)}
+.btn{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  border-radius:999px;padding:6px 11px;font-size:.76rem;font-weight:700;
+  cursor:pointer;line-height:1.2;
+}
+.btn:hover{border-color:var(--accent2);color:var(--accent2)}
+.tabs{
+  display:flex;gap:6px;overflow-x:auto;padding:6px 12px 9px;max-width:1040px;margin:0 auto;
+  scrollbar-width:thin;
+}
+.tabs::-webkit-scrollbar{height:5px}
+.tabs::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
+.tab{
+  flex:0 0 auto;background:var(--card);border:1px solid var(--border);color:var(--muted);
+  padding:7px 13px;border-radius:999px;font-size:.7rem;letter-spacing:.07em;font-weight:800;
+  cursor:pointer;white-space:nowrap;transition:.15s;
+}
+.tab:hover{color:var(--accent2)}
+.tab.active{background:var(--accent);color:#e6f4ff;border-color:var(--accent2)}
+html.light .tab.active{color:#062036}
+
+/* ---------- LAYOUT ---------- */
+main{max-width:1040px;margin:0 auto;padding:16px 12px 90px}
+.panel{display:none;animation:fade .25s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+h1{font-size:1.55rem;line-height:1.25;margin:.2em 0 .3em;letter-spacing:-.01em}
+h2{font-size:1.22rem;margin:1.5em 0 .4em;color:var(--accent2);letter-spacing:-.01em}
+h3{font-size:1.03rem;margin:1.2em 0 .35em}
+h4{font-size:.94rem;margin:1em 0 .3em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+p{margin:.55em 0}
+ul,ol{margin:.5em 0 .8em;padding-left:1.35em}
+li{margin:.3em 0}
+strong{color:#fff}
+html.light strong{color:#000}
+.muted{color:var(--muted)}
+a{color:var(--accent2)}
+
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:15px 16px;margin:14px 0;page-break-inside:avoid;
+}
+.card.hi{border-color:var(--accent2)}
+.card.warn{border-left:4px solid var(--warn)}
+.card.ok{border-left:4px solid var(--ok)}
+.card.bad{border-left:4px solid var(--bad)}
+
+.grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:700px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}}
+
+.tag{
+  display:inline-block;background:var(--accent);color:#cfe9ff;border-radius:999px;
+  padding:2px 10px;font-size:.68rem;font-weight:800;letter-spacing:.08em;margin:0 4px 4px 0;
+}
+html.light .tag{color:#062036}
+.badge-ok{background:#0d3b25;color:#8ef0b6}
+.badge-warn{background:#3d2b06;color:#fbd38d}
+.badge-bad{background:#3d0d0d;color:#fca5a5}
+html.light .badge-ok{background:#d7f5e3;color:#0b5132}
+html.light .badge-warn{background:#fdf0d5;color:#7a4a02}
+html.light .badge-bad{background:#fde2e2;color:#8a1717}
+
+.hero-svg-mount{width:100%;max-width:820px;margin:6px auto 10px}
+.hero-svg-mount svg{display:block;width:100%;height:auto}
+.hero-svg-mount img{display:block;width:100%;height:auto}
+
+.table-wrap{overflow-x:auto;margin:12px 0;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:420px}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--accent);color:#dff0ff;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase}
+html.light th{color:#062036}
+tbody tr:last-child td{border-bottom:none}
+
+details{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px;margin:10px 0;
+}
+details summary{cursor:pointer;font-weight:700;color:var(--accent2);list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸ ";color:var(--muted)}
+details[open] summary::before{content:"▾ "}
+details p,details ul{margin-top:.6em}
+
+pre{
+  background:#060a14;border:1px solid var(--border);border-radius:10px;
+  padding:12px;overflow-x:auto;font-size:.8rem;line-height:1.5;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+html.light pre{background:#eef3fa}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em}
+
+.copy-wrap{position:relative}
+.copyBtn{
+  background:var(--accent);border:1px solid var(--accent2);color:#dff0ff;
+  border-radius:999px;padding:5px 12px;font-size:.68rem;font-weight:800;letter-spacing:.08em;
+  cursor:pointer;margin-bottom:6px;
+}
+html.light .copyBtn{color:#062036}
+.copyBtn:hover{background:var(--accent2);color:#04121f}
+
+.ck{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--border);font-size:.93rem}
+.ck:last-of-type{border-bottom:none}
+.ck input{margin-top:.35em;width:18px;height:18px;accent-color:#38bdf8;flex:0 0 auto}
+.ck-progress{height:9px;background:var(--accent);border-radius:99px;overflow:hidden;margin:8px 0 6px}
+#ckFill{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#22c55e);transition:width .25s}
+
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.pill{background:var(--accent);color:#cfe9ff;border-radius:8px;padding:5px 10px;font-size:.75rem;font-weight:700}
+html.light .pill{color:#062036}
+
+.to-top{
+  position:fixed;right:14px;bottom:14px;z-index:70;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--accent);border:1px solid var(--accent2);color:#dff0ff;
+  font-size:1.1rem;cursor:pointer;display:none;
+}
+html.light .to-top{color:#062036}
+.to-top.show{display:block}
+
+.print-hint{
+  background:#3d2b06;color:#fde68a;border:1px solid #a16207;border-radius:10px;
+  padding:10px 12px;margin:10px 0;font-size:.86rem;
+}
+html.light .print-hint{background:#fef3c7;color:#78350f;border-color:#d97706}
+
+.author-name{font-size:2rem;font-weight:900;letter-spacing:-.02em;margin:.1em 0}
+.meta-line{font-size:.86rem;color:var(--muted);margin:.2em 0}
+mark.search-hl{background:#facc15;color:#111;border-radius:3px;padding:0 2px}
+
+/* ---------- IMPRESIÓN ---------- */
+@media print{
+  @page{size:A4 portrait;margin:14mm 12mm}
+  html,body{
+    background:#fff !important;color:#000 !important;
+    padding:0 !important;margin:0 !important;font-size:11pt !important;
+  }
+  *{box-shadow:none !important;text-shadow:none !important}
+  .toolbar,.tabs,.to-top,.copyBtn,.progress-bar,nav,.search-hl,.no-print{display:none !important}
+  .panel{display:block !important;page-break-after:auto !important;animation:none !important}
+  .card,.hero-svg-mount,details,table,.table-wrap{page-break-inside:avoid}
+  pre,table{overflow:visible !important;white-space:pre-wrap;word-break:break-word}
+  pre{border:1px solid #999 !important;background:#f5f5f5 !important;color:#000 !important}
+  .card,details,.table-wrap{
+    background:#fff !important;border:1px solid #999 !important;color:#000 !important;
+  }
+  h1,h2,h3,h4,.brand,.muted,p,li,td,th,span,strong,em,code,summary{color:#000 !important}
+  th{background:#e8e8e8 !important;color:#000 !important}
+  .tag,.pill,.badge-ok,.badge-warn,.badge-bad{
+    background:#eee !important;color:#000 !important;border:1px solid #888 !important;
+  }
+  a{color:#000 !important;text-decoration:underline}
+  .hero-svg-mount{display:block !important;width:100% !important;max-width:100% !important}
+  .hero-svg-mount svg{width:100% !important;height:auto !important}
+  .ck-progress,.print-hint{display:none !important}
+  .ck input{accent-color:#000}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== SVG FUENTE (única plantilla) ==================== -->
+<svg id="svgHeroSource" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#101a2e"/>
+      <stop offset="1" stop-color="#0a0e1a"/>
+    </linearGradient>
+    <radialGradient id="sunGrad">
+      <stop offset="0" stop-color="#fff3c4"/>
+      <stop offset="0.55" stop-color="#ffc857"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </radialGradient>
+    <radialGradient id="glowF">
+      <stop offset="0" stop-color="#ffc857" stop-opacity="0.55"/>
+      <stop offset="0.6" stop-color="#ffc857" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#ffc857" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#12203a"/>
+      <stop offset="1" stop-color="#0d1729"/>
+    </linearGradient>
+    <linearGradient id="gAcc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#24507d"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7dd3fc"/>
+      <stop offset="1" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g id="svgHero">
+    <!-- fondo -->
+    <rect x="0" y="0" width="820" height="320" rx="18" fill="url(#skyGrad)"/>
+    <rect x="0.75" y="0.75" width="818.5" height="318.5" rx="18" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+
+    <!-- estrellas -->
+    <g fill="#cfe6ff">
+      <circle cx="176" cy="28" r="1.5"><animate attributeName="opacity" values="0.15;0.9;0.15" dur="3.2s" repeatCount="indefinite"/></circle>
+      <circle cx="312" cy="44" r="1.2"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="4.1s" repeatCount="indefinite"/></circle>
+      <circle cx="472" cy="24" r="1.4"><animate attributeName="opacity" values="0.2;1;0.2" dur="2.7s" repeatCount="indefinite"/></circle>
+      <circle cx="628" cy="22" r="1.2"><animate attributeName="opacity" values="1;0.2;1" dur="3.8s" repeatCount="indefinite"/></circle>
+      <circle cx="764" cy="42" r="1.5"><animate attributeName="opacity" values="0.25;0.95;0.25" dur="4.6s" repeatCount="indefinite"/></circle>
+      <circle cx="540" cy="46" r="1.1"><animate attributeName="opacity" values="0.4;1;0.4" dur="5.2s" repeatCount="indefinite"/></circle>
+    </g>
+
+    <!-- ================= SOL ================= -->
+    <g>
+      <circle cx="80" cy="78" r="58" fill="url(#glowF)">
+        <animate attributeName="r" values="52;64;52" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.72;1;0.72" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 80 78" to="360 80 78" dur="26s" repeatCount="indefinite"/>
+        <g stroke="#ffc857" stroke-width="3" stroke-linecap="round" opacity="0.78">
+          <line x1="80" y1="34" x2="80" y2="20"/>
+          <line x1="111" y1="47" x2="121" y2="37"/>
+          <line x1="124" y1="78" x2="138" y2="78"/>
+          <line x1="111" y1="109" x2="121" y2="119"/>
+          <line x1="80" y1="122" x2="80" y2="136"/>
+          <line x1="49" y1="109" x2="39" y2="119"/>
+          <line x1="36" y1="78" x2="22" y2="78"/>
+          <line x1="49" y1="47" x2="39" y2="37"/>
+        </g>
+      </g>
+      <circle cx="80" cy="78" r="26" fill="url(#sunGrad)" filter="url(#softGlow)">
+        <animate attributeName="r" values="25;28;25" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <text x="80" y="158" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">SOL</text>
+    </g>
+
+    <!-- rayos viajando hacia el panel -->
+    <circle r="2.6" fill="#ffd166">
+      <animateMotion dur="3s" begin="0s" repeatCount="indefinite" path="M112,104 L192,118"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6" fill="#ffd166">
+      <animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M112,104 L192,118"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6" fill="#ffd166">
+      <animateMotion dur="3s" begin="2s" repeatCount="indefinite" path="M112,104 L192,118"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- ================= PANEL FOTOVOLTAICO ================= -->
+    <g>
+      <line x1="200" y1="128" x2="200" y2="152" stroke="#2f5f8f" stroke-width="3"/>
+      <line x1="276" y1="116" x2="276" y2="152" stroke="#2f5f8f" stroke-width="3"/>
+      <g transform="rotate(-8 235 91)">
+        <rect x="180" y="60" width="110" height="62" rx="5" fill="url(#panelGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+        <g stroke="#2f5f8f" stroke-width="1">
+          <line x1="207" y1="60" x2="207" y2="122"/>
+          <line x1="234" y1="60" x2="234" y2="122"/>
+          <line x1="261" y1="60" x2="261" y2="122"/>
+          <line x1="180" y1="91" x2="290" y2="91"/>
+        </g>
+        <rect x="184" y="62" width="14" height="58" fill="#ffffff" opacity="0.14">
+          <animate attributeName="x" values="182;274;182" dur="5s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      <text x="238" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">PANELES</text>
+    </g>
+
+    <!-- flujo panel -> inversor -->
+    <g>
+      <circle r="3" fill="#7dd3fc">
+        <animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" path="M296,86 L346,90"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.6s" begin="0s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3" fill="#7dd3fc">
+        <animateMotion dur="1.6s" begin="0.55s" repeatCount="indefinite" path="M296,86 L346,90"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.6s" begin="0.55s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3" fill="#7dd3fc">
+        <animateMotion dur="1.6s" begin="1.1s" repeatCount="indefinite" path="M296,86 L346,90"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.6s" begin="1.1s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- ================= INVERSOR ================= -->
+    <g>
+      <rect x="350" y="62" width="64" height="60" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <rect x="358" y="70" width="48" height="22" rx="3" fill="#132a44"/>
+      <g fill="#38bdf8">
+        <rect x="362" y="84" width="6" height="4">
+          <animate attributeName="height" values="4;10;6;12;4" dur="2.4s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="84;78;82;76;84" dur="2.4s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="372" y="80" width="6" height="8">
+          <animate attributeName="height" values="8;4;12;5;8" dur="2.1s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="80;84;76;83;80" dur="2.1s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="382" y="82" width="6" height="6">
+          <animate attributeName="height" values="6;12;4;9;6" dur="2.8s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="82;76;84;79;82" dur="2.8s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="392" y="78" width="6" height="10">
+          <animate attributeName="height" values="10;5;9;4;10" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="78;83;79;84;78" dur="2.5s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      <circle cx="382" cy="105" r="3.5" fill="#22c55e">
+        <animate attributeName="opacity" values="0.2;1;0.2" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="382" y="142" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">INVERSOR</text>
+    </g>
+
+    <!-- flujo inversor -> batería -->
+    <g>
+      <circle r="3" fill="#7dd3fc">
+        <animateMotion dur="1.4s" begin="0s" repeatCount="indefinite" path="M416,92 L438,92"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.4s" begin="0s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3" fill="#7dd3fc">
+        <animateMotion dur="1.4s" begin="0.7s" repeatCount="indefinite" path="M416,92 L438,92"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.4s" begin="0.7s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- ================= BATERÍA ================= -->
+    <g>
+      <rect x="462" y="56" width="12" height="8" rx="2" fill="#38bdf8"/>
+      <rect x="440" y="64" width="64" height="58" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <clipPath id="clipBat"><rect x="446" y="70" width="52" height="46" rx="4"/></clipPath>
+      <g clip-path="url(#clipBat)">
+        <rect x="446" y="112" width="52" height="4" fill="url(#waterGrad)" opacity="0.85">
+          <animate attributeName="height" values="4;46;46;4" dur="6s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="112;70;70;112" dur="6s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      <path d="M474 78 L465 95 L472 95 L468 109 L481 90 L473 90 Z" fill="#ffc857">
+        <animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <text x="472" y="142" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">BATERÍA</text>
+    </g>
+
+    <!-- flujo batería -> casa -->
+    <g>
+      <circle r="3.2" fill="#7dd3fc">
+        <animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" path="M506,92 L556,92 L596,118"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3.2" fill="#7dd3fc">
+        <animateMotion dur="2.4s" begin="0.8s" repeatCount="indefinite" path="M506,92 L556,92 L596,118"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3.2" fill="#7dd3fc">
+        <animateMotion dur="2.4s" begin="1.6s" repeatCount="indefinite" path="M506,92 L556,92 L596,118"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- ================= CASA ================= -->
+    <g>
+      <polygon points="586,96 660,50 734,96" fill="#1e3a5f" stroke="#38bdf8" stroke-width="1.5"/>
+      <rect x="600" y="96" width="120" height="68" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <rect x="646" y="128" width="26" height="36" rx="2" fill="#1e3a5f" stroke="#38bdf8" stroke-width="1"/>
+      <rect x="612" y="110" width="26" height="22" rx="2" fill="#ffc857">
+        <animate attributeName="opacity" values="0.35;1;0.8;1;0.35" dur="5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="682" y="110" width="26" height="22" rx="2" fill="#ffc857">
+        <animate attributeName="opacity" values="1;0.4;1;0.7;1" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <text x="660" y="184" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">CASA · TRABAJO ÚTIL</text>
+    </g>
+
+    <!-- ================= AGUA: HUMEDAD ================= -->
+    <g>
+      <g fill="#1e3a5f">
+        <circle cx="72" cy="258" r="16"/>
+        <circle cx="94" cy="248" r="20"/>
+        <circle cx="118" cy="258" r="15"/>
+        <rect x="58" y="258" width="76" height="18" rx="9"/>
+      </g>
+      <g fill="#7dd3fc" opacity="0.75">
+        <circle cx="66" cy="240" r="2.2">
+          <animate attributeName="cy" values="240;222;222" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0;0" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="96" cy="232" r="2.2">
+          <animate attributeName="cy" values="232;212;212" dur="3.6s" begin="0.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0;0" dur="3.6s" begin="0.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="120" cy="240" r="2.2">
+          <animate attributeName="cy" values="240;220;220" dur="3.3s" begin="1.6s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0;0" dur="3.3s" begin="1.6s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+      <text x="90" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">HUMEDAD DEL AIRE</text>
+    </g>
+
+    <!-- aire hacia el condensador -->
+    <g fill="#7dd3fc">
+      <circle r="2.5">
+        <animateMotion dur="1.8s" begin="0s" repeatCount="indefinite" path="M142,266 L196,266"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.8s" begin="0s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2.5">
+        <animateMotion dur="1.8s" begin="0.6s" repeatCount="indefinite" path="M142,266 L196,266"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2.5">
+        <animateMotion dur="1.8s" begin="1.2s" repeatCount="indefinite" path="M142,266 L196,266"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- ================= CONDENSADOR ================= -->
+    <g>
+      <rect x="200" y="212" width="88" height="64" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <g stroke="#7dd3fc" stroke-width="3" stroke-linecap="round">
+        <line x1="216" y1="228" x2="216" y2="262">
+          <animate attributeName="opacity" values="0.35;0.9;0.35" dur="3s" repeatCount="indefinite"/>
+        </line>
+        <line x1="230" y1="228" x2="230" y2="262">
+          <animate attributeName="opacity" values="0.9;0.35;0.9" dur="3s" repeatCount="indefinite"/>
+        </line>
+        <line x1="244" y1="228" x2="244" y2="262">
+          <animate attributeName="opacity" values="0.5;0.95;0.5" dur="2.4s" repeatCount="indefinite"/>
+        </line>
+        <line x1="258" y1="228" x2="258" y2="262">
+          <animate attributeName="opacity" values="0.9;0.4;0.9" dur="3.6s" repeatCount="indefinite"/>
+        </line>
+        <line x1="272" y1="228" x2="272" y2="262">
+          <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.8s" repeatCount="indefinite"/>
+        </line>
+      </g>
+      <text x="244" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">CONDENSADOR</text>
+    </g>
+
+    <!-- gotas hacia el depósito -->
+    <g fill="#7dd3fc">
+      <circle r="3">
+        <animateMotion dur="2.2s" begin="0s" repeatCount="indefinite" path="M292,262 Q315,244 336,254"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="2.2s" begin="0s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3">
+        <animateMotion dur="2.2s" begin="0.75s" repeatCount="indefinite" path="M292,262 Q315,244 336,254"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="2.2s" begin="0.75s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="3">
+        <animateMotion dur="2.2s" begin="1.5s" repeatCount="indefinite" path="M292,262 Q315,244 336,254"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="2.2s" begin="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- ================= DEPÓSITO ================= -->
+    <g>
+      <rect x="340" y="210" width="92" height="66" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <clipPath id="clipTank"><rect x="344" y="214" width="84" height="58" rx="6"/></clipPath>
+      <g clip-path="url(#clipTank)">
+        <rect x="344" y="266" width="84" height="6" fill="url(#waterGrad)" opacity="0.85">
+          <animate attributeName="y" values="266;216;266" dur="8s" repeatCount="indefinite"/>
+          <animate attributeName="height" values="6;56;6" dur="8s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="344" y="258" width="84" height="4" fill="#bae6fd" opacity="0.35">
+          <animate attributeName="y" values="258;208;258" dur="8s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      <text x="386" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">AGUA · L/kWh</text>
+    </g>
+
+    <!-- ================= MICALET ================= -->
+    <g transform="translate(0,-8)">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="-16 490 250;14 490 250;-16 490 250" dur="0.85s" repeatCount="indefinite"/>
+        <path d="M490,250 Q476,238 478,224" stroke="#d4a72c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+      <rect x="498" y="266" width="6" height="16" rx="3" fill="#a9861c"/>
+      <rect x="512" y="268" width="6" height="14" rx="3" fill="#a9861c"/>
+      <rect x="526" y="266" width="6" height="16" rx="3" fill="#a9861c"/>
+      <rect x="538" y="268" width="6" height="14" rx="3" fill="#a9861c"/>
+      <ellipse cx="516" cy="258" rx="26" ry="13" fill="#d4a72c"/>
+      <circle cx="544" cy="244" r="12" fill="#d4a72c"/>
+      <path d="M537,234 Q533,221 546,228 Z" fill="#a9861c"/>
+      <circle cx="554" cy="248" r="4.5" fill="#8a6a12"/>
+      <circle cx="548" cy="240" r="1.9" fill="#0a0e1a"/>
+      <text x="516" y="304" text-anchor="middle" font-size="11" font-weight="700" fill="#8fb3d9" font-family="system-ui,sans-serif">MICALET</text>
+    </g>
+
+    <!-- leyenda -->
+    <g font-family="system-ui,sans-serif" font-size="10.5" fill="#6f8fb3">
+      <text x="30" y="24">SOL → PANELES → INVERSOR → BATERÍA → TRABAJO ÚTIL</text>
+      <text x="30" y="42" opacity="0.85">AIRE HÚMEDO → CONDENSACIÓN → AGUA → TRATAMIENTO → DEPÓSITO</text>
+    </g>
+  </g>
+</svg>
+
+<!-- ==================== BARRA SUPERIOR ==================== -->
+<header class="topbar">
+  <div class="progress-bar"><div id="progressFill"></div></div>
+  <div class="toolbar">
+    <div class="brand">MARTE EN VALENCIA · TUTORIAL</div>
+    <div class="tools">
+      <input id="search" type="search" placeholder="Buscar…" aria-label="Buscar en el tutorial">
+      <button class="btn" id="btnFontDown" title="Reducir tamaño del texto">A−</button>
+      <button class="btn" id="btnFontUp" title="Aumentar tamaño del texto">A+</button>
+      <button class="btn" id="btnTheme" title="Cambiar entre modo oscuro y claro">🌙</button>
+      <button class="btn" id="btnPrint" title="Imprimir o guardar como PDF">🖨️ PDF</button>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Secciones del tutorial">
+    <button class="tab active" role="tab" data-target="p-inicio" aria-selected="true">INICIO</button>
+    <button class="tab" role="tab" data-target="p-conceptos" aria-selected="false">CONCEPTOS</button>
+    <button class="tab" role="tab" data-target="p-procedimiento" aria-selected="false">PROCEDIMIENTO</button>
+    <button class="tab" role="tab" data-target="p-practica" aria-selected="false">PRÁCTICA</button>
+    <button class="tab" role="tab" data-target="p-errores" aria-selected="false">ERRORES</button>
+    <button class="tab" role="tab" data-target="p-resumen" aria-selected="false">RESUMEN</button>
+    <button class="tab" role="tab" data-target="p-fuentes" aria-selected="false">FUENTES</button>
+    <button class="tab" role="tab" data-target="p-creditos" aria-selected="false">CRÉDITOS</button>
+  </nav>
+</header>
+
+<main id="panels">
+
+<!-- ==================== INICIO ==================== -->
+<section class="panel active" id="p-inicio" role="tabpanel" aria-labelledby="tab-inicio">
+  <div class="hero-svg-mount" data-svg-hero="true" role="img"
+       aria-label="Esquema animado: el sol alimenta unos paneles fotovoltaicos; la energía pasa por un inversor y una batería hasta la casa. Abajo, la humedad del aire se condensa en agua que se almacena en un depósito. Un perro, Micalet, acompaña el sistema."></div>
+  <p class="muted" style="text-align:center;font-size:.82rem;margin-top:-4px">
+    El sistema completo, en movimiento: <strong>Sol → electricidad → trabajo útil</strong> y <strong>humedad → agua</strong>.
+  </p>
+
+  <h1>MARTE EN VALENCIA</h1>
+  <p class="muted" style="margin-top:-6px">
+    Manual de resiliencia tecnológica para vivir pequeño, eficiente y preparado.
+    <br>Basado en el documento original de <strong>Rubén Sbarsky</strong>.
+  </p>
+
+  <div class="card hi">
+    <h3>🎯 ¿Qué vas a aprender aquí?</h3>
+    <p>
+      Este tutorial te enseña a aplicar el método <strong>MARTE EN VALENCIA</strong>: una forma
+      ordenada de pensar, medir y construir sistemas pequeños que sigan funcionando
+      cuando la infraestructura habitual falla.
+    </p>
+    <ul>
+      <li>Cómo convertir «no se puede» en una pregunta técnica con respuesta.</li>
+      <li>Cómo medir antes de comprar (consumo, sol, agua, humedad).</li>
+      <li>Cómo diseñar con <strong>Plan A, Plan B y Plan C</strong> en lugar de depender de un único sistema.</li>
+      <li>Cómo montar un pequeño laboratorio doméstico para medir resultados reales.</li>
+      <li>Cómo evaluar una vivienda y un pueblo antes de instalarte.</li>
+    </ul>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <h3>🧭 ¿Para qué sirve?</h3>
+      <p>
+        Para <strong>eliminar puntos únicos de falla</strong>. No se trata de vivir aislado del mundo:
+        se trata de que, si algo falla, tu vida no se detenga.
+      </p>
+      <p class="muted" style="font-size:.9rem">
+        La casa deja de ser solo una casa y se convierte en un sistema medible.
+      </p>
+    </div>
+    <div class="card">
+      <h3>🧰 ¿Qué necesitas antes de empezar?</h3>
+      <ul>
+        <li>Curiosidad y paciencia.</li>
+        <li>Un cuaderno o una hoja de cálculo para registrar medidas.</li>
+        <li>Instrumentos básicos: medidor de consumo, termómetro, higrómetro.</li>
+        <li>Ganas de experimentar a pequeña escala antes de invertir dinero.</li>
+      </ul>
+      <p class="muted" style="font-size:.86rem">No necesitas conocimientos previos de electrónica.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🏁 Objetivos del tutorial</h3>
+    <ol>
+      <li>Entender la filosofía MARTE y sus dos reglas fundamentales.</li>
+      <li>Saber medir el consumo real de una vivienda antes de dimensionar nada.</li>
+      <li>Poder plantear una hipótesis fotovoltaica y verificarla con datos.</li>
+      <li>Saber diseñar alternativas para electricidad, agua, Internet, calor y movilidad.</li>
+      <li>Aplicar las <strong>20 pruebas de MARTE</strong> a cualquier vivienda.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>📱 Cómo usar este tutorial</h3>
+    <ol>
+      <li>Usa las <strong>pestañas</strong> de arriba para moverte entre secciones.</li>
+      <li>Si es la primera vez, sigue el orden: INICIO → CONCEPTOS → PROCEDIMIENTO → PRÁCTICA.</li>
+      <li>Usa el <strong>buscador</strong> (🔍) para encontrar cualquier término.</li>
+      <li>Ajusta el tamaño del texto con <strong>A−</strong> y <strong>A+</strong>.</li>
+      <li>Cambia a <strong>modo claro</strong> con el botón 🌙 si lees de día.</li>
+      <li>Pulsa <strong>🖨️ PDF</strong> para guardar todo el tutorial como documento imprimible.</li>
+      <li>Los botones <strong>COPIAR</strong> copian listas y checklists para que las uses fuera del tutorial.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>✅ Checklist de aprendizaje</h3>
+    <p class="muted" style="font-size:.9rem">Marca cada punto cuando lo tengas claro. Tu progreso se guarda en este navegador.</p>
+    <div class="ck-progress"><div id="ckFill"></div></div>
+    <p id="ckText" class="muted" style="font-size:.85rem;margin-top:0">0 de 8 completados</p>
+
+    <label class="ck"><input type="checkbox" data-ck="1"> Entiendo qué significa «MARTE EN VALENCIA» y qué NO significa.</label>
+    <label class="ck"><input type="checkbox" data-ck="2"> Sé explicar la diferencia entre Plan A y Plan B.</label>
+    <label class="ck"><input type="checkbox" data-ck="3"> Reconozco un punto único de falla cuando lo veo.</label>
+    <label class="ck"><input type="checkbox" data-ck="4"> Sé aplicar las dos reglas fundamentales.</label>
+    <label class="ck"><input type="checkbox" data-ck="5"> Entiendo por qué hay que medir el consumo antes de dimensionar paneles.</label>
+    <label class="ck"><input type="checkbox" data-ck="6"> Sé qué significa la métrica L/kWh y para qué sirve.</label>
+    <label class="ck"><input type="checkbox" data-ck="7"> Conozco las 20 pruebas de MARTE y para qué se usan.</label>
+    <label class="ck"><input type="checkbox" data-ck="8"> Entiendo el principio de degradación (fallar sin colapsar).</label>
+  </div>
+
+  <div class="card ok">
+    <h3>⚡ La idea en una frase</h3>
+    <p style="font-size:1.02rem">
+      <strong>No se trata de demostrar que podemos vivir sin civilización.</strong>
+      Se trata de tomar una pequeña parte de ella, miniaturizarla, comprenderla,
+      repararla y hacerla manejable por una persona.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== CONCEPTOS ==================== -->
+<section class="panel" id="p-conceptos" role="tabpanel">
+  <h2>CONCEPTOS</h2>
+  <p class="muted">Todo lo que hay que entender antes de tocar nada. Sin prisa: aquí está el 80&nbsp;% del valor del método.</p>
+
+  <div class="card">
+    <h3>1. ¿Qué es MARTE EN VALENCIA?</h3>
+    <p><strong>Qué es:</strong> una forma de vivir en un entorno rural usando tecnología, conocimiento y recursos locales para miniaturizar una parte de la infraestructura de la civilización hasta hacerla manejable por una sola persona.</p>
+    <p><strong>Para qué sirve:</strong> para que la casa funcione como un pequeño sistema tecnológico con alternativas.</p>
+    <p><strong>Por qué importa:</strong> porque no pretende funcionar aislada del mundo, sino eliminar los <em>puntos únicos de falla</em>.</p>
+    <p><strong>Qué NO es:</strong> no es escapar de la civilización, no es autosuficiencia total y no es negar los límites físicos, legales o económicos.</p>
+
+    <div class="pill-row">
+      <span class="pill">CIVILIZACIÓN</span><span class="pill">↓</span>
+      <span class="pill">INFRAESTRUCTURA</span><span class="pill">↓</span>
+      <span class="pill">TECNOLOGÍA</span><span class="pill">↓</span>
+      <span class="pill">SISTEMA PEQUEÑO</span><span class="pill">↓</span>
+      <span class="pill">AUTONOMÍA + RESILIENCIA</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>2. Plan A y Plan B</h3>
+    <p>
+      La casa <strong>sí</strong> usa la infraestructura existente. Eso es el Plan A y es lo normal y lo deseable.
+      El Plan B no sustituye al Plan A: entra en acción cuando el Plan A falla.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sistema</th><th>PLAN A</th><th>PLAN B</th><th>PLAN C</th></tr></thead>
+        <tbody>
+          <tr><td>Internet</td><td>Fibra</td><td>4G / 5G</td><td>Hotspot móvil o satélite</td></tr>
+          <tr><td>Electricidad</td><td>Red eléctrica</td><td>Fotovoltaica + batería</td><td>Reducción de consumo / fuente auxiliar</td></tr>
+          <tr><td>Agua</td><td>Red pública</td><td>Depósito / cisterna</td><td>Fuente alternativa + tratamiento</td></tr>
+          <tr><td>Calor para cocinar</td><td>Butano</td><td>Bombona de reserva</td><td>Electricidad para tareas concretas</td></tr>
+          <tr><td>Movilidad</td><td>Bicicleta eléctrica</td><td>Transporte público / taxi</td><td>Desplazamientos planificados</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card warn">
+    <h3>3. Punto único de falla (PUdF)</h3>
+    <p><strong>Qué es:</strong> cualquier elemento cuyo fallo deja todo el sistema inoperativo.</p>
+    <p><strong>Por qué importa:</strong> es el enemigo principal del método MARTE.</p>
+    <h4>Ejemplos típicos</h4>
+    <ul>
+      <li>Un único inversor del que depende toda la casa.</li>
+      <li>Una única bomba de agua.</li>
+      <li>Una única conexión a Internet.</li>
+      <li>Una única bombona de butano.</li>
+      <li>Una única herramienta que no puede repararse ni sustituirse.</li>
+    </ul>
+    <p><strong>Cómo se corrige:</strong> con redundancia, modularidad, almacenamiento, reducción de consumo o procedimientos alternativos. No siempre hace falta comprar un segundo equipo.</p>
+  </div>
+
+  <div class="card">
+    <h3>4. Las dos reglas fundamentales</h3>
+    <div class="card hi" style="margin:10px 0">
+      <h4 style="margin-top:0">REGLA Nº 1</h4>
+      <p>«No se puede» no es el final de la investigación. Es el comienzo de la pregunta:
+        <strong>«¿Qué es lo que exactamente no se puede?»</strong></p>
+    </div>
+    <div class="card hi" style="margin:10px 0">
+      <h4 style="margin-top:0">REGLA Nº 2</h4>
+      <p><strong>«No me permito un desafío sin alternativas.»</strong></p>
+    </div>
+    <p>
+      Cuando alguien dice «no se puede», la respuesta correcta <em>no</em> es «sí se puede»,
+      y tampoco es «entonces es imposible». La respuesta correcta es preguntar qué parte
+      exactamente no se puede.
+    </p>
+    <p><strong>«No se puede» puede significar muchas cosas:</strong></p>
+    <ul>
+      <li>Es físicamente imposible.</li>
+      <li>Es técnicamente posible pero demasiado caro.</li>
+      <li>Es técnicamente posible pero poco eficiente.</li>
+      <li>Requiere demasiada energía.</li>
+      <li>Requiere demasiada agua.</li>
+      <li>Requiere una infraestructura que no existe.</li>
+      <li>Es ilegal.</li>
+      <li>Es peligroso.</li>
+      <li>No está suficientemente probado.</li>
+      <li>Es posible pero requiere otra tecnología.</li>
+      <li>Es posible pero hay que cambiar la escala.</li>
+      <li>Es posible pero necesita una solución híbrida.</li>
+      <li>Simplemente nadie lo ha intentado de esa manera.</li>
+    </ul>
+    <p class="muted">Por eso: «NO SE PUEDE» → «¿CUÁL ES EL LÍMITE?» → «¿PODEMOS CAMBIAR EL MÉTODO?»</p>
+  </div>
+
+  <div class="card">
+    <h3>5. El método MARTE</h3>
+    <div class="copy-wrap">
+      <button class="copyBtn" data-copy-target="#c-metodo">COPIAR</button>
+      <ol id="c-metodo">
+        <li>Identificar el problema.</li>
+        <li>Preguntar cuál es el límite real.</li>
+        <li>Medir.</li>
+        <li>Separar hechos de suposiciones.</li>
+        <li>Buscar alternativas.</li>
+        <li>Diseñar un experimento pequeño.</li>
+        <li>Medir el resultado.</li>
+        <li>Mejorar.</li>
+        <li>Crear una alternativa de respaldo.</li>
+        <li>Documentar lo aprendido.</li>
+      </ol>
+    </div>
+    <p><strong>La filosofía es:</strong> no creer. Medir.</p>
+  </div>
+
+  <div class="card">
+    <h3>6. Los tres habitantes</h3>
+    <div class="grid three">
+      <div class="card" style="margin:0">
+        <h4 style="margin-top:0">RUBÉN</h4>
+        <ul style="font-size:.9rem">
+          <li>Curiosidad</li><li>Experiencia</li><li>Capacidad técnica</li>
+          <li>Imaginación</li><li>Aprendizaje</li>
+        </ul>
+      </div>
+      <div class="card" style="margin:0">
+        <h4 style="margin-top:0">MICALET</h4>
+        <ul style="font-size:.9rem">
+          <li>Compañía</li><li>Alegría</li><li>Movimiento</li>
+          <li>Vigilancia</li><li>Una excusa para salir a caminar</li>
+        </ul>
+      </div>
+      <div class="card" style="margin:0">
+        <h4 style="margin-top:0">IA</h4>
+        <ul style="font-size:.9rem">
+          <li>Cálculo</li><li>Documentación</li><li>Análisis</li>
+          <li>Programación</li><li>Investigación y diseño</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:12px"><strong>La combinación es:</strong> HUMANO + PERRO + IA.</p>
+  </div>
+
+  <div class="card">
+    <h3>7. Eficiencia antes que tamaño</h3>
+    <p>
+      La reacción intuitiva ante un problema energético es «necesitamos más energía».
+      La respuesta MARTE es: <strong>«primero veamos si necesitamos realmente tanta energía»</strong>.
+    </p>
+    <p>Antes de ampliar la instalación:</p>
+    <ul>
+      <li>Reducir pérdidas.</li>
+      <li>Mejorar aislamiento.</li>
+      <li>Usar LED.</li>
+      <li>Usar equipos eficientes.</li>
+      <li>Usar velocidad variable.</li>
+      <li>Desplazar consumos a las horas solares.</li>
+      <li>Aprovechar directamente la energía solar.</li>
+      <li>Evitar conversiones innecesarias.</li>
+      <li>Dimensionar correctamente la batería.</li>
+    </ul>
+    <p class="muted">La mejor energía es, muchas veces, la que no necesitamos producir.</p>
+  </div>
+
+  <div class="card">
+    <h3>8. Modularidad y degradación</h3>
+    <p>
+      Una infraestructura grande puede ser muy eficiente, pero una infraestructura
+      <strong>modular</strong> puede ser mucho más resistente. En lugar de un sistema enorme,
+      varios módulos que pueden funcionar solos, juntos, sustituirse, repararse o ampliarse.
+    </p>
+    <p>
+      Y un buen sistema no solo funciona perfecto: <strong>también sabe funcionar mal</strong>.
+    </p>
+    <div class="pill-row">
+      <span class="pill">Consumo normal</span><span class="pill">↓</span>
+      <span class="pill">Consumo reducido</span><span class="pill">↓</span>
+      <span class="pill">Solo cargas esenciales</span><span class="pill">↓</span>
+      <span class="pill">Modo emergencia</span>
+    </div>
+    <p class="muted">Eso es resiliencia: no que el sistema sea invulnerable, sino que pueda <strong>fallar sin colapsar</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h3>9. Glosario rápido</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Término</th><th>Qué significa</th></tr></thead>
+        <tbody>
+          <tr><td>kWh</td><td>Unidad de energía. Es lo que «gasta» o «produce» un sistema.</td></tr>
+          <tr><td>kWp</td><td>Potencia pico de una instalación fotovoltaica (vatios pico).</td></tr>
+          <tr><td>MPPT</td><td>Seguimiento del punto de máxima potencia: el inversor busca el mejor rendimiento del panel.</td></tr>
+          <tr><td>LiFePO4</td><td>Química de batería de litio, muy usada en instalaciones solares.</td></tr>
+          <tr><td>Punto de rocío</td><td>Temperatura a la que el aire húmedo empieza a condensar agua.</td></tr>
+          <tr><td>L/kWh</td><td>Litros de agua obtenidos por cada kWh consumido. Métrica clave del sistema de agua.</td></tr>
+          <tr><td>PUdF</td><td>Punto único de falla.</td></tr>
+          <tr><td>Redundancia</td><td>Tener más de una forma de conseguir lo mismo.</td></tr>
+          <tr><td>Degradación</td><td>Pasar a un modo de funcionamiento reducido sin dejar de funcionar.</td></tr>
+          <tr><td>Híbrido (inversor)</td><td>Equipo que combina MPPT, gestión de batería, conversión DC/AC y monitorización.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <details>
+    <summary>Resumen de CONCEPTOS</summary>
+    <ul>
+      <li>MARTE EN VALENCIA miniaturiza infraestructura; no busca aislarse.</li>
+      <li>Plan A: usar la infraestructura. Plan B: alternativas cuando falla.</li>
+      <li>El enemigo es el punto único de falla.</li>
+      <li>Regla 1: «no se puede» es el inicio de la pregunta.</li>
+      <li>Regla 2: no me permito un desafío sin alternativas.</li>
+      <li>Método: medir, experimentar, mejorar, documentar.</li>
+      <li>Eficiencia antes que tamaño.</li>
+      <li>Redundancia y modularidad antes que un único sistema.</li>
+      <li>Diseñar para el fallo: poder funcionar mal sin colapsar.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- ==================== PROCEDIMIENTO ==================== -->
+<section class="panel" id="p-procedimiento" role="tabpanel">
+  <h2>PROCEDIMIENTO</h2>
+  <p class="muted">Diez procedimientos concretos, en orden. Cada uno tiene objetivo, pasos, resultado esperado y qué hacer si algo sale mal.</p>
+
+  <div class="card">
+    <h3>P1 · Medir el consumo real de la casa</h3>
+    <p><strong>Objetivo:</strong> saber cuánta energía consumes de verdad, y cuándo.</p>
+    <p><strong>Explicación sencilla:</strong> no se diseña para una «casa promedio». Se diseña para tu casa.</p>
+    <ol>
+      <li>Anota la potencia de cada aparato (viene en su etiqueta).</li>
+      <li>Mide con un medidor de enchufe los aparatos grandes (nevera, lavadora, bomba).</li>
+      <li>Registra durante 7 días el consumo diario total.</li>
+      <li>Anota a qué horas se consume más.</li>
+      <li>Suma el consumo de una semana y divide entre 7 para obtener el promedio diario.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> un número en kWh/día y un perfil horario básico.</p>
+    <p><strong>Si algo sale mal:</strong> si no tienes medidor, empieza midiendo solo la nevera y la iluminación; son los dos consumos más constantes.</p>
+  </div>
+
+  <div class="card">
+    <h3>P2 · Medir el recurso solar</h3>
+    <p><strong>Objetivo:</strong> saber cuánta energía puedes producir realmente donde vives.</p>
+    <ol>
+      <li>Identifica la orientación del tejado o del terreno.</li>
+      <li>Anota la inclinación disponible.</li>
+      <li>Observa y anota las sombras a distintas horas del día.</li>
+      <li>Registra la irradiación solar de tu zona (dato disponible en tablas locales).</li>
+      <li>Calcula la producción diaria y anual estimada.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> kWh/día y kWh/año estimados por kWp instalado.</p>
+    <p><strong>Si algo sale mal:</strong> si hay sombras parciales, mide cuántas horas afectan y resta esa pérdida al cálculo.</p>
+  </div>
+
+  <div class="card">
+    <h3>P3 · Plantear una hipótesis fotovoltaica</h3>
+    <p><strong>Objetivo:</strong> tener un punto de partida concreto que luego se ajustará con datos.</p>
+    <ol>
+      <li>Escribe la hipótesis inicial: 6 paneles de ~450 W (≈2,7 kWp).</li>
+      <li>Añade: inversor híbrido de 3–5 kW.</li>
+      <li>Añade: batería LiFePO4 de ~5 kWh.</li>
+      <li>Marca claramente en tu cuaderno: «esto NO es el dimensionamiento definitivo».</li>
+      <li>Compara la producción estimada con tu consumo real medido.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una primera comparación entre lo que produces y lo que consumes.</p>
+    <p><strong>Si algo sale mal:</strong> si la producción estimada es muy superior al consumo, reduce paneles antes de ampliar batería.</p>
+    <div class="card warn" style="margin:12px 0 0">
+      <p style="margin:0"><strong>Importante:</strong> el sistema definitivo debe calcularse <em>después</em> de conocer consumo real, perfil horario, cargas críticas, producción solar, necesidades de batería, climatización, agua, herramientas y futuras ampliaciones.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>P4 · Dimensionar la batería</h3>
+    <p><strong>Objetivo:</strong> almacenar lo necesario, no lo máximo posible.</p>
+    <ol>
+      <li>Identifica tu consumo nocturno (kWh).</li>
+      <li>Identifica tus cargas críticas (nevera, bomba, comunicaciones).</li>
+      <li>Decide cuántas horas de autonomía necesitas como mínimo.</li>
+      <li>Calcula los kWh útiles necesarios.</li>
+      <li>Elige la capacidad comercial más cercana por encima.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una capacidad en kWh justificada con números.</p>
+    <p><strong>Si algo sale mal:</strong> recuerda que la batería no crea energía, solo la almacena, y que introduce coste, pérdidas, mantenimiento y envejecimiento. Más batería no siempre es mejor sistema.</p>
+  </div>
+
+  <div class="card">
+    <h3>P5 · Diseñar para varios días sin sol</h3>
+    <p><strong>Objetivo:</strong> sobrevivir a periodos malos sin colapsar.</p>
+    <ol>
+      <li>Define qué es «día malo» en tu zona: nublado, ola de calor, ola de frío.</li>
+      <li>Estima cuántos días seguidos pueden ser malos.</li>
+      <li>Decide qué cargas se pueden aplazar.</li>
+      <li>Decide qué cargas son esenciales y no se pueden aplazar.</li>
+      <li>Elige una combinación: reducir consumo, aumentar batería, aumentar generación, usar red, usar sistema auxiliar.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> un plan escrito de «modo mal tiempo».</p>
+    <p><strong>Si algo sale mal:</strong> si no puedes cubrir varios días, prioriza las cargas esenciales y acepta que el resto se aplaza.</p>
+  </div>
+
+  <div class="card">
+    <h3>P6 · Resolver el agua</h3>
+    <p><strong>Objetivo:</strong> tener agua suficiente, segura y con alternativas.</p>
+    <ol>
+      <li>Distingue entre agua para beber y agua para otros usos.</li>
+      <li>Enumera las fuentes posibles: red pública, pozo legal, depósito, cisterna, lluvia, reutilización legal, captación atmosférica.</li>
+      <li>Anota las limitaciones de cada fuente.</li>
+      <li>Calcula el consumo total: humano + Micalet + limpieza + otros usos.</li>
+      <li>Define un Plan B para cuando la fuente principal falle.</li>
+      <li>Prevé el tratamiento y control del agua destinada a consumo humano.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> un sistema de agua con fuente principal, reserva y tratamiento.</p>
+    <p><strong>Si algo sale mal:</strong> nunca asumas que una fuente de agua es potable. Verifica siempre.</p>
+  </div>
+
+  <div class="card">
+    <h3>P7 · Montar el laboratorio MARTE-01 (agua del aire)</h3>
+    <p><strong>Objetivo:</strong> medir cuántos litros de agua obtienes por cada kWh.</p>
+    <p><strong>Explicación sencilla:</strong> el aire húmedo, al tocar una superficie fría, condensa agua. Pero obtenerla consume energía, así que la pregunta correcta es: ¿cuántos litros por kWh?</p>
+    <ol>
+      <li>Construye un pequeño prototipo con una superficie fría y circulación de aire.</li>
+      <li>Mide la temperatura ambiente.</li>
+      <li>Mide la humedad relativa.</li>
+      <li>Calcula el punto de rocío.</li>
+      <li>Mide el consumo eléctrico del sistema.</li>
+      <li>Mide los litros producidos.</li>
+      <li>Mide el tiempo de funcionamiento.</li>
+      <li>Calcula L/kWh.</li>
+      <li>Repite el experimento con distintas temperaturas y humedades.</li>
+      <li>Compara resultados y anótalos.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> un valor de L/kWh medido, no supuesto.</p>
+    <p><strong>Si algo sale mal:</strong> si produces muy poco, cambia el método: más superficie fría, más flujo de aire, otra temperatura de evaporador.</p>
+    <div class="card warn" style="margin:12px 0 0">
+      <p style="margin:0"><strong>Recuerda:</strong> «Valencia es húmeda» no permite calcular cuánta agua obtendrás. Hay que medir.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>P8 · Elegir el pueblo y la vivienda</h3>
+    <p><strong>Objetivo:</strong> elegir el sistema completo, no solo la casa bonita.</p>
+    <ol>
+      <li>Comprueba precio y alquiler.</li>
+      <li>Comprueba agua y electricidad.</li>
+      <li>Comprueba Internet y cobertura móvil.</li>
+      <li>Comprueba si hay butano y reparto.</li>
+      <li>Comprueba comercio, ferretería y farmacia.</li>
+      <li>Comprueba transporte y centro médico.</li>
+      <li>Comprueba climatología, orientación y terreno.</li>
+      <li>Comprueba saneamiento y accesibilidad.</li>
+      <li>Comprueba la posibilidad real de hacer reparaciones.</li>
+      <li>Antes de instalar tecnología en una casa antigua, comprueba estructura, cubierta, humedad, aislamiento, instalación eléctrica, agua, saneamiento, ventilación, climatización y seguridad.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una decisión basada en el sistema completo.</p>
+    <p><strong>Si algo sale mal:</strong> recuerda el orden correcto: primero <em>hacer habitable</em>, después <em>hacer eficiente</em>, después <em>hacer inteligente</em>.</p>
+  </div>
+
+  <div class="card">
+    <h3>P9 · Diseñar para el fallo</h3>
+    <p><strong>Objetivo:</strong> que ninguna avería se convierta en un colapso.</p>
+    <p><strong>Explicación sencilla:</strong> la pregunta habitual es «¿cómo hago para que no falle?». La pregunta MARTE es «¿qué ocurre cuando falle?».</p>
+    <ol>
+      <li>Haz una lista de todos los sistemas importantes: electricidad, agua, Internet, calor, movilidad, herramientas.</li>
+      <li>Para cada uno, escribe cuál es su punto único de falla.</li>
+      <li>Escribe un Plan B para cada uno.</li>
+      <li>Escribe un Plan C para los sistemas críticos.</li>
+      <li>Comprueba que cada Plan B es realista (no sirve un plan que necesita algo que no tienes).</li>
+      <li>Documenta los planes y guárdalos.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una tabla de planes A/B/C por sistema.</p>
+    <p><strong>Si algo sale mal:</strong> si un sistema no tiene Plan B posible, redúcelo o divídelo en módulos.</p>
+  </div>
+
+  <div class="card">
+    <h3>P10 · Construir por fases</h3>
+    <p><strong>Objetivo:</strong> no construir todo de golpe.</p>
+    <p>MARTE EN VALENCIA no necesita estar terminado el primer día.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Fase</th><th>Qué resuelve</th></tr></thead>
+        <tbody>
+          <tr><td>FASE 1</td><td>Vivienda habitable</td></tr>
+          <tr><td>FASE 2</td><td>Eficiencia energética</td></tr>
+          <tr><td>FASE 3</td><td>Fotovoltaica</td></tr>
+          <tr><td>FASE 4</td><td>Almacenamiento</td></tr>
+          <tr><td>FASE 5</td><td>Automatización</td></tr>
+          <tr><td>FASE 6</td><td>Producción y gestión de agua</td></tr>
+          <tr><td>FASE 7</td><td>Redundancias</td></tr>
+          <tr><td>FASE 8</td><td>Laboratorio tecnológico</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Resultado esperado:</strong> cada fase resuelve un problema real y medible.</p>
+    <p><strong>Si algo sale mal:</strong> si una fase no resuelve un problema real, no la hagas todavía.</p>
+  </div>
+
+  <details>
+    <summary>Resumen de PROCEDIMIENTO</summary>
+    <ol>
+      <li>Medir consumo real y perfil horario.</li>
+      <li>Medir recurso solar disponible.</li>
+      <li>Plantear hipótesis fotovoltaica (no definitiva).</li>
+      <li>Dimensionar batería según consumo nocturno y cargas críticas.</li>
+      <li>Diseñar para varios días sin sol.</li>
+      <li>Resolver el agua con fuente, reserva y tratamiento.</li>
+      <li>Medir L/kWh en el laboratorio MARTE-01.</li>
+      <li>Elegir pueblo y vivienda por el sistema completo.</li>
+      <li>Diseñar para el fallo con Plan A / B / C.</li>
+      <li>Construir por fases, cada una con un problema real.</li>
+    </ol>
+  </details>
+</section>
+
+<!-- ==================== PRÁCTICA ==================== -->
+<section class="panel" id="p-practica" role="tabpanel">
+  <h2>PRÁCTICA</h2>
+  <p class="muted">Ejercicios con solución explicada, casos de uso y las 20 pruebas de MARTE.</p>
+
+  <div class="card">
+    <h3>Ejercicio 1 · Calcular L/kWh</h3>
+    <p><strong>Enunciado:</strong> tu prototipo de condensación consume 320 W y en 4 horas produce 1,8 litros de agua. ¿Cuál es su rendimiento en L/kWh?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p><strong>Paso 1.</strong> Energía consumida = 0,32 kW × 4 h = <strong>1,28 kWh</strong>.</p>
+      <p><strong>Paso 2.</strong> Litros producidos = 1,8 L.</p>
+      <p><strong>Paso 3.</strong> Rendimiento = 1,8 ÷ 1,28 = <strong>1,41 L/kWh</strong>.</p>
+      <p><strong>Interpretación:</strong> si tu consumo diario de agua fuese de 10 L, necesitarías unos 7,1 kWh solo para el agua. Eso te obliga a revisar si el sistema es viable o si hay que reducir consumo o buscar otra fuente.</p>
+      <p class="muted"><strong>Error frecuente:</strong> confundir vatios con kilovatios. 320 W son 0,32 kW, no 320 kW.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>Ejercicio 2 · ¿Cuánta energía necesito de verdad?</h3>
+    <p><strong>Enunciado:</strong> tu casa consume 6 kWh/día. Detectas que la nevera antigua gasta 2 kWh/día. La sustituyes por una eficiente que gasta 0,8 kWh/día. ¿Cuánto has reducido y qué implica?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p><strong>Paso 1.</strong> Ahorro = 2 − 0,8 = <strong>1,2 kWh/día</strong>.</p>
+      <p><strong>Paso 2.</strong> Nuevo consumo = 6 − 1,2 = <strong>4,8 kWh/día</strong>.</p>
+      <p><strong>Paso 3.</strong> Reducción = 1,2 ÷ 6 = <strong>20 %</strong>.</p>
+      <p><strong>Implicación:</strong> ese 20 % menos de consumo puede significar menos paneles, menos batería o más días de autonomía con la misma instalación. <em>Eficiencia antes que tamaño.</em></p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>Ejercicio 3 · Detectar puntos únicos de falla</h3>
+    <p><strong>Enunciado:</strong> una casa tiene: una única bomba de agua, un único inversor, fibra de Internet y una bombona de butano. ¿Cuántos puntos únicos de falla hay y qué Plan B propondrías?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Elemento</th><th>¿PUdF?</th><th>Plan B propuesto</th></tr></thead>
+          <tbody>
+            <tr><td>Bomba de agua</td><td>Sí</td><td>Bomba de reserva, depósito elevado o almacenamiento suficiente</td></tr>
+            <tr><td>Inversor</td><td>Sí</td><td>Equipo de sustitución, circuitos esenciales separados, funcionamiento degradado</td></tr>
+            <tr><td>Fibra de Internet</td><td>Sí</td><td>4G/5G, hotspot móvil, alternativa satelital</td></tr>
+            <tr><td>Bombona de butano</td><td>Sí</td><td>Bombona de reserva, electricidad para algunas tareas, compra local</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Conclusión:</strong> hay 4 puntos únicos de falla. No hace falta comprar cuatro sistemas nuevos: algunos Plan B son de procedimiento (por ejemplo, separar circuitos esenciales o tener una bombona de reserva).</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>Ejercicio 4 · Reformular un «no se puede»</h3>
+    <p><strong>Enunciado:</strong> alguien dice «en esta casa no se puede tener agua caliente sin butano».</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p><strong>Paso 1.</strong> No responder «sí se puede» ni aceptar «es imposible».</p>
+      <p><strong>Paso 2.</strong> Preguntar: «¿qué parte exactamente no se puede?».</p>
+      <p><strong>Paso 3.</strong> Descomponer:</p>
+      <ul>
+        <li>¿No se puede calentar agua? (falso: hay resistencias, bombas de calor, solar térmica)</li>
+        <li>¿No se puede calentar agua sin butano? (posible, pero ¿a qué coste energético?)</li>
+        <li>¿No se puede calentar agua sin butano con la instalación eléctrica actual? (probablemente cierto)</li>
+      </ul>
+      <p><strong>Paso 4.</strong> La pregunta correcta pasa a ser: «¿cuántos kWh necesito para calentar el agua que realmente uso y cuándo los tengo disponibles?».</p>
+      <p><strong>Conclusión:</strong> el límite real no era el agua caliente, era la potencia eléctrica disponible y el momento del consumo.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>Ejercicio 5 · Comparar una máquina grande con varias pequeñas</h3>
+    <p><strong>Enunciado:</strong> necesitas cubrir una demanda que la mayor parte del tiempo es baja, pero en algunos momentos es alta. ¿Una máquina grande o dos pequeñas?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p><strong>Hipótesis de trabajo:</strong> dos máquinas pequeñas pueden ser más útiles que una grande en determinadas aplicaciones.</p>
+      <p><strong>No porque la grande sea peor</strong>, sino porque varias máquinas aportan: modularidad, redundancia, funcionamiento parcial, mantenimiento sin detener todo, adaptación a diferentes cargas y menor punto único de falla.</p>
+      <ul>
+        <li>Si A falla → B continúa.</li>
+        <li>Si la demanda es pequeña → funciona solo A.</li>
+        <li>Si la demanda aumenta → A + B.</li>
+      </ul>
+      <p><strong>Importante:</strong> esto es una hipótesis y debe verificarse con mediciones. No se supone: se experimenta.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>Las 20 pruebas de MARTE</h3>
+    <p>Antes de considerar viable una vivienda, responde a estas 20 preguntas. Para cada respuesta, escribe <strong>cuál es el Plan B</strong>.</p>
+    <div class="copy-wrap">
+      <button class="copyBtn" data-copy-target="#c-20pruebas">COPIAR</button>
+      <ol id="c-20pruebas">
+        <li>¿Qué pasa si se corta la electricidad?</li>
+        <li>¿Qué pasa si se agota la batería?</li>
+        <li>¿Qué pasa si falla el inversor?</li>
+        <li>¿Qué pasa si no hay agua?</li>
+        <li>¿Qué pasa si falla la bomba?</li>
+        <li>¿Qué pasa si se termina el butano?</li>
+        <li>¿Qué pasa si no hay reparto?</li>
+        <li>¿Qué pasa si cae Internet?</li>
+        <li>¿Qué pasa si falla la red móvil?</li>
+        <li>¿Qué pasa si se rompe una máquina?</li>
+        <li>¿Qué pasa si tenemos varios días nublados?</li>
+        <li>¿Qué pasa durante una ola de calor?</li>
+        <li>¿Qué pasa durante una ola de frío?</li>
+        <li>¿Qué pasa si el comercio está cerrado?</li>
+        <li>¿Qué pasa si necesitamos un repuesto?</li>
+        <li>¿Qué pasa si necesitamos atención médica?</li>
+        <li>¿Qué pasa si falla la bicicleta eléctrica?</li>
+        <li>¿Qué pasa si aparece una reparación urgente?</li>
+        <li>¿Qué pasa si aumenta temporalmente el consumo?</li>
+        <li>¿Qué pasa si falla el PLAN A durante varios días?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Caso de uso real: el inversor averiado</h3>
+    <p><strong>Situación:</strong> el inversor deja de funcionar un viernes por la tarde. La casa depende de él para todo.</p>
+    <p><strong>Qué falla en el diseño:</strong> hay un punto único de falla.</p>
+    <p><strong>Alternativas posibles:</strong></p>
+    <ul>
+      <li>Tener un equipo de sustitución.</li>
+      <li>Tener un segundo inversor cuando esté justificado.</li>
+      <li>Diseñar la instalación para que la sustitución sea rápida.</li>
+      <li>Separar circuitos esenciales.</li>
+      <li>Prever un modo de funcionamiento degradado.</li>
+    </ul>
+    <p><strong>Lección:</strong> una avería no debe convertirse en un colapso.</p>
+  </div>
+
+  <div class="card">
+    <h3>Caso de uso real: varios días nublados</h3>
+    <p><strong>Situación:</strong> cuatro días seguidos de baja producción.</p>
+    <p><strong>Alternativas:</strong></p>
+    <ul>
+      <li>Reducir consumos.</li>
+      <li>Utilizar solamente cargas esenciales.</li>
+      <li>Aumentar batería (si se planificó antes).</li>
+      <li>Utilizar la red eléctrica si existe.</li>
+      <li>Aplazar tareas.</li>
+      <li>Cambiar temporalmente la fuente energética.</li>
+    </ul>
+    <p><strong>Lección:</strong> la resiliencia no significa producir infinitamente; significa poder sobrevivir a periodos malos.</p>
+  </div>
+
+  <details>
+    <summary>Resumen de PRÁCTICA</summary>
+    <ul>
+      <li>Calcular L/kWh es la métrica clave del sistema de agua.</li>
+      <li>Reducir consumo suele ser más rentable que ampliar generación.</li>
+      <li>Los puntos únicos de falla se detectan enumerando sistemas y buscando el eslabón único.</li>
+      <li>Un «no se puede» siempre se descompone en preguntas más pequeñas.</li>
+      <li>La modularidad es una hipótesis que se verifica midiendo.</li>
+      <li>Las 20 pruebas de MARTE son una herramienta de decisión antes de mudarse.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- ==================== ERRORES ==================== -->
+<section class="panel" id="p-errores" role="tabpanel">
+  <h2>ERRORES FRECUENTES</h2>
+  <p class="muted">Los tropiezos más habituales al aplicar el método, y cómo corregirlos.</p>
+
+  <div class="card bad">
+    <h3>Error 1 · Dimensionar para una casa promedio</h3>
+    <p><strong>Qué pasa:</strong> se calcula el sistema energético usando el consumo de una familia promedio, y el resultado no tiene nada que ver con la casa real.</p>
+    <p><strong>Cómo corregirlo:</strong> medir primero. ¿Cuántos Wh consume realmente la casa? ¿Cuándo? ¿Qué se puede desplazar a las horas solares? ¿Qué se puede reducir? Solo entonces: ¿cuántos paneles necesitamos?</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 2 · Creer que «más batería» es «mejor sistema»</h3>
+    <p><strong>Qué pasa:</strong> se compra una batería enorme sin haber estudiado el consumo.</p>
+    <p><strong>Cómo corregirlo:</strong> la batería no crea energía, la almacena, y añade coste, pérdidas, mantenimiento, envejecimiento y capacidad limitada. Primero estudia el consumo; después dimensiona.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 3 · Suponer que «Valencia es húmeda» basta</h3>
+    <p><strong>Qué pasa:</strong> se asume que habrá agua de sobra sin medir nada.</p>
+    <p><strong>Cómo corregirlo:</strong> la producción de agua atmosférica depende de temperatura, humedad relativa, humedad absoluta, punto de rocío, temperatura del evaporador, circulación de aire, potencia del compresor, eficiencia del sistema, condensación real y energía disponible. Hay que medir L/kWh.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 4 · Comprar antes de medir</h3>
+    <p><strong>Qué pasa:</strong> se compra la instalación antes de conocer el consumo y el recurso.</p>
+    <p><strong>Cómo corregirlo:</strong> sigue el método MARTE: identificar, medir, separar hechos de suposiciones, buscar alternativas, experimentar a pequeña escala.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 5 · Un solo sistema para todo</h3>
+    <p><strong>Qué pasa:</strong> toda la casa depende de un único inversor, una única bomba, una única conexión.</p>
+    <p><strong>Cómo corregirlo:</strong> aplicar modularidad y redundancia. No siempre hace falta duplicar equipos: a veces basta con almacenamiento, reducción de consumo o procedimientos alternativos.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 6 · Confundir «no se puede» con «es imposible»</h3>
+    <p><strong>Qué pasa:</strong> se abandona un objetivo sin investigar el límite real.</p>
+    <p><strong>Cómo corregirlo:</strong> preguntar «¿qué es lo que exactamente no se puede?». A menudo el límite no es el objetivo, sino el método, la escala o la tecnología empleada.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 7 · Confundir «posible» con «viable»</h3>
+    <p><strong>Qué pasa:</strong> algo es técnicamente posible, pero demasiado caro, poco eficiente, ilegal o peligroso.</p>
+    <p><strong>Cómo corregirlo:</strong> el código MARTE lo dice claro: no confundir una dificultad con una imposibilidad, ni una posibilidad con una solución viable.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 8 · Ignorar el problema térmico</h3>
+    <p><strong>Qué pasa:</strong> se añaden paneles para alimentar un aire acondicionado, en lugar de reducir la necesidad de climatizar.</p>
+    <p><strong>Cómo corregirlo:</strong> antes de aumentar paneles: aislamiento, sombra, ventilación, orientación, sellado, reducción del volumen climatizado, climatización eficiente, equipos inverter y programación.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 9 · Climatizar toda la casa</h3>
+    <p><strong>Qué pasa:</strong> se intenta mantener «temperatura perfecta en toda la casa» y el consumo se dispara.</p>
+    <p><strong>Cómo corregirlo:</strong> el objetivo puede ser «mantener confortable el espacio que estoy utilizando». No climatizar lo que no necesitamos climatizar.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 10 · Ignorar el saneamiento y la normativa</h3>
+    <p><strong>Qué pasa:</strong> se improvisa el saneamiento o se instala algo que no cumple la normativa.</p>
+    <p><strong>Cómo corregirlo:</strong> comprobar alcantarillado, fosa cuando sea legal y adecuada, normativa, características de la parcela, gestión de aguas residuales y permisos necesarios. El principio MARTE no significa ignorar la ley.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 11 · Descuidar la seguridad eléctrica</h3>
+    <p><strong>Qué pasa:</strong> se prioriza la autonomía sobre la seguridad.</p>
+    <p><strong>Cómo corregirlo:</strong> protecciones, seccionamiento, fusibles, magnetotérmicos, diferenciales cuando correspondan, puesta a tierra, protección frente a sobretensiones, cableado adecuado, protección de baterías, prevención de incendios y normativa aplicable. <strong>La autonomía nunca justifica una instalación insegura.</strong></p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 12 · No prever mantenimiento ni repuestos</h3>
+    <p><strong>Qué pasa:</strong> una herramienta que no puede repararse se convierte en un punto único de falla.</p>
+    <p><strong>Cómo corregirlo:</strong> crear calendario, inspecciones, limpieza, mediciones, repuestos, documentación y registro de fallos. La información es una herramienta: un manual guardado puede valer tanto como una pieza de repuesto.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 13 · Elegir la casa por su aspecto</h3>
+    <p><strong>Qué pasa:</strong> se elige el pueblo por lo bonita que sea la casa y luego aparecen los problemas.</p>
+    <p><strong>Cómo corregirlo:</strong> el pueblo se elige por el sistema completo: agua, electricidad, Internet, cobertura, butano, comercio, transporte, farmacia, centro médico, ferretería, climatología, orientación, terreno, saneamiento, accesibilidad y posibilidad de reparaciones.</p>
+  </div>
+
+  <div class="card bad">
+    <h3>Error 14 · Construir todo de golpe</h3>
+    <p><strong>Qué pasa:</strong> se intenta tener el sistema completo terminado el primer día, con sobrecoste y errores.</p>
+    <p><strong>Cómo corregirlo:</strong> construir por fases, cada una resolviendo un problema real.</p>
+  </div>
+
+  <details>
+    <summary>Resumen de ERRORES</summary>
+    <ul>
+      <li>Medir antes de comprar.</li>
+      <li>Eficiencia antes que tamaño.</li>
+      <li>La batería no crea energía.</li>
+      <li>La humedad no garantiza agua: hay que medir L/kWh.</li>
+      <li>Evitar puntos únicos de falla.</li>
+      <li>«No se puede» es una pregunta, no una conclusión.</li>
+      <li>Atacar primero el problema térmico.</li>
+      <li>Respetar normativa y seguridad.</li>
+      <li>Prever mantenimiento y repuestos.</li>
+      <li>Elegir el pueblo por el sistema completo.</li>
+      <li>Construir por fases.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- ==================== RESUMEN ==================== -->
+<section class="panel" id="p-resumen" role="tabpanel">
+  <h2>RESUMEN</h2>
+
+  <div class="card hi">
+    <h3>La idea completa en 10 líneas</h3>
+    <ol>
+      <li>Miniaturizar infraestructura, no escapar de la civilización.</li>
+      <li>Plan A: usar lo que existe. Plan B: alternativas cuando falle.</li>
+      <li>Eliminar puntos únicos de falla.</li>
+      <li>«No se puede» → «¿qué es exactamente lo que no se puede?».</li>
+      <li>No me permito un desafío sin alternativas.</li>
+      <li>Medir antes de suponer.</li>
+      <li>Eficiencia antes que tamaño.</li>
+      <li>Modularidad y redundancia antes que un único sistema.</li>
+      <li>Diseñar para el fallo: fallar sin colapsar.</li>
+      <li>Documentar lo aprendido y seguir adelante.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>Tabla de métricas</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Área</th><th>Métrica</th><th>Qué mide</th></tr></thead>
+        <tbody>
+          <tr><td>Agua</td><td><strong>L/kWh</strong></td><td>Litros de agua por cada kWh consumido</td></tr>
+          <tr><td>Iluminación</td><td><strong>lm/Wh</strong></td><td>Lúmenes por vatio-hora</td></tr>
+          <tr><td>Movilidad</td><td><strong>km/kWh</strong></td><td>Kilómetros por kWh</td></tr>
+          <tr><td>Climatización</td><td><strong>confort/kWh</strong></td><td>Confort obtenido por unidad de energía</td></tr>
+          <tr><td>Producción solar</td><td><strong>kWh/kWp</strong></td><td>Energía producida por potencia pico instalada</td></tr>
+          <tr><td>Almacenamiento</td><td><strong>kWh útiles</strong></td><td>Energía realmente aprovechable de la batería</td></tr>
+          <tr><td>Máquina</td><td><strong>trabajo útil/kWh</strong></td><td>Trabajo real obtenido por unidad de energía</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">La pregunta fundamental: ¿cuánto trabajo útil obtengo por cada unidad de energía?</p>
+  </div>
+
+  <div class="card">
+    <h3>El código de MARTE EN VALENCIA</h3>
+    <div class="copy-wrap">
+      <button class="copyBtn" data-copy-target="#c-codigo">COPIAR</button>
+      <ol id="c-codigo">
+        <li>No me permito un desafío sin alternativas.</li>
+        <li>«No se puede» no es el final de la investigación.</li>
+        <li>Preguntar siempre: «¿qué es lo que exactamente no se puede?».</li>
+        <li>Medir antes de suponer.</li>
+        <li>Eficiencia antes que tamaño.</li>
+        <li>Redundancia antes que punto único de falla.</li>
+        <li>Modularidad antes que dependencia de un único sistema.</li>
+        <li>Diseñar para el fallo.</li>
+        <li>Si falla el Plan A, debe existir un Plan B.</li>
+        <li>Si el Plan B también falla, buscar el Plan C.</li>
+        <li>Experimentar a pequeña escala.</li>
+        <li>Documentar los resultados.</li>
+        <li>No confundir una dificultad con una imposibilidad.</li>
+        <li>No confundir una posibilidad con una solución viable.</li>
+        <li>Respetar la física.</li>
+        <li>Respetar la seguridad.</li>
+        <li>Respetar la ley.</li>
+        <li>Utilizar la tecnología para miniaturizar infraestructura.</li>
+        <li>Aprender de cada fallo.</li>
+        <li>Seguir adelante.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>El principio de no colapso</h3>
+    <ul>
+      <li>Si falla Internet: seguimos funcionando.</li>
+      <li>Si falla la red: seguimos funcionando.</li>
+      <li>Si falla un equipo: seguimos funcionando.</li>
+      <li>Si tenemos varios días nublados: reducimos consumo.</li>
+      <li>Si falta agua: utilizamos la reserva o la alternativa.</li>
+      <li>Si falla una bomba: existe otra estrategia.</li>
+      <li>Si falla el Plan A: aparece el Plan B.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>La filosofía MARTE</h3>
+    <ul>
+      <li>No buscamos perfección. Buscamos <strong>resiliencia</strong>.</li>
+      <li>No buscamos hacerlo todo. Buscamos <strong>tener alternativas</strong>.</li>
+      <li>No buscamos producir más. Buscamos <strong>más trabajo útil por unidad de recurso</strong>.</li>
+      <li>No buscamos ser autosuficientes en todo. Buscamos <strong>no tener puntos únicos de falla</strong>.</li>
+      <li>No decimos «todo se puede». Decimos: <strong>«averigüemos exactamente qué no se puede»</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Preguntas frecuentes</h3>
+    <details>
+      <summary>¿Esto es vivir aislado del mundo?</summary>
+      <p>No. MARTE EN VALENCIA usa la infraestructura existente como Plan A. Lo que hace es añadir alternativas para cuando el Plan A falla.</p>
+    </details>
+    <details>
+      <summary>¿Necesito ser autosuficiente en todo?</summary>
+      <p>No. El objetivo no es hacerlo absolutamente todo, sino poder decidir: cuándo comprar, cuándo producir, cuándo almacenar, cuándo reparar, cuándo sustituir, cuándo esperar y cuándo pedir ayuda.</p>
+    </details>
+    <details>
+      <summary>¿Cuántos paneles necesito?</summary>
+      <p>Depende de tu consumo real medido, de tu perfil horario y del recurso solar de tu ubicación. La hipótesis inicial de 6 paneles de ~450 W es solo un punto de partida conceptual, no un dimensionamiento definitivo.</p>
+    </details>
+    <details>
+      <summary>¿Cuánta agua puedo sacar del aire?</summary>
+      <p>Depende de la temperatura, la humedad relativa, el punto de rocío, la temperatura del evaporador, la circulación de aire, la potencia del compresor y la eficiencia del sistema. La única forma de saberlo es medir L/kWh.</p>
+    </details>
+    <details>
+      <summary>¿Y si algo es realmente imposible?</summary>
+      <p>Entonces se acepta el límite y se cambia la estrategia: si no puedes producir agua suficiente, reduce el consumo; si no puedes almacenar energía suficiente, desplaza el consumo; si no puedes climatizar toda la casa, climatiza una habitación. El límite no desaparece: cambiamos el método.</p>
+    </details>
+    <details>
+      <summary>¿Por dónde empiezo mañana?</summary>
+      <p>Por medir. Mide tu consumo eléctrico durante una semana. Es el primer paso del método y el que más decisiones correctas te ahorrará.</p>
+    </details>
+  </div>
+
+  <details>
+    <summary>Resumen de RESUMEN</summary>
+    <ul>
+      <li>El método se resume en: medir, calcular, experimentar, fallar, aprender, rediseñar.</li>
+      <li>Las métricas convierten opiniones en datos.</li>
+      <li>El código de 20 puntos es la guía permanente.</li>
+      <li>El objetivo final: que una falla no produzca un colapso.</li>
+      <li>Marte es la metáfora. Valencia es el laboratorio.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- ==================== FUENTES ==================== -->
+<section class="panel" id="p-fuentes" role="tabpanel">
+  <h2>FUENTES</h2>
+
+  <div class="card">
+    <h3>Documento base</h3>
+    <p><strong>Título:</strong> MARTE EN VALENCIA — Manual de resiliencia tecnológica para vivir pequeño, eficiente y preparado.</p>
+    <p><strong>Autor:</strong> Rubén Sbarsky.</p>
+    <p><strong>Archivo:</strong> <code>MARTE-EN-VALENCIA V001.html</code></p>
+    <p><strong>Contenido:</strong> 56 apartados que cubren la idea, las dos reglas fundamentales, el método MARTE, los tres habitantes, el recurso solar, la eficiencia, el inversor, la modularidad, la hipótesis fotovoltaica, la batería, los días sin sol, cocina y agua caliente, el agua, MARTE-01 (agua de la atmósfera), el laboratorio, Internet, iluminación, refrigeración, alimentación, movilidad, herramientas, el diseño para el fallo, averías típicas, la casa antigua, saneamiento, seguridad eléctrica, mantenimiento, el principio de degradación, las 20 pruebas, la regla de los planes, la modularidad, las fases, el laboratorio MARTE, las métricas, la casa como máquina termodinámica, la segunda revolución de la tecnología, el paso de la dependencia a la resiliencia, la elección del pueblo, el principio del desafío, los límites reales, el principio de no colapso, la filosofía y el código de MARTE.</p>
+    <p><strong>Dedicatoria del original:</strong> «Este programa está dedicado a los yayos que hicieron de Valencia el mejor lugar del mundo.»</p>
+  </div>
+
+  <div class="card">
+    <h3>Nota sobre el contenido de este tutorial</h3>
+    <p>
+      Todo el contenido de este tutorial proviene del documento base. Se ha reorganizado,
+      explicado y convertido en formato pedagógico (qué es → para qué sirve → por qué importa →
+      cómo se hace → ejemplo → práctica → errores → resumen), pero no se han añadido
+      afirmaciones técnicas que no estuvieran respaldadas por el documento original.
+    </p>
+    <p class="muted">
+      Las soluciones de los ejercicios de la pestaña PRÁCTICA son aplicaciones aritméticas
+      de las métricas definidas en el documento (L/kWh, kWh, reducción porcentual) y no
+      introducen datos nuevos.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Advertencia importante</h3>
+    <p>
+      Este material es divulgativo y educativo. Cualquier intervención real sobre instalaciones
+      eléctricas, fotovoltaicas, de baterías, de agua, de saneamiento o de gas debe cumplir
+      la normativa aplicable y, cuando corresponda, ser realizada o supervisada por personal
+      competente.
+    </p>
+    <p class="muted">Recordatorio del código MARTE: respetar la física, respetar la seguridad, respetar la ley.</p>
+  </div>
+</section>
+
+<!-- ==================== CRÉDITOS ==================== -->
+<section class="panel" id="p-creditos" role="tabpanel">
+  <h2>CRÉDITOS</h2>
+
+  <div class="hero-svg-mount" data-svg-hero="true" role="img"
+       aria-label="Esquema animado: el sol alimenta unos paneles fotovoltaicos; la energía pasa por un inversor y una batería hasta la casa. Abajo, la humedad del aire se condensa en agua que se almacena en un depósito. Un perro, Micalet, acompaña el sistema."></div>
+  <p class="muted" style="text-align:center;font-size:.82rem;margin:-4px 0 18px">
+    El sistema MARTE EN VALENCIA en movimiento: energía, agua y compañía.
+  </p>
+
+  <div class="card hi" style="text-align:center">
+    <p class="author-name">Rubén Sbarsky</p>
+    <p style="margin:.1em 0 .6em;font-size:1rem;letter-spacing:.05em;color:var(--muted)"><strong>Autor del tutorial</strong></p>
+    <p class="meta-line">Fecha de creación: <strong>02/10/2026</strong></p>
+    <p class="meta-line">Hora de creación: <strong>09:15:00</strong></p>
+    <p class="meta-line">Versión del archivo: <strong>V001</strong></p>
+  </div>
+
+  <div class="card">
+    <h3>Sobre este tutorial</h3>
+    <p>
+      Tutorial interactivo de un solo archivo HTML, sin dependencias externas ni conexión a Internet.
+      Contiene HTML, CSS, JavaScript y SVG integrados, con pestañas reales, buscador, control de
+      tamaño de texto, modo claro/oscuro, checklist con progreso guardado, botones de copiado y
+      función de impresión / guardado como PDF.
+    </p>
+    <p>
+      El dibujo animado de la parte superior es <strong>el mismo</strong> en INICIO y en CRÉDITOS:
+      se genera desde una única plantilla y se monta con identificadores únicos en cada copia.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Novedades de esta versión</h3>
+    <ul>
+      <li>Versión inicial del tutorial (V001).</li>
+      <li>SVG animado único reutilizado en INICIO y CRÉDITOS, montado con <code>innerHTML</code> e ids únicos.</li>
+      <li>Red de seguridad de remontaje cada 800&nbsp;ms y plan B con imagen SVG embebida.</li>
+      <li>Hoja de impresión completa: los SVG de todas las pestañas se montan antes de imprimir.</li>
+      <li>Fecha y hora fijas grabadas en el HTML, sin cálculo dinámico.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Aviso de impresión</h3>
+    <p>
+      Si al pulsar <strong>🖨️ PDF</strong> no ocurre nada, probablemente estés viendo este archivo
+      dentro de un visor o previsualizador. Abre el archivo directamente en el navegador y pulsa
+      <strong>Ctrl+P</strong> / <strong>Cmd+P</strong>.
+    </p>
+  </div>
+
+  <div class="card" style="text-align:center">
+    <p style="font-size:1.02rem;margin:0">
+      MARTE EN VALENCIA · RUBÉN + MICALET + IA
+    </p>
+    <p class="muted" style="margin:.5em 0 0;font-size:.88rem">
+      SOL ☀️ · BATERÍA 🔋 · AGUA 💧 · INTERNET 📡 · TECNOLOGÍA 🔧 · PERRO 🐕
+    </p>
+    <p style="margin:.9em 0 0;font-size:.94rem">
+      <strong>PLAN A:</strong> CIVILIZACIÓN. &nbsp;&nbsp; <strong>PLAN B:</strong> NOSOTROS.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<div id="printHint" class="print-hint no-print" hidden>
+  Parece que estás viendo este archivo dentro de un visor o previsualizador. Si el diálogo de
+  impresión no se abre, abre el archivo directamente en el navegador y pulsa <strong>Ctrl+P</strong>
+  (o <strong>Cmd+P</strong> en Mac).
+</div>
+
+<button class="to-top no-print" id="toTop" aria-label="Volver arriba">↑</button>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============================================================
+     1. SVG ÚNICO REUTILIZADO (INICIO + CRÉDITOS)
+     ============================================================ */
+  var seq = 0, TPL = null, imgMode = false, animPaused = false;
+
+  function template(){
+    if (TPL) return TPL;
+    var src = document.getElementById('svgHeroSource');
+    if (!src) return { defs:'', art:'' };
+    var defsEl = src.querySelector('defs');
+    var artEl  = src.querySelector('#svgHero');
+    var defsHTML = defsEl ? defsEl.innerHTML : '';
+    var artHTML = '';
+    if (artEl){
+      var clone = artEl.cloneNode(true);
+      clone.removeAttribute('id');
+      artHTML = clone.outerHTML;
+    }
+    TPL = { defs: defsHTML, art: artHTML };
+    if (src.parentNode) src.parentNode.removeChild(src);
+    return TPL;
+  }
+
+  function uniqify(str, uid){
+    var ids = [], m, re = /\sid="([^"]+)"/g;
+    while ((m = re.exec(str))) { ids.push(m[1]); }
+    for (var i = 0; i < ids.length; i++){
+      var id = ids[i];
+      str = str.split('id="' + id + '"').join('id="' + id + '-' + uid + '"');
+      str = str.split('url(#' + id + ')').join('url(#' + id + '-' + uid + ')');
+      str = str.split('href="#' + id + '"').join('href="#' + id + '-' + uid + '"');
+    }
+    return str;
+  }
+
+  function markup(uid){
+    var t = template();
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 320" '
+          + 'preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">'
+          + '<defs>' + t.defs + '</defs>' + t.art + '</svg>';
+    return uniqify(s, uid);
+  }
+
+  function mountOne(m){
+    m.textContent = '';
+    seq++;
+    if (imgMode){
+      var im = document.createElement('img');
+      im.alt = m.getAttribute('aria-label') || 'Ilustración animada';
+      im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(markup('i' + seq));
+      m.appendChild(im);
+      return;
+    }
+    m.innerHTML = markup('h' + seq);
+    var svg = m.querySelector('svg');
+    if (!svg) return;
+    try { svg.setCurrentTime(0); svg.unpauseAnimations(); } catch(e){}
+    if (animPaused){ try { svg.pauseAnimations(); } catch(e){} }
+    var t0 = 0;
+    try { t0 = svg.getCurrentTime(); } catch(e){}
+    setTimeout(function(){
+      if (document.hidden) return;
+      if (m.querySelector('svg') !== svg) return;
+      var r = svg.getBoundingClientRect();
+      if (r.height > 0){
+        var t1 = 0;
+        try { t1 = svg.getCurrentTime(); } catch(e){}
+        if (t1 - t0 < 0.3){ imgMode = true; mountOne(m); }
+      }
+    }, 1600);
+  }
+
+  function mountActive(){
+    var list = document.querySelectorAll('.panel.active [data-svg-hero]');
+    for (var i = 0; i < list.length; i++){ mountOne(list[i]); }
+  }
+
+  function mountAll(){
+    var list = document.querySelectorAll('[data-svg-hero]');
+    for (var i = 0; i < list.length; i++){
+      if (!list[i].firstElementChild) mountOne(list[i]);
+    }
+  }
+
+  function freezeAll(){
+    var list = document.querySelectorAll('[data-svg-hero] svg');
+    for (var i = 0; i < list.length; i++){
+      try { list[i].pauseAnimations(); list[i].setCurrentTime(4); } catch(e){}
+    }
+  }
+
+  function resumeAll(){
+    if (animPaused) return;
+    var list = document.querySelectorAll('[data-svg-hero] svg');
+    for (var i = 0; i < list.length; i++){
+      try { list[i].unpauseAnimations(); } catch(e){}
+    }
+  }
+
+  // Red de seguridad: remonta si el contenedor visible quedó vacío.
+  setInterval(function(){
+    if (document.hidden) return;
+    var list = document.querySelectorAll('.panel.active [data-svg-hero]');
+    for (var i = 0; i < list.length; i++){
+      if (!list[i].firstElementChild) mountOne(list[i]);
+    }
+  }, 800);
+
+  /* ============================================================
+     2. PESTAÑAS
+     ============================================================ */
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.panel');
+
+  function activateTab(id, doScroll){
+    var target = null;
+    for (var i = 0; i < tabs.length; i++){
+      if (tabs[i].getAttribute('data-target') === id) target = tabs[i];
+    }
+    if (!target) return;
+
+    for (var j = 0; j < tabs.length; j++){
+      var on = (tabs[j] === target);
+      tabs[j].classList.toggle('active', on);
+      tabs[j].setAttribute('aria-selected', on ? 'true' : 'false');
+    }
+    for (var k = 0; k < panels.length; k++){
+      panels[k].classList.toggle('active', panels[k].id === id);
+    }
+    mountActive();
+    if (doScroll){
+      try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e){ window.scrollTo(0,0); }
+    }
+  }
+
+  for (var t = 0; t < tabs.length; t++){
+    (function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-target');
+        activateTab(id, true);
+        try { history.replaceState(null, '', '#' + id); } catch(e){}
+      });
+    })(tabs[t]);
+  }
+
+  /* ============================================================
+     3. ARRANQUE SEGÚN HASH
+     ============================================================ */
+  (function init(){
+    var hash = (location.hash || '').replace('#', '');
+    var el = hash ? document.getElementById(hash) : null;
+    if (el && el.classList.contains('panel')){
+      activateTab(hash, false);
+    } else {
+      activateTab('p-inicio', false);
+    }
+    mountActive();
+  })();
+
+  /* ============================================================
+     4. TEMA CLARO / OSCURO Y TAMAÑO DE TEXTO
+     ============================================================ */
+  var btnTheme = document.getElementById('btnTheme');
+
+  function applyTheme(t){
+    document.documentElement.classList.toggle('light', t === 'light');
+    if (btnTheme) btnTheme.textContent = (t === 'light') ? '☀️' : '🌙';
+  }
+  var theme = 'dark';
+  try { theme = localStorage.getItem('marte_theme') || 'dark'; } catch(e){}
+  applyTheme(theme);
+
+  if (btnTheme){
+    btnTheme.addEventListener('click', function(){
+      theme = (theme === 'light') ? 'dark' : 'light';
+      applyTheme(theme);
+      try { localStorage.setItem('marte_theme', theme); } catch(e){}
+    });
+  }
+
+  var fs = 16;
+  try { fs = parseInt(localStorage.getItem('marte_fs'), 10) || 16; } catch(e){}
+  function applyFs(){ document.documentElement.style.setProperty('--fs', fs + 'px'); }
+  applyFs();
+
+  var bDown = document.getElementById('btnFontDown');
+  var bUp   = document.getElementById('btnFontUp');
+  if (bDown) bDown.addEventListener('click', function(){
+    fs = Math.max(14, fs - 1); applyFs();
+    try { localStorage.setItem('marte_fs', String(fs)); } catch(e){}
+  });
+  if (bUp) bUp.addEventListener('click', function(){
+    fs = Math.min(22, fs + 1); applyFs();
+    try { localStorage.setItem('marte_fs', String(fs)); } catch(e){}
+  });
+
+  /* ============================================================
+     5. CHECKLIST + PROGRESO DE APRENDIZAJE
+     ============================================================ */
+  var boxes = document.querySelectorAll('input[type=checkbox][data-ck]');
+  var ckFill = document.getElementById('ckFill');
+  var ckText = document.getElementById('ckText');
+
+  function updateCk(){
+    var total = boxes.length, done = 0;
+    for (var i = 0; i < total; i++){ if (boxes[i].checked) done++; }
+    if (ckFill) ckFill.style.width = total ? (done / total * 100) + '%' : '0%';
+    if (ckText) ckText.textContent = done + ' de ' + total + ' completados';
+  }
+
+  for (var b = 0; b < boxes.length; b++){
+    (function(cb){
+      var key = 'marte_ck_' + cb.getAttribute('data-ck');
+      try { if (localStorage.getItem(key) === '1') cb.checked = true; } catch(e){}
+      cb.addEventListener('change', function(){
+        try { localStorage.setItem(key, cb.checked ? '1' : '0'); } catch(e){}
+        updateCk();
+      });
+    })(boxes[b]);
+  }
+  updateCk();
+
+  /* ============================================================
+     6. BARRA DE PROGRESO DE LECTURA + VOLVER ARRIBA
+     ============================================================ */
+  var fill = document.getElementById('progressFill');
+  var toTop = document.getElementById('toTop');
+
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    if (fill) fill.style.width = pct + '%';
+    if (toTop) toTop.classList.toggle('show', h.scrollTop > 400);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (toTop) toTop.addEventListener('click', function(){
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e){ window.scrollTo(0,0); }
+  });
+
+  /* ============================================================
+     7. BUSCADOR CON RESALTADO
+     ============================================================ */
+  function clearHL(){
+    var marks = document.querySelectorAll('mark.search-hl');
+    for (var i = 0; i < marks.length; i++){
+      var m = marks[i], p = m.parentNode;
+      if (!p) continue;
+      while (m.firstChild) p.insertBefore(m.firstChild, m);
+      p.removeChild(m);
+      if (p.normalize) p.normalize();
+    }
+  }
+
+  function highlightIn(root, q){
+    var nodes = [], n, count = 0;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    while ((n = walker.nextNode())){
+      var p = n.parentNode;
+      if (!p) continue;
+      var tag = p.nodeName ? p.nodeName.toLowerCase() : '';
+      if (tag === 'script' || tag === 'style' || tag === 'mark' || tag === 'textarea') continue;
+      if (p.closest && (p.closest('svg') || p.closest('[data-svg-hero]') || p.closest('.copyBtn'))) continue;
+      if (!n.nodeValue || !n.nodeValue.trim()) continue;
+      nodes.push(n);
+    }
+    var lower = q.toLowerCase();
+    for (var i = 0; i < nodes.length; i++){
+      var node = nodes[i];
+      var text = node.nodeValue;
+      var lowText = text.toLowerCase();
+      var start = 0, idx = lowText.indexOf(lower), frag = null;
+      while (idx !== -1){
+        if (!frag) frag = document.createDocumentFragment();
+        frag.appendChild(document.createTextNode(text.slice(start, idx)));
+        var mark = document.createElement('mark');
+        mark.className = 'search-hl';
+        mark.textContent = text.substr(idx, q.length);
+        frag.appendChild(mark);
+        count++;
+        start = idx + q.length;
+        idx = lowText.indexOf(lower, start);
+      }
+      if (frag){
+        frag.appendChild(document.createTextNode(text.slice(start)));
+        node.parentNode.replaceChild(frag, node);
+      }
+    }
+    return count;
+  }
+
+  var searchEl = document.getElementById('search');
+  var searchTimer = null;
+
+  function runSearch(q){
+    clearHL();
+    if (!q || q.length < 2) return;
+    var firstPanel = null;
+    for (var i = 0; i < panels.length; i++){
+      var found = highlightIn(panels[i], q);
+      if (found && !firstPanel) firstPanel = panels[i].id;
+    }
+    if (firstPanel) activateTab(firstPanel, false);
+  }
+
+  if (searchEl){
+    searchEl.addEventListener('input', function(){
+      if (searchTimer) clearTimeout(searchTimer);
+      var q = searchEl.value.trim();
+      searchTimer = setTimeout(function(){ runSearch(q); }, 220);
+    });
+  }
+
+  /* ============================================================
+     8. BOTONES COPIAR
+     ============================================================ */
+  function copyText(text, btn){
+    var old = btn.textContent;
+    function done(){
+      btn.textContent = '✓ COPIADO';
+      setTimeout(function(){ btn.textContent = old; }, 1400);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
+      document.body.removeChild(ta);
+      if (ok) done();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  var copyBtns = document.querySelectorAll('.copyBtn');
+  for (var c = 0; c < copyBtns.length; c++){
+    (function(btn){
+      btn.addEventListener('click', function(){
+        var sel = btn.getAttribute('data-copy-target');
+        var el = sel ? document.querySelector(sel) : null;
+        var text = el ? el.innerText : (btn.getAttribute('data-copy') || '');
+        copyText(text, btn);
+      });
+    })(copyBtns[c]);
+  }
+
+  /* ============================================================
+     9. IMPRIMIR / PDF
+     ============================================================ */
+  var closedDetails = [];
+
+  function openAllDetails(){
+    closedDetails = [];
+    var list = document.querySelectorAll('details');
+    for (var i = 0; i < list.length; i++){
+      if (!list[i].open){ closedDetails.push(list[i]); list[i].open = true; }
+    }
+  }
+  function restoreDetails(){
+    for (var i = 0; i < closedDetails.length; i++){ closedDetails[i].open = false; }
+    closedDetails = [];
+  }
+
+  var embedded = false;
+  try { embedded = (window.self !== window.top); } catch(e){ embedded = true; }
+
+  var printHint = document.getElementById('printHint');
+
+  function preparePrint(){
+    clearHL();
+    openAllDetails();
+    mountAll();
+    setTimeout(freezeAll, 40);
+  }
+
+  window.addEventListener('beforeprint', function(){
+    preparePrint();
+  });
+
+  window.addEventListener('afterprint', function(){
+    restoreDetails();
+    resumeAll();
+  });
+
+  var btnPrint = document.getElementById('btnPrint');
+  if (btnPrint){
+    btnPrint.addEventListener('click', function(){
+      preparePrint();
+      if (embedded && printHint) printHint.hidden = false;
+      setTimeout(function(){
+        try {
+          window.print();
+        } catch(e){
+          if (printHint) printHint.hidden = false;
+        }
+        setTimeout(function(){
+          restoreDetails();
+          resumeAll();
+        }, 900);
+      }, 90);
+    });
+  }
+
+  /* ============================================================
+     10. BOTÓN MANUAL DE PAUSA DE LA ANIMACIÓN
+     ============================================================ */
+  // Se añade un control sencillo junto al SVG de INICIO.
+  (function addPauseControl(){
+    var mount = document.querySelector('#p-inicio [data-svg-hero]');
+    if (!mount || !mount.parentNode) return;
+    var wrap = document.createElement('div');
+    wrap.style.textAlign = 'right';
+    wrap.style.margin = '-6px 0 4px';
+    var btn = document.createElement('button');
+    btn.className = 'btn no-print';
+    btn.type = 'button';
+    btn.textContent = '⏸ Pausar animación';
+    btn.addEventListener('click', function(){
+      animPaused = !animPaused;
+      if (animPaused){
+        freezeAll();
+        btn.textContent = '▶ Reanudar animación';
+      } else {
+        resumeAll();
+        btn.textContent = '⏸ Pausar animación';
+      }
+    });
+    wrap.appendChild(btn);
+    mount.parentNode.insertBefore(wrap, mount.nextSibling);
+  })();
+
+})();
+</script>
+</body>
+</html>
