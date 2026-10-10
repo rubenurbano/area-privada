@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sot de Chera · Tutorial de investigación — COLONIZAR MARTE EN VALENCIA</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0e1a;
+  --card: #0f172a;
+  --accent: #1e3a5f;
+  --accent-2: #132347;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-faint: #64748b;
+  --blue: #60a5fa;
+  --green: #34d399;
+  --amber: #fbbf24;
+  --red: #f87171;
+  --purple: #a78bfa;
+  --border: #1e293b;
+  --base-font: 16px;
+}
+
+body.light {
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --accent: #dbeafe;
+  --accent-2: #eff6ff;
+  --text: #0f172a;
+  --text-dim: #475569;
+  --text-faint: #94a3b8;
+  --border: #e2e8f0;
+}
+
+html { font-size: var(--base-font); scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Progress */
+.progress-bar {
+  position: fixed; top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  width: 0%;
+  z-index: 1000;
+  transition: width 0.1s ease-out;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(160deg, var(--card) 0%, var(--accent-2) 100%);
+  padding: 28px 20px 24px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(96,165,250,0.15), transparent 70%);
+  pointer-events: none;
+}
+.header-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--blue);
+  background: rgba(96,165,250,0.12);
+  border: 1px solid rgba(96,165,250,0.3);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.header h1 {
+  font-size: 1.9rem;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.header p { color: var(--text-dim); font-size: 0.95rem; max-width: 640px; }
+
+/* Sticky top */
+.sticky-top {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Tabs */
+.tabs {
+  display: flex; gap: 4px;
+  padding: 10px 12px 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+  color: var(--text-dim);
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.tab:hover { color: var(--text); }
+.tab.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background: rgba(96,165,250,0.06);
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex; gap: 8px; align-items: center;
+  padding: 6px 12px 10px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.search-wrap { flex: 1; position: relative; min-width: 0; }
+#search {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+#search:focus { outline: 2px solid var(--blue); border-color: transparent; }
+.search-count {
+  position: absolute;
+  right: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  pointer-events: none;
+  background: var(--card);
+  padding-left: 6px;
+}
+.tool-buttons { display: flex; gap: 4px; flex-shrink: 0; }
+.tool-buttons button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.tool-buttons button:hover { border-color: var(--blue); background: var(--accent); }
+
+/* Content */
+.content {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+/* Panels */
+.panel { display: none; animation: fade 0.3s ease; }
+.panel.active { display: block; }
+@keyframes fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 24px 0 8px;
+  color: var(--text);
+}
+.panel-title:first-child { margin-top: 0; }
+
+.lead { color: var(--text-dim); font-size: 1.05rem; margin-bottom: 20px; }
+
+/* SVG */
+.hero-svg-mount {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--card);
+  margin-bottom: 8px;
+  line-height: 0;
+}
+.hero-svg-mount svg,
+.hero-svg-mount img { display: block; width: 100%; height: auto; }
+.svg-caption {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  font-style: italic;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Text */
+.panel h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 28px 0 10px;
+  color: var(--text);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.panel h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 20px 0 8px;
+  color: var(--blue);
+}
+.panel p { margin-bottom: 12px; color: var(--text); }
+.panel ul, .panel ol { margin: 0 0 14px 22px; }
+.panel li { margin-bottom: 6px; }
+.panel a { color: var(--blue); }
+
+/* Callouts */
+.callout {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border-left: 4px solid;
+  margin: 16px 0;
+  background: var(--card);
+  font-size: 0.95rem;
+}
+.callout.info { border-color: var(--blue); background: rgba(96,165,250,0.08); }
+.callout.warn { border-color: var(--amber); background: rgba(251,191,36,0.08); }
+.callout.danger { border-color: var(--red); background: rgba(248,113,113,0.08); }
+.callout.ok { border-color: var(--green); background: rgba(52,211,153,0.08); }
+.callout strong { color: var(--text); }
+
+/* Tags */
+.tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+.tag.hecho { background: rgba(52,211,153,0.15); color: var(--green); }
+.tag.indicio { background: rgba(251,191,36,0.15); color: var(--amber); }
+.tag.hipotesis { background: rgba(167,139,250,0.15); color: var(--purple); }
+.tag.pendiente { background: rgba(248,113,113,0.15); color: var(--red); }
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  background: var(--card);
+  border-radius: 10px;
+  overflow: hidden;
+}
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+th {
+  background: var(--accent);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.4px;
+}
+tr:last-child td { border-bottom: none; }
+
+/* Details */
+details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+details summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text);
+  list-style: none;
+  padding-right: 24px;
+  position: relative;
+}
+details summary::after {
+  content: '+';
+  position: absolute;
+  right: 0; top: 0;
+  font-size: 1.3rem;
+  color: var(--blue);
+  transition: transform 0.2s;
+}
+details[open] summary::after { content: '−'; }
+details summary::-webkit-details-marker { display: none; }
+details > *:not(summary) { margin-top: 10px; }
+
+/* URL block */
+.url-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  margin: 8px 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  flex-wrap: wrap;
+}
+.url-row code {
+  flex: 1;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  color: var(--blue);
+  word-break: break-all;
+  background: transparent;
+  padding: 4px;
+  min-width: 0;
+}
+.copyBtn {
+  background: var(--accent);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.copyBtn:hover { background: var(--blue); color: #0a0e1a; }
+
+/* Checklist */
+.checklist { list-style: none; margin-left: 0 !important; }
+.checklist li { margin-bottom: 10px; }
+.checklist label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.checklist label:hover { border-color: var(--blue); }
+.checklist input[type=checkbox] {
+  margin-top: 3px;
+  width: 18px; height: 18px;
+  accent-color: var(--blue);
+  flex-shrink: 0;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 14px 0;
+}
+.card h3 { margin-top: 0 !important; }
+
+/* Author card */
+.author-card {
+  text-align: center;
+  padding: 24px 20px;
+  background: linear-gradient(160deg, var(--card), var(--accent-2));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin: 20px 0;
+}
+.author-card h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 0 6px !important;
+  color: var(--blue);
+  border: none !important;
+  padding: 0 !important;
+}
+.author-card p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Meta */
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+.meta-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.meta-item .lbl {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-faint);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.meta-item .val {
+  font-size: 0.95rem;
+  color: var(--text);
+  font-weight: 600;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* To top */
+.to-top {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--text);
+  border: 1px solid var(--blue);
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  z-index: 90;
+}
+.to-top.show { opacity: 1; pointer-events: auto; }
+.to-top:hover { background: var(--blue); color: #0a0e1a; }
+
+/* Search highlight */
+mark.search-hl {
+  background: var(--amber);
+  color: #0a0e1a;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+/* Pre / prompt */
+pre.prompt {
+  white-space: pre-wrap;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  background: var(--bg);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  max-height: 340px;
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .header h1 { font-size: 1.5rem; }
+  .panel-title { font-size: 1.35rem; }
+  .author-card h2 { font-size: 1.6rem; }
+  .content { padding: 20px 12px 80px; }
+  th, td { padding: 8px 10px; font-size: 0.8rem; }
+}
+
+/* Print */
+@media print {
+  @page { size: A4 portrait; margin: 14mm 12mm; }
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 11pt !important;
+  }
+  .toolbar, .tabs, .to-top, .copyBtn, .progress-bar, nav, .search-hl {
+    display: none !important;
+  }
+  .sticky-top { position: static !important; border: none !important; background: #fff !important; }
+  .panel { display: block !important; page-break-after: auto !important; animation: none !important; }
+  pre, pre.prompt, table { overflow: visible !important; white-space: pre-wrap !important; word-break: break-word !important; max-height: none !important; }
+  table { background: #fff !important; border: 1px solid #333 !important; }
+  th { background: #eee !important; color: #000 !important; border: 1px solid #333 !important; }
+  td { color: #000 !important; border: 1px solid #ddd !important; background: #fff !important; }
+  .callout { background: #f5f5f5 !important; color: #000 !important; border-left-color: #333 !important; }
+  .callout strong { color: #000 !important; }
+  .card, .author-card, details, .url-row, .meta-item, .checklist label {
+    background: #fafafa !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+  .header {
+    background: #fff !important;
+    color: #000 !important;
+    border-bottom: 2px solid #333 !important;
+    padding: 10px 0 !important;
+  }
+  .header::after { display: none !important; }
+  .header h1 { color: #000 !important; font-size: 18pt !important; }
+  .header p { color: #333 !important; }
+  .badge { background: #eee !important; color: #333 !important; border-color: #999 !important; }
+  .author-card h2 { color: #000 !important; }
+  .tag { border: 1px solid #999 !important; background: #eee !important; color: #000 !important; }
+  .url-row code { color: #000 !important; }
+  .panel h2 { border-bottom: 1px solid #999 !important; color: #000 !important; }
+  .panel h3 { color: #000 !important; }
+  a { color: #000 !important; text-decoration: underline; }
+  details { break-inside: avoid; }
+  details summary::after { display: none !important; }
+  .hero-svg-mount { break-inside: avoid; border: 1px solid #ccc !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     SVG SOURCE (oculto; se elimina del DOM tras extraer plantilla)
+     ========================================================= -->
+<svg id="svgHeroSource" xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="55%" stop-color="#132347"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="gAcc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="gSun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="gRiver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#1e40af" stop-opacity="0.5"/>
+    </linearGradient>
+    <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g id="svgHero">
+    <!-- fondo -->
+    <rect x="0" y="0" width="820" height="260" fill="url(#gBg)"/>
+
+    <!-- estrellas -->
+    <g fill="#e2e8f0">
+      <circle cx="80" cy="30" r="1.2"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite"/></circle>
+      <circle cx="200" cy="50" r="1"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="3.2s" repeatCount="indefinite"/></circle>
+      <circle cx="350" cy="25" r="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="500" cy="45" r="1"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.8s" repeatCount="indefinite"/></circle>
+      <circle cx="650" cy="20" r="1.2"><animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
+      <circle cx="760" cy="55" r="1"><animate attributeName="opacity" values="1;0.4;1" dur="2.2s" repeatCount="indefinite"/></circle>
+    </g>
+
+    <!-- sol con rayos giratorios -->
+    <g transform="translate(110,75)">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="30s" repeatCount="indefinite"/>
+        <g stroke="#fbbf24" stroke-width="3" stroke-linecap="round">
+          <line x1="0" y1="-38" x2="0" y2="-48"/>
+          <line x1="27" y1="-27" x2="34" y2="-34"/>
+          <line x1="38" y1="0" x2="48" y2="0"/>
+          <line x1="27" y1="27" x2="34" y2="34"/>
+          <line x1="0" y1="38" x2="0" y2="48"/>
+          <line x1="-27" y1="27" x2="-34" y2="34"/>
+          <line x1="-38" y1="0" x2="-48" y2="0"/>
+          <line x1="-27" y1="-27" x2="-34" y2="-34"/>
+        </g>
+      </g>
+      <circle r="22" fill="url(#gSun)" filter="url(#fGlow)"/>
+      <circle r="14" fill="#fef3c7" opacity="0.9"/>
+    </g>
+
+    <!-- montañas (Los Serranos) -->
+    <polygon points="0,200 130,110 250,200" fill="#1e3a5f"/>
+    <polygon points="180,200 360,80 540,200" fill="#0f172a"/>
+    <polygon points="460,200 640,105 820,200" fill="#1e3a5f"/>
+    <polygon points="340,95 360,80 380,95 370,100 350,100" fill="#e2e8f0" opacity="0.7"/>
+    <polygon points="625,115 640,105 655,115 648,118 632,118" fill="#e2e8f0" opacity="0.5"/>
+
+    <!-- río Sot -->
+    <path d="M0,210 Q205,195 410,210 T820,210 L820,260 L0,260 Z" fill="url(#gRiver)"/>
+    <path d="M0,220 Q205,205 410,220 T820,220" stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.6">
+      <animate attributeName="d" values="M0,220 Q205,205 410,220 T820,220;M0,220 Q205,225 410,220 T820,220;M0,220 Q205,205 410,220 T820,220" dur="4s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- orilla segura donde se sitúa SERENDIPIA -->
+    <path d="M400,200 Q550,190 700,200 L700,260 L400,260 Z" fill="#0f172a" opacity="0.9"/>
+    <path d="M420,205 Q560,197 700,205" stroke="#1e3a5f" stroke-width="1" fill="none"/>
+
+    <!-- caravana SERENDIPIA con panel solar -->
+    <g transform="translate(540,155)">
+      <animateTransform attributeName="transform" type="translate" values="540,155;540,153;540,155" dur="3s" repeatCount="indefinite"/>
+      <rect x="-45" y="-20" width="90" height="45" rx="6" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1.5"/>
+      <path d="M-45,-20 Q0,-30 45,-20" fill="#0f172a" stroke="#60a5fa" stroke-width="1.5"/>
+      <rect x="-30" y="-8" width="20" height="14" rx="2" fill="#fde68a" opacity="0.85"/>
+      <rect x="5" y="-8" width="14" height="25" rx="2" fill="#0a0e1a" stroke="#60a5fa" stroke-width="1"/>
+      <g transform="translate(-35,-32)">
+        <rect x="-18" y="-8" width="36" height="8" rx="1" fill="#0a0e1a" stroke="#60a5fa" stroke-width="1"/>
+        <line x1="-6" y1="-8" x2="-6" y2="0" stroke="#60a5fa" stroke-width="0.5"/>
+        <line x1="6" y1="-8" x2="6" y2="0" stroke="#60a5fa" stroke-width="0.5"/>
+        <rect x="-18" y="-8" width="36" height="8" rx="1" fill="#60a5fa" opacity="0.3">
+          <animate attributeName="opacity" values="0.15;0.5;0.15" dur="2s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      <circle cx="-25" cy="25" r="8" fill="#0a0e1a" stroke="#94a3b8" stroke-width="2">
+        <animateTransform attributeName="transform" type="rotate" from="0 -25 25" to="360 -25 25" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="25" cy="25" r="8" fill="#0a0e1a" stroke="#94a3b8" stroke-width="2">
+        <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- conectividad (ondas que se expanden) -->
+    <g transform="translate(660,80)">
+      <line x1="0" y1="20" x2="0" y2="0" stroke="#94a3b8" stroke-width="2"/>
+      <circle cx="0" cy="-2" r="4" fill="#34d399"/>
+      <circle cx="0" cy="-2" r="10" fill="none" stroke="#34d399" stroke-width="1.5">
+        <animate attributeName="r" values="6;22" dur="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="0" cy="-2" r="10" fill="none" stroke="#34d399" stroke-width="1.5">
+        <animate attributeName="r" values="6;22" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="0" cy="-2" r="10" fill="none" stroke="#34d399" stroke-width="1.5">
+        <animate attributeName="r" values="6;22" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+</svg>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <span class="badge">DOSSIER · V1.0 · 10/10/2026</span>
+    <h1>Sot de Chera</h1>
+    <p>Investigación para una base rural del proyecto <strong>COLONIZAR MARTE EN VALENCIA</strong> y del sistema <strong>SERENDIPIA</strong>.</p>
+  </div>
+</header>
+
+<!-- Sticky top: tabs + toolbar -->
+<div class="sticky-top">
+  <nav class="tabs" id="tabs" role="tablist">
+    <button class="tab active" data-tab="inicio" role="tab">INICIO</button>
+    <button class="tab" data-tab="conceptos" role="tab">CONCEPTOS</button>
+    <button class="tab" data-tab="procedimiento" role="tab">PROCEDIMIENTO</button>
+    <button class="tab" data-tab="practica" role="tab">PRÁCTICA</button>
+    <button class="tab" data-tab="errores" role="tab">ERRORES</button>
+    <button class="tab" data-tab="resumen" role="tab">RESUMEN</button>
+    <button class="tab" data-tab="fuentes" role="tab">FUENTES</button>
+    <button class="tab" data-tab="creditos" role="tab">CRÉDITOS</button>
+  </nav>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <input type="search" id="search" placeholder="🔍 Buscar en el tutorial..." aria-label="Buscar">
+      <span class="search-count" id="searchCount"></span>
+    </div>
+    <div class="tool-buttons">
+      <button id="btnA-" title="Reducir texto" aria-label="Reducir texto">A−</button>
+      <button id="btnA+" title="Aumentar texto" aria-label="Aumentar texto">A+</button>
+      <button id="btnTheme" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
+      <button id="btnPrint" title="Imprimir / Guardar PDF" aria-label="Imprimir">🖨 PDF</button>
+    </div>
+  </div>
+</div>
+
+<main class="content">
+
+<!-- =========================================================
+     INICIO
+     ========================================================= -->
+<section class="panel active" id="p-inicio">
+  <div class="hero-svg-mount" data-svg-hero="true" role="img" aria-label="Valle de Sot de Chera con sol, montañas, río Sot, caravana SERENDIPIA con panel solar y ondas de conectividad"></div>
+  <p class="svg-caption">SERENDIPIA en un valle rural: sol, agua, montaña y conectividad — los cuatro recursos que hay que verificar antes de decidir.</p>
+
+  <h1 class="panel-title">Sot de Chera: ¿base de SERENDIPIA y de «Colonizar Marte en Valencia»?</h1>
+  <p class="lead">Tutorial de investigación documental para decidir con datos, no con impresiones.</p>
+
+  <div class="callout info">
+    <strong>Estado de la investigación:</strong> <span class="tag pendiente">CANDIDATO EN INVESTIGACIÓN</span> NO APROBADO COMO DESTINO.
+  </div>
+
+  <h2>¿Qué vas a aprender?</h2>
+  <p>Este tutorial transforma el <em>Dossier de investigación sobre Sot de Chera</em> (10/10/2026, v1.0) en un recorrido práctico. Aprenderás a leer un dossier de investigación sin confundir hipótesis con hechos, a evaluar una parcela rural con criterios de seguridad, legalidad y coste, y a decidir con un método reproducible.</p>
+
+  <h2>¿Para qué sirve?</h2>
+  <ul>
+    <li>Para decidir si Sot de Chera merece seguir en la lista de candidatos.</li>
+    <li>Para evaluar una propiedad concreta con una plantilla (Índice MARTE).</li>
+    <li>Para hacer las preguntas correctas al Ayuntamiento, a la CHJ y a los propietarios.</li>
+    <li>Para no tomar decisiones basadas en anuncios, folletos o impresiones.</li>
+  </ul>
+
+  <h2>¿Qué necesitas antes de empezar?</h2>
+  <ul>
+    <li>Navegador moderno (Chrome, Firefox, Safari, Edge).</li>
+    <li>El dossier original a mano (o esta misma página, que lo resume).</li>
+    <li>Referencia catastral o dirección exacta cuando pases de lo general a lo concreto.</li>
+    <li>Acceso a Internet para consultar fuentes oficiales cuando toque verificar (el tutorial funciona sin conexión, pero las fuentes externas requieren conexión).</li>
+  </ul>
+
+  <h2>Objetivos</h2>
+  <ol>
+    <li>Entender la diferencia entre <strong>HECHO, INDICIO, HIPÓTESIS y PENDIENTE</strong>.</li>
+    <li>Conocer el encaje de Sot de Chera con el proyecto SERENDIPIA.</li>
+    <li>Identificar los riesgos críticos: inundación, incendio, acceso.</li>
+    <li>Saber qué documentación exigir antes de firmar nada.</li>
+    <li>Aplicar el Índice MARTE a una parcela concreta.</li>
+  </ol>
+
+  <h2>Cómo usar este tutorial</h2>
+  <p>Usa las pestañas superiores. Cada pestaña cubre un aspecto. Si es tu primera vez:</p>
+  <ol>
+    <li>Lee <strong>INICIO</strong> (estás aquí).</li>
+    <li>Pasa a <strong>CONCEPTOS</strong> para entender el marco.</li>
+    <li>Sigue el <strong>PROCEDIMIENTO</strong> paso a paso.</li>
+    <li>Practica con <strong>PRÁCTICA</strong>.</li>
+    <li>Consulta <strong>ERRORES</strong> antes de decidir.</li>
+    <li>Usa <strong>RESUMEN</strong> y <strong>FUENTES</strong> como referencia rápida.</li>
+  </ol>
+
+  <h2>Checklist de aprendizaje</h2>
+  <p>Marca tu progreso. Se guarda en tu navegador (localStorage).</p>
+  <ul class="checklist" id="checklist">
+    <li><label><input type="checkbox" data-ck="c1"> Sé distinguir HECHO de HIPÓTESIS.</label></li>
+    <li><label><input type="checkbox" data-ck="c2"> Entiendo los escenarios A, B y C.</label></li>
+    <li><label><input type="checkbox" data-ck="c3"> Conozco los tres riesgos críticos de Sot de Chera.</label></li>
+    <li><label><input type="checkbox" data-ck="c4"> Sé qué documentación pedir al Ayuntamiento.</label></li>
+    <li><label><input type="checkbox" data-ck="c5"> Sé aplicar el Índice MARTE.</label></li>
+    <li><label><input type="checkbox" data-ck="c6"> Tengo claro que «candidato» no es «aprobado».</label></li>
+  </ul>
+</section>
+
+<!-- =========================================================
+     CONCEPTOS
+     ========================================================= -->
+<section class="panel" id="p-conceptos">
+  <h1 class="panel-title">Conceptos</h1>
+  <p class="lead">Antes de mirar anuncios, entiende el marco: cómo se lee un dossier y qué es el proyecto.</p>
+
+  <h2>1. Las cuatro clases de información</h2>
+  <p>Este dossier —y cualquier investigación seria— separa cuatro tipos de afirmación. Mezclarlas es la causa número uno de decisiones equivocadas.</p>
+
+  <table>
+    <thead>
+      <tr><th>Tipo</th><th>Qué significa</th><th>Ejemplo aplicado</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag hecho">HECHO</span></td>
+        <td>Respaldado por una fuente identificada.</td>
+        <td>«Sot de Chera tiene código INE 46234» (Registro de Entidades Locales).</td>
+      </tr>
+      <tr>
+        <td><span class="tag indicio">INDICIO</span></td>
+        <td>Dato útil, pero insuficiente para decidir.</td>
+        <td>«Hay anuncios de venta en Milanuncios.» No son alquileres ni ofertas verificadas.</td>
+      </tr>
+      <tr>
+        <td><span class="tag hipotesis">HIPÓTESIS</span></td>
+        <td>Posibilidad del proyecto que debe probarse.</td>
+        <td>«SERENDIPIA podría operar en una finca con construcción deteriorada y terreno.»</td>
+      </tr>
+      <tr>
+        <td><span class="tag pendiente">PENDIENTE</span></td>
+        <td>Sin evidencia suficiente para afirmarlo.</td>
+        <td>«¿Existe alquiler de larga duración que encaje con el escenario B?».</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <strong>Límite importante:</strong> una fuente que describe el municipio <strong>no</strong> permite concluir que una parcela concreta sea segura, edificable, legal para alojar una caravana o adecuada para vivir. Las decisiones finales requieren <strong>dirección o referencia catastral exacta</strong>.
+  </div>
+
+  <h2>2. El proyecto: COLONIZAR MARTE EN VALENCIA</h2>
+  <p>El plan de negocio contempla <strong>tres escenarios</strong> de implantación. No exige encontrar «la casa perfecta»; exige encontrar una propiedad rural de coste reducido con recursos aprovechables y problemas resolubles con tecnología, conocimiento y organización.</p>
+
+  <div class="card">
+    <h3>Escenario A — Vivienda convencional económica</h3>
+    <p>Casa pequeña, alquiler bajo, servicios razonables y posibilidad de desarrollar actividad profesional.</p>
+    <p><strong>Encaje en Sot de Chera:</strong> posible en teoría, <em>no probado</em> por la oferta de alquiler revisada.</p>
+  </div>
+
+  <div class="card">
+    <h3>Escenario B — Construcción deteriorada + terreno + caravana</h3>
+    <p>Casa existente aunque deteriorada, terreno, alquiler bajo y propietario dispuesto a un contrato largo. SERENDIPIA sería el espacio de vida principal.</p>
+    <p><strong>Encaje:</strong> es el escenario más distintivo, pero el que más comprobación urbanística exige. <em>No inferir</em> que una parcela rural permite usar una caravana como residencia permanente, instalar módulos, almacenar agua, colocar paneles o hacer obras.</p>
+  </div>
+
+  <div class="card">
+    <h3>Escenario C — Finca con construcción y posible rehabilitación</h3>
+    <p>La construcción puede tener valor como infraestructura aunque inicialmente no sea habitable.</p>
+    <p><strong>Encaje:</strong> posible si tiene acceso legal, situación registral y urbanística clara, y no presenta un coste de rehabilitación o riesgo ambiental que destruya la ventaja económica.</p>
+  </div>
+
+  <h2>3. SERENDIPIA, TRO, ERE y CAMPER BRAIN</h2>
+  <p>La arquitectura conceptual del proyecto se apoya en cuatro principios:</p>
+
+  <div class="card">
+    <h3>Principio TRO — Pensamiento Orientado a Recursos</h3>
+    <p>No evaluar solo «si la casa sirve», sino inventariar recursos existentes y necesidades:</p>
+    <ul>
+      <li>terreno, construcción, acceso, agua, saneamiento, sombra y exposición solar;</li>
+      <li>cobertura móvil, conectividad fija y espacio de trabajo;</li>
+      <li>depósitos, aljibes, pozos o instalaciones existentes (sin darlos por legales ni potables sin comprobar);</li>
+      <li>distancia a servicios, proveedores, clientes y asistencia;</li>
+      <li>situación contractual, urbanística y registral.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Principio ERE — Equipamiento Redundante de Emergencia</h3>
+    <p>La pregunta rectora es: <strong>«¿Para qué otra cosa sirve?»</strong>. Los equipos deben proporcionar más de una capacidad útil sin añadir peso, coste o complejidad injustificados.</p>
+  </div>
+
+  <div class="card">
+    <h3>SERENDIPIA y remolque</h3>
+    <ul>
+      <li>SERENDIPIA como habitáculo y movilidad.</li>
+      <li>Remolque como plataforma modular de recursos.</li>
+      <li>Sistema fotovoltaico autónomo <em>por dimensionar</em>.</li>
+      <li>Conectividad móvil o satelital según ubicación.</li>
+      <li>Depósito de agua previsto de hasta 100 litros, con capacidad variable.</li>
+      <li>Módulos desmontables y reparables.</li>
+      <li>Equipamiento multifunción y protocolos contextuales mediante CAMPER BRAIN.</li>
+    </ul>
+    <div class="callout danger">
+      <strong>Advertencia de ingeniería:</strong> un depósito de 100 litros añade hasta ≈ 100 kg de agua, sin contar depósito, soporte ni accesorios. La carga real debe dimensionarse según <strong>masa máxima autorizada, carga útil, reparto de masas, cargas por eje, homologación y estabilidad</strong>. No asumir que el remolque admite esa carga sin revisar ficha técnica y diseño.
+    </div>
+  </div>
+
+  <h2>4. Sot de Chera en datos</h2>
+  <div class="meta">
+    <div class="meta-item"><div class="lbl">Código INE</div><div class="val">46234</div></div>
+    <div class="meta-item"><div class="lbl">Extensión</div><div class="val">34,00 km²</div></div>
+    <div class="meta-item"><div class="lbl">Población publicada</div><div class="val">427 hab.*</div></div>
+    <div class="meta-item"><div class="lbl">Comarca</div><div class="val">Los Serranos</div></div>
+    <div class="meta-item"><div class="lbl">Mancomunidad</div><div class="val">La Serranía</div></div>
+    <div class="meta-item"><div class="lbl">Parque Natural</div><div class="val">6.451,17 ha</div></div>
+  </div>
+  <p style="font-size:0.85rem;color:var(--text-faint);">* La página consultada muestra 427 habitantes, pero el extracto no especifica el año de referencia. Para el tutorial definitivo hay que recuperar el dato más reciente del INE y consignar año y serie. <strong>No presentar «427 habitantes en 2026» sin comprobar esa referencia.</strong></p>
+
+  <p>El municipio limita con Chera, Chulilla, Gestalgar y Loriguilla. No está «abandonado»: cuenta con servicios y actividad local.</p>
+
+  <h3>Qué implica para el proyecto</h3>
+  <ul>
+    <li>La escala municipal es compatible con investigar una base rural de pequeña población.</li>
+    <li>La población total no permite saber cuántas casas están vacías, cuántas son segunda residencia, ni cuántos propietarios aceptarían alquileres largos.</li>
+    <li>La extensión municipal no revela dónde están las parcelas seguras, accesibles o legalmente utilizables.</li>
+  </ul>
+
+  <h2>5. Glosario mínimo</h2>
+  <table>
+    <thead><tr><th>Término</th><th>Definición operativa</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ARPSI</strong></td><td>Área de Riesgo Potencial Significativo de Inundación. El río Sot en Sot de Chera se incorporó como nuevo subtramo en la actualización de 2026.</td></tr>
+      <tr><td><strong>CHJ</strong></td><td>Confederación Hidrográfica del Júcar. Organismo de cuenca.</td></tr>
+      <tr><td><strong>PATRICOVA</strong></td><td>Plan de Acción Territorial sobre prevención del riesgo de inundación en la Comunitat Valenciana.</td></tr>
+      <tr><td><strong>SNCZI</strong></td><td>Sistema Nacional de Cartografía de Zonas Inundables.</td></tr>
+      <tr><td><strong>DANA</strong></td><td>Depresión Aislada en Niveles Altos. En octubre de 2024 provocó una avenida extraordinaria del río Sot con daños graves.</td></tr>
+      <tr><td><strong>PVGIS</strong></td><td>Herramienta europea para estimar radiación solar y producción fotovoltaica por ubicación.</td></tr>
+      <tr><td><strong>Empadronamiento</strong></td><td>Registro administrativo de residencia. <em>No equivale</em> a autorización urbanística para un uso concreto.</td></tr>
+      <tr><td><strong>Referencia catastral</strong></td><td>Identificador único de un inmueble. Es el punto de partida para cualquier consulta oficial.</td></tr>
+      <tr><td><strong>Presa de Buseo</strong></td><td>Infraestructura hidráulica en la cuenca. Su existencia no permite inferir por sí sola el riesgo de una parcela.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =========================================================
+     PROCEDIMIENTO
+     ========================================================= -->
+<section class="panel" id="p-procedimiento">
+  <h1 class="panel-title">Procedimiento</h1>
+  <p class="lead">Seis fases para pasar de «municipio candidato» a «propiedad evaluada».</p>
+
+  <h2>Fase 1 — Investigación documental</h2>
+  <div class="card">
+    <p><strong>Objetivo:</strong> reunir todos los datos oficiales sobre el municipio antes de visitar nada.</p>
+    <ol>
+      <li>Recuperar el padrón más reciente del INE y anotar <strong>año de referencia</strong>.</li>
+      <li>Localizar el planeamiento urbanístico vigente del municipio.</li>
+      <li>Consultar PATRICOVA, SNCZI y el visor cartográfico de la Generalitat.</li>
+      <li>Localizar la cartografía de inundación de la DANA 2024 publicada por la Generalitat.</li>
+      <li>Consultar el estado actualizado de la presa de Buseo y los sistemas de alerta.</li>
+      <li>Revisar el Plan Local de Prevención de Incendios Forestales.</li>
+      <li>Mapear servicios (farmacia, centro de salud, proveedores) y accesos.</li>
+      <li>Iniciar la búsqueda de alquileres de larga duración (no turísticos).</li>
+    </ol>
+    <p><strong>Salida:</strong> ficha municipal y lista de incógnitas.</p>
+  </div>
+
+  <h2>Fase 2 — Contacto institucional</h2>
+  <div class="card">
+    <p><strong>Objetivo:</strong> obtener respuestas escritas de las administraciones.</p>
+    <ol>
+      <li>Identificar los organismos competentes: Ayuntamiento, Parque Natural, CHJ, Generalitat.</li>
+      <li>Redactar consultas <strong>concretas</strong>, con dirección y referencia catastral cuando exista propiedad.</li>
+      <li>Enviar por registro electrónico o correo oficial y guardar copia.</li>
+      <li>Anotar fecha de envío, fecha de respuesta y contenido literal.</li>
+    </ol>
+    <p><strong>Salida:</strong> respuestas documentadas y requisitos de uso.</p>
+  </div>
+
+  <h2>Fase 3 — Selección de propiedades</h2>
+  <div class="card">
+    <p><strong>Objetivo:</strong> filtrar anuncios antes de perder tiempo visitando.</p>
+    <ol>
+      <li>Contactar con inmobiliarias que operan en Sot de Chera, Chulilla, Gestalgar, Chera y municipios próximos.</li>
+      <li>Preguntar por <strong>alquiler anual</strong> de vivienda completa, no alquiler turístico.</li>
+      <li>Preguntar por fincas con construcción y terreno, incluso si no están preparadas como vivienda convencional.</li>
+      <li>Preguntar por inmuebles cerrados o herencias sin gestión activa (sin asumir que el propietario quiera alquilar).</li>
+      <li>Buscar en portales de venta y alquiler, grupos locales y tablones municipales.</li>
+      <li>Revisar personalmente cada anuncio y confirmar dirección, precio, gastos, disponibilidad y condiciones.</li>
+    </ol>
+    <div class="callout warn">
+      <strong>Distingue siempre:</strong> casa urbana, suelo urbano, suelo no urbanizable y finca rústica. No confundir «terreno urbano» de un anuncio con edificabilidad confirmada.
+    </div>
+    <p><strong>Salida:</strong> fichas comparables y candidatas a visita.</p>
+  </div>
+
+  <h2>Fase 4 — Visita física</h2>
+  <div class="card">
+    <p><strong>Objetivo:</strong> comprobar sobre el terreno lo que no se ve en fotos.</p>
+    <ol>
+      <li>Visitar en condiciones normales (nunca durante una emergencia).</li>
+      <li>Fotografiar accesos, cauces, taludes, cubierta, estructura y humedades.</li>
+      <li>Tomar coordenadas GPS y anotarlas.</li>
+      <li>Medir ancho de camino, pendientes, curvas y zonas de cruce.</li>
+      <li>Preguntar en el pueblo por lluvias, cortes de carretera y accesos.</li>
+    </ol>
+    <p><strong>Salida:</strong> fotografías propias, coordenadas, mediciones y lista de defectos.</p>
+  </div>
+
+  <h2>Fase 5 — Presupuesto de SERENDIPIA</h2>
+  <div class="card">
+    <p><strong>Objetivo:</strong> convertir la propiedad en un número realista.</p>
+    <ol>
+      <li>Inventariar equipos reales (no idealizados).</li>
+      <li>Calcular carga y distribución de masas del remolque.</li>
+      <li>Definir perfil energético: consumos diarios, picos, autonomía.</li>
+      <li>Calcular agua: almacenamiento, reposición, calidad.</li>
+      <li>Definir conectividad: fibra, 4G/5G, satélite, redundancia.</li>
+      <li>Definir saneamiento autorizado y su mantenimiento.</li>
+      <li>Presupuestar reparaciones y mantenimiento.</li>
+      <li>Convertir la inversión inicial en coste mensual comparable.</li>
+    </ol>
+    <p><strong>Salida:</strong> presupuesto por fases y autonomía estimada.</p>
+  </div>
+
+  <h2>Fase 6 — Decisión (Índice MARTE)</h2>
+  <div class="card">
+    <p><strong>Objetivo:</strong> decidir con criterios reproducibles, no con impresiones.</p>
+    <ol>
+      <li>Aplicar los filtros eliminatorios (inundación, legalidad, acceso).</li>
+      <li>Puntuar cada categoría del Índice MARTE con evidencia verificable.</li>
+      <li>Comparar Sot de Chera con otros municipios candidatos usando la <strong>misma plantilla</strong>.</li>
+      <li>Redactar decisión argumentada.</li>
+      <li>Guardar toda la evidencia (URLs, informes, fotos, presupuestos).</li>
+    </ol>
+    <p><strong>Salida:</strong> decisión argumentada y reproducible.</p>
+  </div>
+
+  <h2>Índice MARTE</h2>
+  <p>Herramienta de evaluación del proyecto. No es una puntuación oficial. Puntuar cada categoría de 0 a 5 y anotar una fuente o evidencia.</p>
+  <table>
+    <thead>
+      <tr><th>Categoría</th><th>Peso</th><th>Evidencia exigida</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Seguridad frente a inundación y evacuación</td><td>25 %</td><td>Cartografía oficial, antecedentes, acceso, revisión de parcela</td></tr>
+      <tr><td>Legalidad del uso propuesto</td><td>20 %</td><td>Respuesta municipal escrita y documentación del inmueble</td></tr>
+      <tr><td>Coste total</td><td>15 %</td><td>Oferta real, presupuestos y gastos</td></tr>
+      <tr><td>Agua y saneamiento</td><td>10 %</td><td>Documentación de suministro, permisos y sistema sanitario</td></tr>
+      <tr><td>Acceso y movilidad</td><td>10 %</td><td>Visita, rutas, remolque y acceso en lluvia</td></tr>
+      <tr><td>Energía solar</td><td>5 %</td><td>Coordenadas, sombras y cálculo PVGIS</td></tr>
+      <tr><td>Conectividad</td><td>5 %</td><td>Mapas oficiales y mediciones en la parcela</td></tr>
+      <tr><td>Servicios y asistencia</td><td>5 %</td><td>Distancias, horarios y alternativas</td></tr>
+      <tr><td>Actividad profesional</td><td>5 %</td><td>Demanda, contactos, competencia y costes</td></tr>
+    </tbody>
+  </table>
+  <div class="callout danger">
+    <strong>Nota metodológica:</strong> los pesos suman 100 %, pero son una propuesta inicial. La <strong>seguridad</strong> y la <strong>legalidad</strong> funcionan también como filtros eliminatorios: si hay riesgo inaceptable o no se permite el uso pretendido, no se debe aceptar la propiedad solo porque su puntuación agregada sea alta.
+  </div>
+
+  <h3>Estados de decisión</h3>
+  <ul>
+    <li><strong>DESCARTADA:</strong> riesgo, legalidad, coste o acceso incompatibles.</li>
+    <li><strong>PENDIENTE DE DOCUMENTOS:</strong> hay interés, pero faltan pruebas.</li>
+    <li><strong>VISITA TÉCNICA:</strong> supera filtros iniciales.</li>
+    <li><strong>NEGOCIACIÓN:</strong> documentos y presupuesto suficientes.</li>
+    <li><strong>CANDIDATA FINAL:</strong> contrato y uso viable, riesgos asumibles y coste aceptable.</li>
+    <li><strong>APROBADA:</strong> solo después de comprobaciones finales y decisión expresa.</li>
+  </ul>
+</section>
+
+<!-- =========================================================
+     PRÁCTICA
+     ========================================================= -->
+<section class="panel" id="p-practica">
+  <h1 class="panel-title">Práctica</h1>
+  <p class="lead">Ejercicios para entrenar el criterio antes de tocar una parcela real.</p>
+
+  <h2>Ejercicio 1 — Clasificar afirmaciones</h2>
+  <p>Clasifica cada frase como <span class="tag hecho">HECHO</span>, <span class="tag indicio">INDICIO</span>, <span class="tag hipotesis">HIPÓTESIS</span> o <span class="tag pendiente">PENDIENTE</span>. Después abre la solución.</p>
+  <details>
+    <summary>Ver afirmaciones</summary>
+    <ol>
+      <li>«Sot de Chera pertenece a la comarca de Los Serranos.»</li>
+      <li>«En Milanuncios se ven casas de pueblo a 50.000 €.»</li>
+      <li>«SERENDIPIA podría alimentarse con energía solar autónoma.»</li>
+      <li>«Existe alquiler de larga duración con construcción deteriorada.»</li>
+      <li>«El río Sot en Sot de Chera se incorporó como nuevo subtramo ARPSI en marzo de 2026.»</li>
+      <li>«La cobertura móvil en la finca es buena.»</li>
+    </ol>
+  </details>
+  <details>
+    <summary>Ver solución</summary>
+    <ol>
+      <li><strong>HECHO.</strong> Registro de Entidades Locales de la Generalitat.</li>
+      <li><strong>INDICIO.</strong> Anuncios volátiles de terceros, no alquileres verificados.</li>
+      <li><strong>HIPÓTESIS.</strong> Debe probarse con PVGIS y datos de la parcela.</li>
+      <li><strong>PENDIENTE.</strong> La búsqueda exploratoria no encontró evidencia suficiente.</li>
+      <li><strong>HECHO.</strong> CHJ, 12/03/2026.</li>
+      <li><strong>PENDIENTE.</strong> La señal varía de una ladera a otra; hay que medir.</li>
+    </ol>
+  </details>
+
+  <h2>Ejercicio 2 — Aplicar el Índice MARTE</h2>
+  <p>Tienes una parcela con estos datos. Puntúa cada categoría de 0 a 5 y decide el estado.</p>
+  <div class="card">
+    <ul>
+      <li><strong>Inundación:</strong> la parcela está fuera de la mancha PATRICOVA visible, pero a 60 m del cauce. No hay informe municipal escrito.</li>
+      <li><strong>Legalidad:</strong> el propietario permite aparcar la caravana, pero no hay respuesta del Ayuntamiento.</li>
+      <li><strong>Coste:</strong> alquiler 300 €/mes, sin suministros. Hay que invertir 4.000 € en acondicionamiento.</li>
+      <li><strong>Agua:</strong> pozo sin documentación ni análisis de potabilidad.</li>
+      <li><strong>Acceso:</strong> camino de 2,5 m de ancho, sin segundo acceso. En lluvia se corta.</li>
+      <li><strong>Solar:</strong> orientación sur, sin sombras relevantes.</li>
+      <li><strong>Conectividad:</strong> 4G con 2 operadores, sin fibra.</li>
+      <li><strong>Servicios:</strong> 12 min al casco urbano.</li>
+      <li><strong>Actividad:</strong> demanda local moderada, pero sin habilitaciones profesionales confirmadas.</li>
+    </ul>
+  </div>
+  <details>
+    <summary>Ver solución orientativa</summary>
+    <p><strong>Filtros eliminatorios:</strong> inundación sin informe escrito + acceso único que se corta + legalidad sin respuesta = <strong>NO AVANZAR</strong>.</p>
+    <p>Aunque el solar y la conectividad puntúen alto, los filtros eliminatorios pesan más que la puntuación agregada. La decisión correcta es <strong>DESCARTADA</strong> hasta que se resuelvan inundación, legalidad y acceso con documentación oficial.</p>
+    <p><em>Nota pedagógica:</em> el Índice MARTE no está diseñado para «compensar» riesgos. Está diseñado para ordenar oportunidades que ya han pasado los filtros.</p>
+  </details>
+
+  <h2>Ejercicio 3 — Lista de comprobación de acceso</h2>
+  <p>Para cada propiedad candidata, registra:</p>
+  <ul class="checklist">
+    <li><label><input type="checkbox"> Coordenadas y referencia catastral.</label></li>
+    <li><label><input type="checkbox"> Ruta desde Valencia y ruta desde el municipio.</label></li>
+    <li><label><input type="checkbox"> Tipo de firme y anchura útil.</label></li>
+    <li><label><input type="checkbox"> Pendiente, curvas cerradas y zonas de cruce.</label></li>
+    <li><label><input type="checkbox"> Posibilidad de giro y maniobra con remolque.</label></li>
+    <li><label><input type="checkbox"> Límites de peso/altura si existen.</label></li>
+    <li><label><input type="checkbox"> Riesgo de desprendimientos, barro, erosión o caída de árboles.</label></li>
+    <li><label><input type="checkbox"> Estado del camino tras lluvias.</label></li>
+    <li><label><input type="checkbox"> Existencia de un segundo acceso practicable.</label></li>
+    <li><label><input type="checkbox"> Cobertura móvil en los puntos críticos.</label></li>
+    <li><label><input type="checkbox"> Distancia y tiempo hasta un lugar seguro en caso de evacuación.</label></li>
+  </ul>
+
+  <h2>Ejercicio 4 — Preguntas al Ayuntamiento</h2>
+  <p>Envía por registro electrónico o correo oficial, guardando copia y respuesta. No preguntes solo «¿se puede vivir en una caravana?»: expón el caso real y pide que indiquen qué órgano puede responder oficialmente.</p>
+  <div class="card">
+    <h3>Plantilla lista para copiar</h3>
+    <pre class="prompt" id="prompt-ayto">Asunto: Consulta urbanística y de usos — parcela [REF CAT]
+
+Estimados señores:
+
+Solicito información por escrito sobre la siguiente parcela:
+- Referencia catastral: [ ]
+- Dirección: [ ]
+- Superficie: [ ]
+
+Consultas:
+1. ¿Cuál es el planeamiento urbanístico vigente y dónde puede consultarse?
+2. ¿Qué clasificación y calificación urbanística tiene la parcela?
+3. ¿Qué usos admite y qué restricciones se aplican?
+4. ¿Qué régimen se aplica a la construcción existente y cuál es su situación urbanística?
+5. ¿Se puede estacionar una caravana o remolque en esa parcela? ¿En qué condiciones?
+6. ¿Qué diferencia hay entre estacionamiento, acampada, instalación fija y uso residencial?
+7. ¿Qué autorizaciones hacen falta para colocar paneles, baterías, depósitos, módulos, caseta, vallado o sistemas de saneamiento?
+8. ¿La parcela se encuentra en suelo protegido, parque natural, zona de policía de cauce u otra área con limitaciones?
+9. ¿Qué documentos se requieren para empadronarse en la situación real propuesta?
+10. ¿Existe alguna ordenanza municipal específica que afecte al uso planteado?
+11. ¿Cómo se comprueba el riesgo de inundación de una parcela y qué órgano emite informe?
+12. ¿Qué cartografía de la DANA de 2024 se utiliza para analizar parcelas del municipio?
+
+Quedo a la espera de su respuesta por registro.
+
+Atentamente,
+[Nombre y datos de contacto]</pre>
+    <button class="copyBtn" data-target="prompt-ayto">Copiar plantilla</button>
+  </div>
+
+  <h2>Ejercicio 5 — Evaluar riesgo de inundación</h2>
+  <p>No basta con mirar si la vivienda está junto al río. Evalúa también:</p>
+  <ul class="checklist">
+    <li><label><input type="checkbox"> Cotas relativas respecto al cauce y a barrancos.</label></li>
+    <li><label><input type="checkbox"> Cauces secundarios, ramblas y escorrentías de ladera.</label></li>
+    <li><label><input type="checkbox"> Muros, taludes y signos de erosión.</label></li>
+    <li><label><input type="checkbox"> Ubicación de cuadros eléctricos, baterías, depósitos y equipos.</label></li>
+    <li><label><input type="checkbox"> Altura y estabilidad de la zona donde estacionaría SERENDIPIA.</label></li>
+    <li><label><input type="checkbox"> Posibles rutas de evacuación a terreno alto.</label></li>
+    <li><label><input type="checkbox"> Cortes de carretera o puentes que puedan aislar la propiedad.</label></li>
+    <li><label><input type="checkbox"> Suministro de agua y electricidad después de una avenida.</label></li>
+    <li><label><input type="checkbox"> Estabilidad de taludes y riesgo de desprendimientos.</label></li>
+  </ul>
+  <div class="callout danger">
+    <strong>Regla:</strong> no aparcar ni instalar infraestructura crítica en cauces, márgenes o depresiones por el mero hecho de que estén secos durante una visita.
+  </div>
+
+  <h2>Ejercicio 6 — Fórmula de coste real</h2>
+  <div class="card">
+    <p><strong>Coste mensual real</strong> = renta + suministros + conectividad + movilidad + mantenimiento + coste mensualizado de la inversión + reserva de riesgos.</p>
+    <p>Convierte la inversión inicial en un coste mensual comparable a lo largo de una vida útil razonable. No compares una propiedad sin servicios con una vivienda convencional mirando solo el precio de alquiler.</p>
+    <p><strong>Escenarios obligatorios:</strong></p>
+    <ul>
+      <li><strong>Optimista:</strong> la propiedad ya tiene accesos, agua y condiciones favorables.</li>
+      <li><strong>Base:</strong> requiere adaptaciones previsibles.</li>
+      <li><strong>Adverso:</strong> hay que resolver agua, saneamiento, conectividad, acceso o reparaciones mayores.</li>
+    </ul>
+    <p>Si el escenario adverso puede consumir todos los recursos disponibles, la propiedad necesita un margen de seguridad o debe descartarse.</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     ERRORES
+     ========================================================= -->
+<section class="panel" id="p-errores">
+  <h1 class="panel-title">Errores frecuentes</h1>
+  <p class="lead">Los diez fallos que más caro cuestan en una investigación como esta.</p>
+
+  <details>
+    <summary>1. Confundir un anuncio con una oferta verificada</summary>
+    <p>Los anuncios cambian, pueden duplicarse y pueden contener errores. No sustituyen una visita, una nota simple, una consulta urbanística ni un contrato.</p>
+    <p><strong>Corrección:</strong> tratar cada anuncio como <em>indicio</em>, nunca como <em>hecho</em>.</p>
+  </details>
+
+  <details>
+    <summary>2. Confundir precio de venta con alquiler</summary>
+    <p>La búsqueda exploratoria mostró precios de venta (50.000 €, 77.500 €, etc.), no alquileres. No sirven para calcular el coste mensual del proyecto.</p>
+    <p><strong>Corrección:</strong> separar siempre renta mensual y precio de venta en la ficha de propiedad.</p>
+  </details>
+
+  <details>
+    <summary>3. Creer que el empadronamiento autoriza el uso</summary>
+    <p>El empadronamiento es un registro de residencia. No es una licencia urbanística ni una autorización para instalar una caravana como vivienda.</p>
+    <p><strong>Corrección:</strong> pedir al Ayuntamiento respuesta escrita sobre el uso concreto.</p>
+  </details>
+
+  <details>
+    <summary>4. Asumir que estar fuera de la mancha visible es estar a salvo</summary>
+    <p>La información de riesgo está en revisión (nuevo subtramo ARPSI del río Sot). Una parcela aparentemente elevada puede no ser segura sin comprobaciones.</p>
+    <p><strong>Corrección:</strong> consultar SNCZI, PATRICOVA, visor GVA y cartografía DANA; pedir informe técnico cuando la operación avance.</p>
+  </details>
+
+  <details>
+    <summary>5. Comprar paneles y baterías antes de saber dónde</summary>
+    <p>Sin ubicación, orientación, sombras ni consumos definidos, cualquier dimensionado es una apuesta.</p>
+    <p><strong>Corrección:</strong> primero coordenadas y sombras; luego PVGIS; después consumos; solo al final comprar.</p>
+  </details>
+
+  <details>
+    <summary>6. Subestimar el peso del agua</summary>
+    <p>100 litros ≈ 100 kg de agua, más depósito y soporte. Afecta a la carga útil, al reparto de masas y a la estabilidad del remolque.</p>
+    <p><strong>Corrección:</strong> revisar ficha técnica del remolque y dimensionar la carga antes de instalar el depósito.</p>
+  </details>
+
+  <details>
+    <summary>7. No verificar el estado actual de la presa de Buseo</summary>
+    <p>La fuente periodística sobre las obras es de agosto de 2025. No demuestra el estado en 2026.</p>
+    <p><strong>Corrección:</strong> preguntar a los organismos responsables por el estado actualizado, los sistemas de alerta y los protocolos aplicables.</p>
+  </details>
+
+  <details>
+    <summary>8. Ignorar el coste total y mirar solo la renta</summary>
+    <p>Un alquiler bajo con agua por cisterna, acceso único y saneamiento inexistente puede ser más caro que una vivienda convencional.</p>
+    <p><strong>Corrección:</strong> usar la fórmula de coste mensual real y comparar con escenarios optimista/base/adverso.</p>
+  </details>
+
+  <details>
+    <summary>9. Depender de una sola ruta de acceso</summary>
+    <p>En episodios de lluvia intensa, un único acceso puede cortarse y aislar la propiedad.</p>
+    <p><strong>Corrección:</strong> verificar un segundo acceso practicable y una ruta de evacuación a terreno alto.</p>
+  </details>
+
+  <details>
+    <summary>10. Olvidar el saneamiento</summary>
+    <p>Una finca sin saneamiento no se resuelve solo con paneles solares o depósitos.</p>
+    <p><strong>Corrección:</strong> identificar sistema instalado, autorización, mantenimiento y coste antes de firmar.</p>
+  </details>
+
+  <details>
+    <summary>11. No documentar las respuestas oficiales</summary>
+    <p>Una consulta informal no sustituye un informe escrito.</p>
+    <p><strong>Corrección:</strong> enviar por registro electrónico, guardar copia y respuesta. Si el caso lo exige, revisión profesional.</p>
+  </details>
+
+  <details>
+    <summary>12. Tratar la tecnología como sustituto del territorio</summary>
+    <p>La tecnología no neutraliza el riesgo territorial: no compensa una parcela con peligro de avenida, acceso que se corta, restricciones urbanísticas incompatibles o coste desproporcionado.</p>
+    <p><strong>Corrección:</strong> aplicar primero los filtros eliminatorios; después, la tecnología.</p>
+  </details>
+</section>
+
+<!-- =========================================================
+     RESUMEN
+     ========================================================= -->
+<section class="panel" id="p-resumen">
+  <h1 class="panel-title">Resumen</h1>
+  <p class="lead">Lo esencial, para consultar rápido.</p>
+
+  <h2>Dictamen provisional</h2>
+  <div class="callout info">
+    <strong>Sot de Chera:</strong> seguir investigando, pero solo mediante un <strong>filtro estricto de parcela y acceso</strong>. Es <span class="tag pendiente">CANDIDATO EN INVESTIGACIÓN</span>, no destino aprobado.
+  </div>
+
+  <h2>Condiciones mínimas para avanzar</h2>
+  <ol>
+    <li>Identificar una propiedad concreta y su referencia catastral.</li>
+    <li>Obtener información urbanística escrita del Ayuntamiento sobre el uso pretendido.</li>
+    <li>Comprobar el riesgo de inundación con PATRICOVA, SNCZI, cartografía DANA y consulta a los organismos competentes.</li>
+    <li>Comprobar el acceso real en episodios de lluvia y la existencia de rutas alternativas.</li>
+    <li>Verificar disponibilidad de agua, saneamiento, cobertura móvil y conectividad en la parcela.</li>
+    <li>Confirmar por escrito las condiciones del contrato y la posibilidad de empadronamiento, sin confundir empadronamiento con autorización urbanística.</li>
+    <li>Calcular el coste total de implantación y funcionamiento, no solo la renta.</li>
+  </ol>
+
+  <h2>Los tres riesgos críticos de Sot de Chera</h2>
+  <table>
+    <thead><tr><th>Riesgo</th><th>Qué hacer</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Inundación</strong></td>
+        <td>Consultar SNCZI, PATRICOVA, visor GVA, cartografía DANA y CHJ por parcela. El río Sot se incorporó como nuevo subtramo ARPSI en marzo de 2026. La inundabilidad y la evacuación son criterios de descarte.</td>
+      </tr>
+      <tr>
+        <td><strong>Incendio forestal</strong></td>
+        <td>Revisar Plan Local de Prevención de Incendios (2021). Comprobar vegetación, accesos para bomberos, distancia al monte y rutas de evacuación.</td>
+      </tr>
+      <tr>
+        <td><strong>Acceso y aislamiento</strong></td>
+        <td>Verificar ancho de camino, pendientes, curvas, posibilidad de maniobra con remolque y segundo acceso practicable. No diseñar la movilidad suponiendo que todos los accesos permanecerán abiertos.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Preguntas frecuentes</h2>
+
+  <details>
+    <summary>¿Sot de Chera es inundable?</summary>
+    <p>No se puede afirmar que todo el término municipal sea inundable, ni que una parcela aparentemente elevada sea segura sin comprobaciones. La CHJ ha incorporado el río Sot en Sot de Chera como nuevo subtramo ARPSI en la actualización de marzo de 2026. Hay que evaluar <strong>parcela por parcela</strong>.</p>
+  </details>
+
+  <details>
+    <summary>¿Se puede vivir en una caravana en una parcela rural?</summary>
+    <p>No se puede asumir ni que sí ni que no. Cada uso (estacionamiento, acampada, instalación, uso residencial) puede tener condiciones distintas según clasificación del suelo, planeamiento, protección ambiental, dominio público hidráulico y normativa aplicable. <strong>Requiere respuesta escrita del Ayuntamiento.</strong></p>
+  </details>
+
+  <details>
+    <summary>¿El empadronamiento autoriza el uso residencial?</summary>
+    <p>No. El empadronamiento es un registro administrativo de residencia. No sustituye una licencia urbanística ni una autorización administrativa cuando sea necesaria.</p>
+  </details>
+
+  <details>
+    <summary>¿Puedo fiarme de los precios que vi en Milanuncios?</summary>
+    <p>No como valoración del mercado ni como ofertas verificadas. Son precios publicados de anuncios de venta vistos durante la búsqueda. No son alquileres, no demuestran disponibilidad actual y no deben usarse para calcular el coste del proyecto.</p>
+  </details>
+
+  <details>
+    <summary>¿Cuánta agua puede llevar el remolque?</summary>
+    <p>El proyecto contempla estudiar un depósito de hasta 100 litros. Debe tratarse como almacenamiento, no como solución automática de abastecimiento. 100 litros ≈ 100 kg de agua, más depósito y soporte. La carga real debe dimensionarse según masa máxima autorizada, carga útil, reparto de masas, cargas por eje, homologación y estabilidad.</p>
+  </details>
+
+  <details>
+    <summary>¿Puedo generar agua de la humedad ambiental?</summary>
+    <p>Debe mantenerse como investigación tecnológica, no como suministro garantizado. La producción depende de humedad relativa, temperatura, consumo eléctrico, rendimiento del dispositivo y condiciones meteorológicas. No contabilizarla como fuente principal hasta realizar mediciones y una prueba prolongada.</p>
+  </details>
+
+  <details>
+    <summary>¿Cómo sé si hay cobertura en una parcela?</summary>
+    <p>El Ministerio para la Transformación Digital ofrece mapas de banda ancha fija por parcela catastral y cobertura móvil 4G/5G con cuadrícula de 50×50 m. No obstante, la señal puede variar de una ladera a otra. Hay que medir dentro y fuera de la vivienda y en la zona de estacionamiento.</p>
+  </details>
+
+  <details>
+    <summary>¿Qué pasa con la presa de Buseo?</summary>
+    <p>La CHJ mantiene una ficha técnica y publica información hidrológica. La existencia de una presa no permite inferir por sí sola el riesgo de una parcela, y un parte de embalses no es una evaluación de seguridad. Antes de una decisión, preguntar a los organismos responsables por el estado actualizado, los sistemas de alerta y los protocolos aplicables.</p>
+  </details>
+
+  <details>
+    <summary>¿Qué hago si encuentro una parcela interesante?</summary>
+    <p>Aplicar el Índice MARTE, pedir respuesta escrita al Ayuntamiento, comprobar inundación, incendio, acceso, agua, saneamiento, conectividad y coste total. Solo si pasa los filtros eliminatorios y la puntuación agregada es aceptable, avanzar a visita técnica y negociación.</p>
+  </details>
+
+  <details>
+    <summary>¿Cuándo se considera «aprobada»?</summary>
+    <p>Solo después de comprobaciones finales y decisión expresa. El estado «APROBADA» no se alcanza por acumulación de indicios favorables.</p>
+  </details>
+
+  <h2>Resumen por capítulos</h2>
+  <table>
+    <thead><tr><th>Bloque</th><th>Idea clave</th></tr></thead>
+    <tbody>
+      <tr><td>Información</td><td>Separar HECHO, INDICIO, HIPÓTESIS y PENDIENTE. No mezclar.</td></tr>
+      <tr><td>Proyecto</td><td>Escenarios A, B, C. TRO, ERE, SERENDIPIA, CAMPER BRAIN.</td></tr>
+      <tr><td>Municipio</td><td>INE 46234, 34 km², 427 hab. (año a verificar), Los Serranos.</td></tr>
+      <tr><td>Riesgos</td><td>Inundación (río Sot ARPSI 2026), incendio, acceso. Filtros eliminatorios.</td></tr>
+      <tr><td>Recursos</td><td>Solar (PVGIS), agua (depósito + permisos), conectividad (mapas oficiales), saneamiento autorizado.</td></tr>
+      <tr><td>Mercado</td><td>Búsqueda exploratoria: venta, no alquiler. Escenario B sin probar.</td></tr>
+      <tr><td>Urbanismo</td><td>Caravana, módulos, empadronamiento: no asumir. Pedir por escrito.</td></tr>
+      <tr><td>Decisión</td><td>Índice MARTE + filtros eliminatorios + coste total real.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =========================================================
+     FUENTES
+     ========================================================= -->
+<section class="panel" id="p-fuentes">
+  <h1 class="panel-title">Fuentes</h1>
+  <p class="lead">Todas las URLs en bloque de texto plano para copiar. Cada una con su botón <strong>Copiar</strong>.</p>
+
+  <h2>Fuentes oficiales</h2>
+
+  <h3>1. Registro de Entidades Locales — Sot de Chera</h3>
+  <p>Identidad municipal, código INE, extensión, población publicada y mancomunidad.</p>
+  <div class="url-row">
+    <code id="url-1">https://www.entidadeslocales.gva.es/index.php?Itemid=9&id=46234&lang=es&option=com_reglocal_entloc&task=muestraEntidad&tipo=1</code>
+    <button class="copyBtn" data-target="url-1">Copiar</button>
+  </div>
+
+  <h3>2. Sede electrónica del Ayuntamiento de Sot de Chera</h3>
+  <p>Trámites, registro, tablón y empadronamiento.</p>
+  <div class="url-row">
+    <code id="url-2">https://sotdechera.sede.dival.es/</code>
+    <button class="copyBtn" data-target="url-2">Copiar</button>
+  </div>
+
+  <h3>3. CHJ — actualización de cartografía de zonas inundables (12/03/2026)</h3>
+  <p>Confirma la inclusión del río Sot en Sot de Chera como nuevo subtramo ARPSI en la actualización anunciada.</p>
+  <div class="url-row">
+    <code id="url-3">https://www.chj.es/es-es/ciudadano/salaprensa/Paginas/CHJ-actualiza-cartografia-zonas-inundables.aspx</code>
+    <button class="copyBtn" data-target="url-3">Copiar</button>
+  </div>
+
+  <h3>4. SNCZI — Sistema Nacional de Cartografía de Zonas Inundables</h3>
+  <p>Cartografía nacional de zonas inundables; debe consultarse por ubicación.</p>
+  <div class="url-row">
+    <code id="url-4">https://sig.mapama.gob.es/snczi/</code>
+    <button class="copyBtn" data-target="url-4">Copiar</button>
+  </div>
+
+  <h3>5. PATRICOVA — Generalitat Valenciana</h3>
+  <p>Marco autonómico de prevención del riesgo de inundación.</p>
+  <div class="url-row">
+    <code id="url-5">https://sede.gva.es/es/detall-tramit?id_proc=22730</code>
+    <button class="copyBtn" data-target="url-5">Copiar</button>
+  </div>
+
+  <h3>6. Visor cartográfico de la Generalitat Valenciana</h3>
+  <p>Capas geográficas oficiales; consultar la disponibilidad de capas específicas y fecha de actualización.</p>
+  <div class="url-row">
+    <code id="url-6">https://visor.gva.es/visor/</code>
+    <button class="copyBtn" data-target="url-6">Copiar</button>
+  </div>
+
+  <h3>7. BOE — Ley 2/2025, de 15 de abril</h3>
+  <p>Medidas urbanísticas relacionadas con la reconstrucción tras la DANA y referencias a cartografías de inundación.</p>
+  <div class="url-row">
+    <code id="url-7">https://www.boe.es/buscar/act.php?id=BOE-A-2025-9743</code>
+    <button class="copyBtn" data-target="url-7">Copiar</button>
+  </div>
+
+  <h3>8. Parque Natural de Chera-Sot de Chera — Generalitat</h3>
+  <p>Extensión y descripción oficial del espacio natural.</p>
+  <div class="url-row">
+    <code id="url-8">https://www.comunitatvalenciana.com/es/valencia/chera/espacios-naturales/parque-natural-de-chera-sot-de-chera</code>
+    <button class="copyBtn" data-target="url-8">Copiar</button>
+  </div>
+
+  <h3>9. Guía del Parque Natural de Chera-Sot de Chera</h3>
+  <p>Accesos por carretera y puntos de interés.</p>
+  <div class="url-row">
+    <code id="url-9">https://parquesnaturales.gva.es/documents/80264563/80266208/Gu%C3%ADa%2Bdel%2BParque/685e219d-bccf-4c34-a722-034b33814040</code>
+    <button class="copyBtn" data-target="url-9">Copiar</button>
+  </div>
+
+  <h3>10. Prevención de incendios — Planificación municipal (Sot de Chera)</h3>
+  <p>Identifica la planificación de prevención de incendios de Sot de Chera.</p>
+  <div class="url-row">
+    <code id="url-10">https://prevencionincendiosgva.es/Planificacion/DetallePlanesMunicipio/510</code>
+    <button class="copyBtn" data-target="url-10">Copiar</button>
+  </div>
+
+  <h3>11. Ministerio para la Transformación Digital — mapas de banda ancha</h3>
+  <p>Cobertura fija por parcela y cobertura móvil 4G/5G.</p>
+  <div class="url-row">
+    <code id="url-11">https://digital.gob.es/telecomunicaciones-infraestructuras-digitales/areas-interes/banda-ancha/informacion-cobertura/mapas-servicios-banda-ancha</code>
+    <button class="copyBtn" data-target="url-11">Copiar</button>
+  </div>
+
+  <h3>12. Comisión Europea — PVGIS</h3>
+  <p>Estimación de radiación y producción fotovoltaica por ubicación.</p>
+  <div class="url-row">
+    <code id="url-12">https://joint-research-centre.ec.europa.eu/photovoltaic-geographical-information-system-pvgis_en</code>
+    <button class="copyBtn" data-target="url-12">Copiar</button>
+  </div>
+
+  <h3>13. SAIH Júcar — embalse de Buseo</h3>
+  <p>Ficha técnica y datos hidrológicos del embalse.</p>
+  <div class="url-row">
+    <code id="url-13">https://saih.chj.es/embalses/295</code>
+    <button class="copyBtn" data-target="url-13">Copiar</button>
+  </div>
+
+  <h3>14. CHJ — planes de emergencia de presa</h3>
+  <p>Información general sobre planes de emergencia y protección de población.</p>
+  <div class="url-row">
+    <code id="url-14">https://www.chj.es/es-es/medioambiente/Paginas/Planes-de-Emergencia-de-Presa.aspx</code>
+    <button class="copyBtn" data-target="url-14">Copiar</button>
+  </div>
+
+  <h3>15. CHJ — estado de embalses</h3>
+  <p>Partes periódicos; no sustituyen información específica de seguridad de la presa.</p>
+  <div class="url-row">
+    <code id="url-15">https://www.chj.es/ES-ES/MEDIOAMBIENTE/ESTADOEMBALSES/Paginas/Estadoembalses.aspx</code>
+    <button class="copyBtn" data-target="url-15">Copiar</button>
+  </div>
+
+  <h3>16. BOE — texto refundido de la legislación urbanística valenciana</h3>
+  <p>Consultar texto vigente, modificaciones y aplicabilidad antes de tomar decisiones.</p>
+  <div class="url-row">
+    <code id="url-16">https://www.boe.es/buscar/act.php?id=BOE-A-2010-13883</code>
+    <button class="copyBtn" data-target="url-16">Copiar</button>
+  </div>
+
+  <h2>Fuentes periodísticas</h2>
+
+  <h3>17. El País — «Dios pasó de puntillas por Sot de Chera» (07/11/2024)</h3>
+  <p>Contexto de los daños de la avenida; no es una evaluación técnica de parcelas.</p>
+  <div class="url-row">
+    <code id="url-17">https://elpais.com/espana/2024-11-07/dios-paso-de-puntillas-por-sot-de-chera.html</code>
+    <button class="copyBtn" data-target="url-17">Copiar</button>
+  </div>
+
+  <h3>18. Cadena SER — presa de Buseo y obras (22/08/2025)</h3>
+  <p>Antecedente sobre el estado de las obras en 2025; debe actualizarse con fuente oficial antes de usarlo para describir el estado de 2026.</p>
+  <div class="url-row">
+    <code id="url-18">https://cadenaser.com/comunitat-valenciana/2025/08/22/chera-y-sot-de-chera-afrontan-un-otono-de-preocupacion-con-la-presa-de-buseo-todavia-en-obras-radio-valencia/</code>
+    <button class="copyBtn" data-target="url-18">Copiar</button>
+  </div>
+
+  <h2>Mercado inmobiliario exploratorio</h2>
+
+  <h3>19. Milanuncios — inmuebles en Sot de Chera</h3>
+  <p>Anuncios volátiles de terceros. Los precios vistos son de venta, no alquileres verificados.</p>
+  <div class="url-row">
+    <code id="url-19">https://www.milanuncios.com/inmobiliaria/sot-de-chera.htm</code>
+    <button class="copyBtn" data-target="url-19">Copiar</button>
+  </div>
+
+  <h3>20. Milanuncios — terrenos en Sot de Chera</h3>
+  <p>Anuncios volátiles de terceros. No constituyen una muestra estadística representativa.</p>
+  <div class="url-row">
+    <code id="url-20">https://www.milanuncios.com/terrenos-en-sot-de-chera-valencia/</code>
+    <button class="copyBtn" data-target="url-20">Copiar</button>
+  </div>
+
+  <h2>Lagunas que siguen abiertas</h2>
+  <ul>
+    <li>Padrón más reciente del INE con año de referencia explícito.</li>
+    <li>Oferta real de alquiler de larga duración compatible con el escenario B.</li>
+    <li>Disponibilidad de casas deterioradas con terreno y propietario dispuesto a contrato.</li>
+    <li>Planeamiento urbanístico vigente y restricciones aplicables a cada parcela.</li>
+    <li>Posibilidad concreta de estacionamiento/uso prolongado de SERENDIPIA y remolque.</li>
+    <li>Confirmación municipal de los requisitos de empadronamiento para el caso real.</li>
+    <li>Cartografía de inundación más reciente para cada ubicación candidata y efecto de la DANA 2024.</li>
+    <li>Estado actualizado de la presa de Buseo, obras, sistemas de alerta y protocolos.</li>
+    <li>Riesgo de incendios y condiciones de evacuación de las parcelas.</li>
+    <li>Disponibilidad y derechos de agua; saneamiento autorizado.</li>
+    <li>Cobertura móvil, fibra y satélite por parcela.</li>
+    <li>Cálculo solar PVGIS para cada ubicación.</li>
+    <li>Frecuencia real de transporte público y horarios confirmados por el operador.</li>
+    <li>Coste de desplazamiento y demanda de servicios profesionales en la comarca.</li>
+    <li>Ayudas de vivienda, repoblación o rehabilitación vigentes en 2026 y requisitos exactos.</li>
+    <li>Coste total de implantación y funcionamiento de SERENDIPIA.</li>
+    <li>Adecuación de la carga del remolque al depósito de agua y resto de equipos.</li>
+  </ul>
+</section>
+
+<!-- =========================================================
+     CRÉDITOS
+     ========================================================= -->
+<section class="panel" id="p-creditos">
+  <h1 class="panel-title">Créditos</h1>
+
+  <!-- SVG arriba del todo, justo bajo el título y antes de la tarjeta del autor -->
+  <div class="hero-svg-mount" data-svg-hero="true" role="img" aria-label="Valle de Sot de Chera con sol, montañas, río Sot, caravana SERENDIPIA con panel solar y ondas de conectividad"></div>
+  <p class="svg-caption">El mismo dibujo animado que abre el tutorial: el valle como sistema de recursos por verificar.</p>
+
+  <div class="author-card">
+    <h2>Rubén Sbarsky</h2>
+    <p>Autor del tutorial</p>
+  </div>
+
+  <div class="meta">
+    <div class="meta-item">
+      <div class="lbl">Fecha de creación</div>
+      <div class="val">10/10/2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="lbl">Hora</div>
+      <div class="val">07:36:08</div>
+    </div>
+    <div class="meta-item">
+      <div class="lbl">Versión</div>
+      <div class="val">V001</div>
+    </div>
+    <div class="meta-item">
+      <div class="lbl">Fuente</div>
+      <div class="val">Dossier v1.0 — 10/10/2026</div>
+    </div>
+  </div>
+
+  <h2>Sobre este tutorial</h2>
+  <p>Este tutorial transforma el <em>Dossier de investigación sobre Sot de Chera como posible base de SERENDIPIA y de «Colonizar Marte en Valencia»</em> (v1.0, 10/10/2026) en un recorrido práctico. Se ha construido respetando la separación entre <strong>HECHO</strong>, <strong>INDICIO</strong>, <strong>HIPÓTESIS</strong> y <strong>PENDIENTE</strong>, y sin convertir hipótesis en hechos ni ocultar incertidumbres.</p>
+  <p><strong>Estado de la decisión:</strong> Sot de Chera sigue como <strong>CANDIDATO EN INVESTIGACIÓN — NO APROBADO COMO DESTINO</strong>.</p>
+
+  <h2>Estándar del proyecto</h2>
+  <ul>
+    <li>No inventar precios, distancias, población, horarios ni cobertura.</li>
+    <li>Mostrar la fecha de consulta de datos cambiantes.</li>
+    <li>No tratar anuncios como ofertas confirmadas.</li>
+    <li>No dar por legal un uso por el hecho de que exista una construcción o de que el propietario lo permita.</li>
+    <li>No afirmar que una parcela es segura solo por estar fuera de una mancha visible.</li>
+    <li>Enlazar fuentes oficiales cerca de la afirmación que respaldan.</li>
+    <li>Señalar visualmente cada dato como <strong>HECHO</strong>, <strong>INDICIO</strong>, <strong>HIPÓTESIS</strong> o <strong>PENDIENTE</strong>.</li>
+  </ul>
+
+  <h2>Novedades y registro de cambios</h2>
+  <ul>
+    <li><strong>V001 — 10/10/2026, 07:36:08.</strong> Primera versión del tutorial HTML. Construida desde el dossier v1.0. Incluye pestañas, SVG animado compartido entre INICIO y CRÉDITOS, buscador, control de tamaño de texto, tema claro/oscuro, botón imprimir/PDF, barra de progreso, checklist con localStorage y botones de copiado para todas las URLs y la plantilla de consulta al Ayuntamiento.</li>
+  </ul>
+
+  <h2>Nota técnica</h2>
+  <p>El SVG animado de INICIO y CRÉDITOS es exactamente el mismo dibujo, generado desde una única plantilla en el DOM. Al mostrar la pestaña se monta una copia nueva con ids únicos para evitar conflictos. Si el navegador bloquea la animación SMIL, se sustituye automáticamente por una imagen SVG estática equivalente. En impresión/PDF, el SVG de CRÉDITOS se monta aunque no se haya visitado esa pestaña.</p>
+</section>
+
+</main>
+
+<button class="to-top" id="toTop" aria-label="Volver arriba">↑</button>
+
+<footer>
+  <p>Dossier v1.0 · Tutorial V001 · 10/10/2026 — 07:36:08 · Rubén Sbarsky</p>
+  <p style="margin-top:6px;">CANDIDATO EN INVESTIGACIÓN — NO APROBADO COMO DESTINO</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     SVG TEMPLATE SYSTEM (una sola plantilla, montada con innerHTML)
+     ========================================================= */
+  var seq = 0, TPL = null, imgMode = false;
+
+  function template() {
+    if (TPL) return TPL;
+    var src = document.getElementById('svgHeroSource');
+    if (!src) return null;
+    var defsEl = src.querySelector('defs');
+    var artEl = src.querySelector('#svgHero');
+    if (!defsEl || !artEl) return null;
+    var d = defsEl.cloneNode(true);
+    var g = artEl.cloneNode(true);
+    // quitar cualquier #svgHero dentro de defs (seguridad)
+    var inner = d.querySelector('#svgHero');
+    if (inner && inner.parentNode) inner.parentNode.removeChild(inner);
+    g.removeAttribute('id');
+    TPL = { defs: d.innerHTML, art: g.outerHTML };
+    // eliminar el SVG fuente para que no siga animando oculto
+    if (src.parentNode) src.parentNode.removeChild(src);
+    return TPL;
+  }
+
+  function markup(uid) {
+    var t = template();
+    if (!t) return '';
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 260" width="100%" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="display:block;width:100%;height:auto;">'
+          + '<defs>' + t.defs + '</defs>' + t.art + '</svg>';
+    ['gBg', 'gAcc', 'gSun', 'gRiver', 'fGlow'].forEach(function (id) {
+      s = s.split('id="' + id + '"').join('id="' + id + '-' + uid + '"')
+           .split('url(#' + id + ')').join('url(#' + id + '-' + uid + ')');
+    });
+    return s;
+  }
+
+  function freezeFrame(svg) {
+    try {
+      svg.pauseAnimations();
+      // instante con todos los elementos visibles
+      svg.setCurrentTime(1.2);
+    } catch (e) {}
+  }
+
+  function mountOne(m, freeze) {
+    if (!m) return;
+    m.textContent = '';
+    if (imgMode) {
+      var im = document.createElement('img');
+      im.alt = '';
+      im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(markup('i' + (++seq)));
+      m.appendChild(im);
+      return;
+    }
+    m.innerHTML = markup('h' + (++seq));
+    var svg = m.querySelector('svg');
+    if (!svg) return;
+    if (freeze) {
+      freezeFrame(svg);
+      return;
+    }
+    try { svg.setCurrentTime(0); svg.unpauseAnimations(); } catch (e) {}
+    var t0 = 0;
+    try { t0 = svg.getCurrentTime(); } catch (e) { t0 = 0; }
+    setTimeout(function () {
+      if (document.hidden) return;
+      if (m.querySelector('svg') !== svg) return;
+      var rect = svg.getBoundingClientRect();
+      if (rect.height > 0) {
+        var t1 = 0;
+        try { t1 = svg.getCurrentTime(); } catch (e) { t1 = 0; }
+        if (t1 - t0 < 0.3) {
+          imgMode = true;
+          mountOne(m);
+        }
+      }
+    }, 1600);
+  }
+
+  function mountActive() {
+    document.querySelectorAll('.panel.active [data-svg-hero]').forEach(function (m) {
+      mountOne(m);
+    });
+  }
+
+  function mountAllFrozen() {
+    document.querySelectorAll('[data-svg-hero]').forEach(function (m) {
+      mountOne(m, true);
+    });
+  }
+
+  function resumeAll() {
+    document.querySelectorAll('[data-svg-hero] svg').forEach(function (svg) {
+      try { svg.unpauseAnimations(); } catch (e) {}
+    });
+  }
+
+  // Red de seguridad: cada ~800 ms, si el panel activo tiene su contenedor vacío, remontar
+  setInterval(function () {
+    if (document.hidden) return;
+    document.querySelectorAll('.panel.active [data-svg-hero]').forEach(function (m) {
+      if (!m.firstElementChild) mountOne(m);
+    });
+  }, 800);
+
+  /* =========================================================
+     TABS
+     ========================================================= */
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.panel');
+
+  function activateTab(name) {
+    var found = false;
+    tabs.forEach(function (t) {
+      var on = t.dataset.tab === name;
+      t.classList.toggle('active', on);
+      if (on) found = true;
+    });
+    if (!found) return;
+    panels.forEach(function (p) {
+      p.classList.toggle('active', p.id === 'p-' + name);
+    });
+    mountActive();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress();
+  }
+
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      activateTab(t.dataset.tab);
+      if (history.replaceState) history.replaceState(null, '', '#p-' + t.dataset.tab);
+    });
+  });
+
+  function fromHash() {
+    var h = (location.hash || '').replace('#p-', '').replace('#', '');
+    if (h && document.getElementById('p-' + h)) {
+      activateTab(h);
+      return true;
+    }
+    return false;
+  }
+  window.addEventListener('hashchange', fromHash);
+
+  /* =========================================================
+     BUSCADOR
+     ========================================================= */
+  var searchInput = document.getElementById('search');
+  var searchCount = document.getElementById('searchCount');
+
+  function clearHighlights() {
+    document.querySelectorAll('mark.search-hl').forEach(function (mk) {
+      var parent = mk.parentNode;
+      if (!parent) return;
+      parent.replaceChild(document.createTextNode(mk.textContent), mk);
+      parent.normalize();
+    });
+  }
+
+  searchInput.addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    clearHighlights();
+    if (!q || q.length < 2) {
+      searchCount.textContent = '';
+      return;
+    }
+    var count = 0;
+    document.querySelectorAll('.panel').forEach(function (panel) {
+      var walker = document.createTreeWalker(panel, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (node) {
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          var p = node.parentNode;
+          while (p && p !== panel) {
+            if (p.nodeName === 'SCRIPT' || p.nodeName === 'STYLE') return NodeFilter.FILTER_REJECT;
+            if (p.classList && p.classList.contains('search-hl')) return NodeFilter.FILTER_REJECT;
+            p = p.parentNode;
+          }
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      var nodes = [];
+      var n;
+      while ((n = walker.nextNode())) nodes.push(n);
+      nodes.forEach(function (node) {
+        var text = node.nodeValue;
+        var lower = text.toLowerCase();
+        var idx = lower.indexOf(q);
+        if (idx === -1) return;
+        var frag = document.createDocumentFragment();
+        var last = 0;
+        while (idx !== -1) {
+          frag.appendChild(document.createTextNode(text.slice(last, idx)));
+          var mk = document.createElement('mark');
+          mk.className = 'search-hl';
+          mk.textContent = text.slice(idx, idx + q.length);
+          frag.appendChild(mk);
+          count++;
+          last = idx + q.length;
+          idx = lower.indexOf(q, last);
+        }
+        frag.appendChild(document.createTextNode(text.slice(last)));
+        node.parentNode.replaceChild(frag, node);
+      });
+    });
+    searchCount.textContent = count + (count === 1 ? ' coincidencia' : ' coincidencias');
+    var first = document.querySelector('mark.search-hl');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* =========================================================
+     TAMAÑO DE TEXTO
+     ========================================================= */
+  var size = 16, MIN = 12, MAX = 24;
+  try {
+    var savedSize = localStorage.getItem('sotchera-font');
+    if (savedSize) size = Math.min(MAX, Math.max(MIN, parseInt(savedSize, 10) || 16));
+  } catch (e) {}
+  function applySize() {
+    document.documentElement.style.setProperty('--base-font', size + 'px');
+    try { localStorage.setItem('sotchera-font', size); } catch (e) {}
+  }
+  applySize();
+  document.getElementById('btnA-').addEventListener('click', function () {
+    size = Math.max(MIN, size - 1); applySize();
+  });
+  document.getElementById('btnA+').addEventListener('click', function () {
+    size = Math.min(MAX, size + 1); applySize();
+  });
+
+  /* =========================================================
+     TEMA CLARO/OSCURO
+     ========================================================= */
+  var themeBtn = document.getElementById('btnTheme');
+  try {
+    if (localStorage.getItem('sotchera-theme') === 'light') document.body.classList.add('light');
+  } catch (e) {}
+  function updateThemeIcon() {
+    themeBtn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+  }
+  updateThemeIcon();
+  themeBtn.addEventListener('click', function () {
+    document.body.classList.toggle('light');
+    try { localStorage.setItem('sotchera-theme', document.body.classList.contains('light') ? 'light' : 'dark'); } catch (e) {}
+    updateThemeIcon();
+  });
+
+  /* =========================================================
+     IMPRIMIR / PDF
+     ========================================================= */
+  var printBtn = document.getElementById('btnPrint');
+
+  function openAllDetails() {
+    var closed = [];
+    document.querySelectorAll('details').forEach(function (d) {
+      if (!d.open) { closed.push(d); d.open = true; }
+    });
+    return closed;
+  }
+  function closeDetails(list) {
+    if (!list) return;
+    list.forEach(function (d) { d.open = false; });
+  }
+
+  printBtn.addEventListener('click', function () {
+    try {
+      window.print();
+    } catch (e) {
+      alert('No se pudo abrir el diálogo de impresión. Abre este archivo directamente en tu navegador (no dentro de un visor) y pulsa Ctrl+P / Cmd+P.');
+    }
+  });
+
+  window.addEventListener('beforeprint', function () {
+    window.__closedDetails = openAllDetails();
+    mountAllFrozen();
+  });
+  window.addEventListener('afterprint', function () {
+    closeDetails(window.__closedDetails || []);
+    resumeAll();
+  });
+
+  /* =========================================================
+     VOLVER ARRIBA + BARRA DE PROGRESO
+     ========================================================= */
+  var toTop = document.getElementById('toTop');
+  var progressBar = document.getElementById('progressBar');
+
+  function updateProgress() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    progressBar.style.width = Math.max(0, Math.min(100, p)) + '%';
+  }
+
+  window.addEventListener('scroll', function () {
+    toTop.classList.toggle('show', window.scrollY > 400);
+    updateProgress();
+  }, { passive: true });
+
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* =========================================================
+     CHECKLIST con localStorage
+     ========================================================= */
+  document.querySelectorAll('#checklist input[type=checkbox]').forEach(function (cb) {
+    var key = 'sotchera-ck-' + cb.dataset.ck;
+    try {
+      if (localStorage.getItem(key) === '1') cb.checked = true;
+    } catch (e) {}
+    cb.addEventListener('change', function () {
+      try { localStorage.setItem(key, cb.checked ? '1' : '0'); } catch (e) {}
+    });
+  });
+
+  /* =========================================================
+     BOTONES COPIAR
+     ========================================================= */
+  document.querySelectorAll('.copyBtn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.dataset.target;
+      var el = target ? document.getElementById(target) : null;
+      if (!el) return;
+      var text = el.textContent || '';
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = '✓ Copiado';
+        setTimeout(function () { btn.textContent = old; }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () {
+          fallbackCopy(text); done();
+        });
+      } else {
+        fallbackCopy(text); done();
+      }
+    });
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  /* =========================================================
+     INICIALIZACIÓN
+     ========================================================= */
+  if (!fromHash()) {
+    // panel INICIO por defecto: ya tiene la clase active
+  }
+  mountActive();
+  updateProgress();
+
+})();
+</script>
+</body>
+</html>
