@@ -1,0 +1,2743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chera (Valencia) — Tutorial para investigar un territorio antes de mudarse</title>
+<style>
+/* ============================================================
+   VARIABLES Y BASE
+   ============================================================ */
+:root{
+  --bg:#0a0e1a;
+  --card:#0f172a;
+  --card2:#131f36;
+  --accent:#1e3a5f;
+  --accent2:#2c5f9e;
+  --text:#e6edf7;
+  --muted:#9fb0c9;
+  --border:#22304a;
+  --ok:#39d98a;
+  --warn:#ffb020;
+  --bad:#ff6b6b;
+  --info:#4da3ff;
+  --radius:14px;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+body.light{
+  --bg:#eef3f9;
+  --card:#ffffff;
+  --card2:#f6f9fd;
+  --accent:#dbe8f7;
+  --accent2:#b9d4f0;
+  --text:#0d1626;
+  --muted:#4b5c76;
+  --border:#cfd9e8;
+  --shadow:0 8px 24px rgba(20,40,70,.10);
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 .5em;}
+h1{font-size:1.55rem;letter-spacing:-.01em;}
+h2{font-size:1.28rem;margin-top:1.6em;}
+h3{font-size:1.08rem;margin-top:1.3em;}
+p{margin:0 0 1em;}
+a{color:var(--info);text-decoration:none;word-break:break-word;}
+a:hover{text-decoration:underline;}
+ul,ol{padding-left:1.25em;margin:0 0 1em;}
+li{margin:.3em 0;}
+strong{color:var(--text);}
+code{background:var(--accent);padding:.1em .4em;border-radius:6px;font-size:.9em;}
+
+/* ============================================================
+   PROGRESO Y BARRA SUPERIOR
+   ============================================================ */
+.progress-bar{
+  position:fixed;top:0;left:0;right:0;height:3px;
+  background:transparent;z-index:100;pointer-events:none;
+}
+#progressFill{height:100%;width:0;background:linear-gradient(90deg,var(--info),#8fe3ff);transition:width .12s linear;}
+
+.toolbar{
+  position:sticky;top:0;z-index:60;
+  background:color-mix(in srgb,var(--card) 92%, transparent);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  padding:8px 12px 6px;
+}
+.toolbar-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.brand{
+  font-weight:700;font-size:.86rem;letter-spacing:.02em;
+  color:var(--text);white-space:nowrap;margin-right:auto;
+}
+.brand span{color:var(--info);}
+.btn{
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:6px 10px;
+  font:inherit;font-size:.8rem;
+  cursor:pointer;
+  transition:.15s;
+  white-space:nowrap;
+}
+.btn:hover{background:var(--accent);border-color:var(--accent2);}
+.btn:active{transform:translateY(1px);}
+.btn.icon{padding:6px 9px;font-weight:700;}
+.search-wrap{position:relative;flex:1 1 160px;min-width:130px;}
+#searchInput{
+  width:100%;
+  background:var(--card2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text);
+  font:inherit;font-size:.82rem;
+  padding:6px 30px 6px 10px;
+}
+#searchInput:focus{outline:2px solid var(--accent2);outline-offset:1px;}
+#searchInfo{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  font-size:.7rem;color:var(--muted);pointer-events:none;
+}
+mark.search-hl{background:#ffd166;color:#0a0e1a;border-radius:3px;padding:0 1px;}
+
+.tabs{
+  display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;
+  scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+}
+.tabs::-webkit-scrollbar{height:5px;}
+.tabs::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.tab{
+  flex:0 0 auto;
+  padding:7px 13px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  font:inherit;font-size:.78rem;font-weight:600;letter-spacing:.03em;
+  cursor:pointer;white-space:nowrap;
+  transition:.15s;
+}
+.tab:hover{color:var(--text);border-color:var(--accent2);}
+.tab.active{
+  background:var(--accent);
+  color:var(--text);
+  border-color:var(--accent2);
+  box-shadow:0 0 0 1px var(--accent2) inset;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+main{max-width:980px;margin:0 auto;padding:14px 12px 90px;}
+.panel{display:none;animation:fade .28s ease;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px;
+  margin:0 0 16px;
+  box-shadow:var(--shadow);
+}
+.card.tight{padding:12px 14px;}
+.card.accent{border-left:3px solid var(--info);}
+.card.ok{border-left:3px solid var(--ok);}
+.card.warn{border-left:3px solid var(--warn);}
+.card.bad{border-left:3px solid var(--bad);}
+
+.lead{font-size:1.02rem;color:var(--muted);}
+.muted{color:var(--muted);}
+.small{font-size:.84rem;}
+.center{text-align:center;}
+
+.badge{
+  display:inline-block;
+  font-size:.7rem;font-weight:700;letter-spacing:.05em;
+  padding:2px 8px;border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--card2);
+  color:var(--muted);
+  vertical-align:middle;
+}
+.badge.hecho{color:#0a0e1a;background:var(--ok);border-color:var(--ok);}
+.badge.orient{color:#0a0e1a;background:var(--warn);border-color:var(--warn);}
+.badge.hipo{color:#fff;background:var(--accent2);border-color:var(--accent2);}
+.badge.pend{color:#0a0e1a;background:#8fe3ff;border-color:#8fe3ff;}
+
+/* ============================================================
+   SVG HERO
+   ============================================================ */
+.hero-svg-mount{
+  width:100%;
+  max-width:900px;
+  margin:0 auto 18px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.hero-svg-mount svg,
+.hero-svg-mount img{display:block;width:100%;height:auto;}
+.hero-cap{
+  text-align:center;
+  font-size:.82rem;
+  color:var(--muted);
+  margin:-6px 0 18px;
+  padding:0 6px;
+}
+
+/* ============================================================
+   TABLAS
+   ============================================================ */
+.tablewrap{overflow-x:auto;margin:0 0 16px;-webkit-overflow-scrolling:touch;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.86rem;
+  min-width:440px;
+}
+th,td{
+  border:1px solid var(--border);
+  padding:8px 10px;
+  text-align:left;
+  vertical-align:top;
+}
+th{background:var(--accent);color:var(--text);font-weight:700;font-size:.8rem;letter-spacing:.02em;}
+tbody tr:nth-child(even){background:color-mix(in srgb,var(--card2) 60%, transparent);}
+
+/* ============================================================
+   BLOQUES COPIABLES / URLS
+   ============================================================ */
+.copywrap{position:relative;margin:0 0 14px;}
+.copywrap pre{
+  margin:0;
+  background:var(--card2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:11px 12px;
+  padding-right:86px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.78rem;
+  line-height:1.5;
+  color:var(--text);
+  white-space:pre-wrap;
+  word-break:break-all;
+  overflow:visible;
+}
+.copywrap .copyBtn{
+  position:absolute;
+  top:8px;right:8px;
+  background:var(--accent);
+  border:1px solid var(--accent2);
+  color:var(--text);
+  font:inherit;font-size:.68rem;font-weight:700;letter-spacing:.06em;
+  padding:4px 9px;border-radius:8px;cursor:pointer;
+  transition:.15s;
+}
+.copywrap .copyBtn:hover{background:var(--accent2);}
+.copywrap .copyBtn.done{background:var(--ok);border-color:var(--ok);color:#0a0e1a;}
+
+/* ============================================================
+   DETAILS / DESPLEGABLES
+   ============================================================ */
+details{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 14px;
+  margin:10px 0;
+}
+details[open]{background:var(--card2);}
+details summary{
+  cursor:pointer;
+  font-weight:700;
+  font-size:.94rem;
+  list-style:none;
+  outline:none;
+  display:flex;align-items:flex-start;gap:8px;
+}
+details summary::-webkit-details-marker{display:none;}
+details summary::before{
+  content:"▸";
+  color:var(--info);
+  flex:0 0 auto;
+  transition:transform .18s;
+  display:inline-block;
+}
+details[open] summary::before{transform:rotate(90deg);}
+details > *:not(summary){margin-top:.6em;}
+
+/* ============================================================
+   CHECKLIST
+   ============================================================ */
+.checklist{list-style:none;padding:0;margin:0;}
+.checklist li{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 0;
+  border-bottom:1px dashed var(--border);
+  font-size:.9rem;
+}
+.checklist li:last-child{border-bottom:none;}
+.checklist input[type=checkbox]{
+  width:18px;height:18px;flex:0 0 auto;margin-top:3px;
+  accent-color:var(--info);
+  cursor:pointer;
+}
+.checklist label{cursor:pointer;}
+
+/* ============================================================
+   PASOS NUMERADOS
+   ============================================================ */
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;}
+.steps > li{
+  counter-increment:s;
+  position:relative;
+  padding:10px 0 10px 42px;
+  border-bottom:1px dashed var(--border);
+}
+.steps > li:last-child{border-bottom:none;}
+.steps > li::before{
+  content:counter(s);
+  position:absolute;left:0;top:10px;
+  width:28px;height:28px;
+  border-radius:50%;
+  background:var(--accent);
+  border:1px solid var(--accent2);
+  color:var(--text);
+  font-size:.8rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ============================================================
+   GRID DE TARJETAS
+   ============================================================ */
+.grid{display:grid;gap:12px;grid-template-columns:1fr;}
+@media(min-width:620px){.grid.two{grid-template-columns:1fr 1fr;}}
+.grid .card{margin:0;}
+
+/* ============================================================
+   SEMÁFORO
+   ============================================================ */
+.light-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px;vertical-align:middle;}
+.dot-ok{background:var(--ok);box-shadow:0 0 8px var(--ok);}
+.dot-warn{background:var(--warn);box-shadow:0 0 8px var(--warn);}
+.dot-bad{background:var(--bad);box-shadow:0 0 8px var(--bad);}
+
+/* ============================================================
+   BOTÓN VOLVER ARRIBA
+   ============================================================ */
+.to-top{
+  position:fixed;right:14px;bottom:14px;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--accent);
+  border:1px solid var(--accent2);
+  color:var(--text);
+  font-size:1.15rem;font-weight:700;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:.2s;
+  z-index:70;
+  box-shadow:var(--shadow);
+}
+.to-top.show{opacity:1;pointer-events:auto;}
+
+/* ============================================================
+   AVISO DE IMPRESIÓN
+   ============================================================ */
+#printNotice{
+  display:none;
+  position:fixed;
+  left:12px;right:12px;bottom:70px;
+  background:var(--warn);
+  color:#1a1206;
+  border-radius:12px;
+  padding:12px 40px 12px 14px;
+  font-size:.85rem;font-weight:600;
+  z-index:90;
+  box-shadow:var(--shadow);
+}
+#printNotice.show{display:block;}
+#printNotice button{
+  position:absolute;top:6px;right:8px;
+  background:transparent;border:none;
+  font-size:1.1rem;font-weight:700;cursor:pointer;color:#1a1206;
+}
+
+/* ============================================================
+   CRÉDITOS
+   ============================================================ */
+.author-name{
+  font-size:2.1rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+  background:linear-gradient(100deg,#8fe3ff,#4da3ff 55%,#ffd166);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  margin:0 0 .1em;
+  line-height:1.1;
+  text-align:center;
+}
+.author-role{text-align:center;color:var(--muted);font-weight:600;letter-spacing:.06em;font-size:.86rem;text-transform:uppercase;margin:0 0 1.2em;}
+.meta-line{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;
+  font-size:.86rem;color:var(--muted);
+}
+.meta-line b{color:var(--text);}
+
+/* ============================================================
+   IMPRESIÓN
+   ============================================================ */
+@media print{
+  @page{size:A4 portrait;margin:14mm 12mm;}
+
+  html,body{
+    background:#fff !important;
+    color:#000 !important;
+    padding:0 !important;
+    margin:0 !important;
+    font-size:11pt !important;
+    line-height:1.45 !important;
+  }
+  body *{box-shadow:none !important;text-shadow:none !important;}
+
+  /* Ocultar interfaz */
+  .toolbar, .tabs, .to-top, .copyBtn, .progress-bar, nav, #printNotice{display:none !important;}
+
+  /* Neutralizar resaltado de búsqueda sin borrar texto */
+  .search-hl{background:transparent !important;color:inherit !important;padding:0 !important;}
+
+  /* Todos los paneles en flujo continuo */
+  .panel{
+    display:block !important;
+    page-break-after:auto !important;
+    break-after:auto !important;
+    animation:none !important;
+    opacity:1 !important;
+    transform:none !important;
+  }
+
+  /* No recortar contenido */
+  pre, table, .tablewrap, .copywrap pre{
+    overflow:visible !important;
+    white-space:pre-wrap !important;
+    word-break:break-word !important;
+    max-width:100% !important;
+  }
+  .tablewrap{overflow:visible !important;}
+  table{min-width:0 !important;width:100% !important;font-size:9pt !important;}
+  img, svg{max-width:100% !important;}
+
+  /* Colores legibles */
+  .card, details, .copywrap pre, .grid .card{
+    background:#fff !important;
+    color:#000 !important;
+    border:1px solid #999 !important;
+    padding:6px 8px !important;
+    margin:0 0 8px !important;
+    page-break-inside:avoid;
+  }
+  th{background:#e4e4e4 !important;color:#000 !important;border:1px solid #888 !important;}
+  td{border:1px solid #aaa !important;color:#000 !important;}
+  h1,h2,h3,h4{color:#000 !important;page-break-after:avoid;}
+  a{color:#000 !important;text-decoration:underline !important;}
+  .muted,.lead,.small{color:#333 !important;}
+  .badge{background:#eee !important;color:#000 !important;border:1px solid #888 !important;}
+
+  /* Quitar degradados de texto */
+  .author-name{
+    background:none !important;
+    -webkit-background-clip:border-box !important;
+    background-clip:border-box !important;
+    color:#000 !important;
+    -webkit-text-fill-color:#000 !important;
+    font-size:22pt !important;
+  }
+  .brand span{color:#000 !important;}
+
+  /* El SVG debe imprimirse */
+  .hero-svg-mount{
+    border:1px solid #999 !important;
+    background:#fff !important;
+    page-break-inside:avoid;
+    margin:0 0 10px !important;
+  }
+  .hero-cap{color:#333 !important;}
+
+  .steps > li::before{
+    background:#e4e4e4 !important;
+    color:#000 !important;
+    border:1px solid #888 !important;
+  }
+  .light-dot{box-shadow:none !important;border:1px solid #666 !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" aria-hidden="true"><div id="progressFill"></div></div>
+
+<!-- ============================================================
+     BARRA DE HERRAMIENTAS
+     ============================================================ -->
+<header class="toolbar">
+  <div class="toolbar-row">
+    <div class="brand">CHERA <span>· Tutorial de investigación</span></div>
+    <div class="search-wrap">
+      <input id="searchInput" type="search" placeholder="Buscar en el tutorial…" aria-label="Buscar en el tutorial" autocomplete="off">
+      <span id="searchInfo"></span>
+    </div>
+    <button class="btn icon" id="fontMinus" type="button" title="Reducir tamaño de texto" aria-label="Reducir tamaño de texto">A−</button>
+    <button class="btn icon" id="fontPlus" type="button" title="Aumentar tamaño de texto" aria-label="Aumentar tamaño de texto">A+</button>
+    <button class="btn" id="themeBtn" type="button" title="Cambiar modo claro/oscuro">☀︎ / ☾</button>
+    <button class="btn" id="printBtn" type="button" title="Imprimir o guardar como PDF">🖨 PDF</button>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Secciones del tutorial">
+    <button class="tab active" role="tab" aria-selected="true" data-tab="p-inicio" type="button">INICIO</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="p-conceptos" type="button">CONCEPTOS</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="p-procedimiento" type="button">PROCEDIMIENTO</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="p-practica" type="button">PRÁCTICA</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="p-errores" type="button">ERRORES</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="p-resumen" type="button">RESUMEN</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="p-fuentes" type="button">FUENTES</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="p-creditos" type="button">CRÉDITOS</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============================================================
+     PANEL: INICIO
+     ============================================================ -->
+<section class="panel active" id="p-inicio" role="tabpanel" aria-label="Inicio">
+
+  <div class="hero-svg-mount" data-svg-hero="true" role="img"
+       aria-label="Ilustración animada: montañas de Chera, embalse de Buseo, antena de conectividad emitiendo señal, sonda orbitando Marte y un cohete cruzando el cielo."></div>
+  <p class="hero-cap">Chera: montaña, agua, conectividad y un plan que todavía hay que verificar.</p>
+
+  <div class="card accent">
+    <h1>Chera (Valencia): investigar un territorio antes de mudarse</h1>
+    <p class="lead">Tutorial interactivo para estudiar vivienda, agua, energía, conectividad y riesgos en Chera antes de tomar cualquier decisión. Basado íntegramente en el dossier documental <em>«Chera (Valencia): dossier de investigación para SERENDIPIA y Colonizar Marte en Valencia»</em>.</p>
+  </div>
+
+  <div class="card">
+    <h2>¿Qué vas a aprender?</h2>
+    <p>A aprender <strong>haciendo</strong>. No se trata de leer una descripción de Chera, sino de aprender un método para investigar cualquier municipio rural y decidir con datos.</p>
+    <ul>
+      <li>Distinguir un <strong>hecho documentado</strong> de una <strong>hipótesis</strong> o de un dato <strong>pendiente de verificar</strong>.</li>
+      <li>Obtener datos oficiales de población del INE y construir una tabla de evolución.</li>
+      <li>Buscar vivienda real (alquiler y venta) y comprobar si es legalmente habitable.</li>
+      <li>Entender la diferencia entre <strong>estacionar</strong>, <strong>acampar</strong> y <strong>vivir</strong> en un remolque.</li>
+      <li>Evaluar agua, saneamiento, energía solar y conectividad dirección por dirección.</li>
+      <li>Comprobar el riesgo de inundación de una parcela concreta.</li>
+      <li>Contactar con el Ayuntamiento con una agenda de preguntas útil.</li>
+      <li>Construir tres presupuestos comparables y decidir con evidencia.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>¿Para qué sirve este tutorial?</h2>
+    <p>Para convertir una intuición («Chera parece un buen sitio») en una <strong>decisión informada</strong>. El objetivo del proyecto es estudiar la posibilidad de vivir con un coste reducido, utilizando viviendas, terrenos e infraestructuras existentes, energías renovables, conectividad digital e inteligencia artificial.</p>
+    <p><strong>Principio del proyecto:</strong> no empezamos preguntando qué nos falta, sino <strong>qué existe</strong>, dónde está, quién lo gestiona, si está disponible, qué condiciones tiene y cuánto costaría acceder a ello legalmente.</p>
+  </div>
+
+  <div class="card">
+    <h2>¿Qué necesitas antes de empezar?</h2>
+    <ul>
+      <li>Un ordenador o un móvil con navegador. Este archivo funciona <strong>sin conexión</strong>.</li>
+      <li>Conexión a Internet solo cuando vayas a abrir los enlaces oficiales (INE, DOGV, CHJ, MITECO…).</li>
+      <li>Un cuaderno o una hoja de cálculo para registrar respuestas.</li>
+      <li>Paciencia: la investigación completa está planteada para <strong>30 días</strong>.</li>
+      <li>Nada de dinero: este tutorial no vende nada ni promete resultados.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Objetivos del tutorial</h2>
+    <ol class="steps">
+      <li>Investigar a fondo el municipio de Chera para determinar si puede convertirse en una base viable para SERENDIPIA y el proyecto «Colonizar Marte en Valencia».</li>
+      <li>Estudiar las posibilidades de vivir con un coste reducido usando lo que ya existe.</li>
+      <li>Separar en todo momento hechos, datos orientativos, hipótesis y cuestiones pendientes.</li>
+      <li>Terminar la investigación con una decisión: seguir, descartar o pedir más información.</li>
+    </ol>
+    <p class="small muted">La primera conclusión del dossier, y la más importante: Chera constituye un <strong>candidato para investigar</strong>, no una decisión de traslado ya validada.</p>
+  </div>
+
+  <div class="card">
+    <h2>Cómo utilizar este tutorial</h2>
+    <ol class="steps">
+      <li>Empieza por <strong>CONCEPTOS</strong> para entender qué se sabe de Chera y con qué nivel de fiabilidad.</li>
+      <li>Sigue con <strong>PROCEDIMIENTO</strong>: ahí está el plan de investigación en 30 días.</li>
+      <li>Practica en <strong>PRÁCTICA</strong>: ejercicios con solución explicada y listas de comprobación.</li>
+      <li>Revisa <strong>ERRORES</strong> antes de llamar a nadie ni firmar nada.</li>
+      <li>Consulta <strong>RESUMEN</strong> para el semáforo de viabilidad, el glosario y las preguntas frecuentes.</li>
+      <li>Usa <strong>FUENTES</strong> para copiar cualquier enlace con su botón <em>COPIAR</em>.</li>
+    </ol>
+    <p class="small muted">Consejo: marca las casillas de las listas de comprobación. Tu progreso se guarda en este navegador.</p>
+  </div>
+
+  <div class="card">
+    <h2>Índice rápido</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Pestaña</th><th>Qué encontrarás</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CONCEPTOS</strong></td><td>Qué es Chera, ficha básica, población, vivienda, agua, energía, conectividad, servicios, entorno natural, urbanismo, inundabilidad, transporte y economía.</td></tr>
+          <tr><td><strong>PROCEDIMIENTO</strong></td><td>Plan de 30 días en 5 fases, más procedimientos paso a paso para verificar vivienda, agua, energía, cobertura y riesgo.</td></tr>
+          <tr><td><strong>PRÁCTICA</strong></td><td>Ejercicios con solución, checklists y plantillas de registro.</td></tr>
+          <tr><td><strong>ERRORES</strong></td><td>Errores frecuentes al investigar un municipio rural y cómo corregirlos.</td></tr>
+          <tr><td><strong>RESUMEN</strong></td><td>Semáforo de viabilidad, estrategia final, glosario y preguntas frecuentes.</td></tr>
+          <tr><td><strong>FUENTES</strong></td><td>Todos los enlaces oficiales y secundarios, en texto plano y copiables.</td></tr>
+          <tr><td><strong>CRÉDITOS</strong></td><td>Autoría, fecha de creación fija y versión del archivo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PANEL: CONCEPTOS
+     ============================================================ -->
+<section class="panel" id="p-conceptos" role="tabpanel" aria-label="Conceptos">
+
+  <div class="card accent">
+    <h1>Conceptos: qué se sabe de Chera y con qué fiabilidad</h1>
+    <p class="lead">Antes de actuar hay que entender el terreno. Esta sección explica qué es Chera, qué recursos tiene y —muy importante— <strong>cómo de fiable es cada dato</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h2>1. Las cuatro etiquetas de fiabilidad</h2>
+    <p>Todo el dossier usa cuatro etiquetas. Aprender a usarlas es la habilidad más importante de este tutorial.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Etiqueta</th><th>Qué significa</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge hecho">HECHO DOCUMENTADO</span></td><td>Información respaldada por una fuente identificable.</td><td>El embalse de Buseo está en el término municipal de Chera, sobre el río Reatillo.</td></tr>
+          <tr><td><span class="badge orient">DATO ORIENTATIVO</span></td><td>Información secundaria que requiere confirmación.</td><td>Chera tendría 508 habitantes en 2025 según una fuente secundaria.</td></tr>
+          <tr><td><span class="badge hipo">HIPÓTESIS</span></td><td>Posibilidad que todavía no se ha demostrado.</td><td>Quizá exista una vivienda de alquiler estable dentro del presupuesto objetivo.</td></tr>
+          <tr><td><span class="badge pend">PENDIENTE DE VERIFICAR</span></td><td>Requiere consulta, llamada, visita o comprobación documental.</td><td>La cobertura de fibra en una dirección concreta.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card bad" style="margin-top:12px;">
+      <p style="margin:0;"><strong>Regla de oro:</strong> no inventes precios, disponibilidades, horarios, permisos, coberturas ni servicios. Que un recurso exista <em>no</em> significa que esté disponible ni que pueda utilizarse para cualquier finalidad.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Ficha básica del municipio</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Campo</th><th>Valor</th><th>Fiabilidad</th></tr></thead>
+        <tbody>
+          <tr><td>Nombre</td><td>Chera</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Provincia</td><td>Valencia</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Comarca</td><td>Requena-Utiel</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Código INE</td><td>46108</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Superficie</td><td>≈ 49,7 km²</td><td><span class="badge hecho">HECHO</span> (DOGV 2024)</td></tr>
+          <tr><td>Población de referencia</td><td>508 habitantes en 2025</td><td><span class="badge orient">ORIENTATIVO</span> — pendiente de confirmar en el INE</td></tr>
+          <tr><td>Población citada 2021</td><td>469 habitantes</td><td><span class="badge hecho">HECHO</span> (DOGV)</td></tr>
+          <tr><td>Población ficha turística</td><td>611 habitantes (sin fecha clara)</td><td><span class="badge orient">ORIENTATIVO</span></td></tr>
+          <tr><td>Carretera principal</td><td>CV-395</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Embalse</td><td>Buseo</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Río del embalse</td><td>Reatillo</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Entorno natural</td><td>Parque Natural de Chera-Sot de Chera</td><td><span class="badge hecho">HECHO</span></td></tr>
+          <tr><td>Planeamiento citado en 2024</td><td>PGOU aprobado en 1999; comprobar modificaciones posteriores</td><td><span class="badge pend">PENDIENTE</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Fuentes de la ficha</h3>
+    <div class="copywrap"><pre class="cp">https://dogv.gva.es/datos/2024/08/14/pdf/2024_7794_es.pdf</pre></div>
+    <div class="copywrap"><pre class="cp">https://saih.chj.es/embalses/295</pre></div>
+    <div class="copywrap"><pre class="cp">https://turisme.dival.es/destino/chera/</pre></div>
+  </div>
+
+  <div class="card">
+    <h2>3. Población y evolución demográfica</h2>
+    <p>Los datos localizados apuntan a un <strong>aumento de población entre 2021 y 2025</strong>, pero no permiten afirmar por sí solos que exista una tendencia estable de crecimiento. Hay tres cifras distintas en circulación (469, 508 y 611), y eso ya es una señal de alarma metodológica.</p>
+    <h3>Qué hay que investigar</h3>
+    <ol class="steps">
+      <li>Población de cada año desde 2000 hasta 2025.</li>
+      <li>Porcentaje de habitantes mayores de 65 años.</li>
+      <li>Población en edad laboral.</li>
+      <li>Tamaño medio de los hogares.</li>
+      <li>Número de personas que viven solas, si existen datos públicos.</li>
+      <li>Nacimientos y defunciones.</li>
+      <li>Migración interior y exterior.</li>
+      <li>Viviendas de ocupación permanente.</li>
+      <li>Variación estacional de la población.</li>
+      <li>Iniciativas municipales para atraer nuevos residentes.</li>
+    </ol>
+    <div class="copywrap"><pre class="cp">https://www.ine.es/dyngs/INEbase/operacion.htm?c=Estadistica_C&cid=1254736177011&menu=resultados&idp=1254734710990</pre></div>
+    <p class="small muted">El futuro tutorial debe enseñar a obtener los datos oficiales, crear una tabla y representar gráficamente la evolución. En la pestaña <strong>PRÁCTICA</strong> tienes el ejercicio correspondiente.</p>
+  </div>
+
+  <div class="card">
+    <h2>4. Vivienda: la cuestión decisiva</h2>
+    <p>Es el punto que decide todo el proyecto. Y es, precisamente, el que está menos verificado.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Fuente</th><th>Cifra</th><th>Qué significa</th></tr></thead>
+        <tbody>
+          <tr><td>Fuente secundaria basada en datos censales</td><td>631 viviendas<br>(241 principales · 390 no principales)</td><td><span class="badge orient">ORIENTATIVO</span></td></tr>
+          <tr><td>Fuente inmobiliaria basada en datos catastrales</td><td>572 viviendas construidas</td><td><span class="badge orient">ORIENTATIVO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card warn" style="margin:0 0 14px;">
+      <p style="margin:0;"><strong>Estas cifras no deben combinarse</strong> como si fueran un único recuento oficial. Pueden corresponder a fechas, definiciones o universos estadísticos distintos.</p>
+    </div>
+    <p><strong>Una vivienda no principal no equivale necesariamente a una vivienda vacía o disponible para alquilar.</strong> Puede ser:</p>
+    <ul>
+      <li>una segunda residencia;</li>
+      <li>una vivienda de uso estacional;</li>
+      <li>una propiedad heredada;</li>
+      <li>un inmueble que necesite una rehabilitación importante.</li>
+    </ul>
+
+    <h3>Anuncios inmobiliarios localizados</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Inmueble</th><th>Precio anunciado</th><th>Superficie</th></tr></thead>
+        <tbody>
+          <tr><td>Casa independiente en calle Torderas</td><td>200.000 €</td><td>354 m²</td></tr>
+          <tr><td>Casa independiente en calle La Fuente, 20</td><td>140.000 €</td><td>139 m²</td></tr>
+          <tr><td>Casa para terminar de reformar en calle Atienzas</td><td>70.000 €</td><td>92 m²</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small"><strong>Atención:</strong> son precios de <em>anuncios de venta</em>, no tasaciones ni precios de alquiler. La vigencia de los anuncios debe comprobarse. Una vivienda que necesita reforma puede exigir una inversión considerable adicional.</p>
+    <div class="card bad" style="margin-top:12px;">
+      <p style="margin:0;"><strong>No se ha confirmado</strong> una oferta estable de alquiler anual por 300–350 € mensuales en Chera. Es una hipótesis, no un hecho.</p>
+    </div>
+    <div class="copywrap"><pre class="cp">https://todopueblos.es/municipio/chera-46350/servicios/</pre></div>
+    <div class="copywrap"><pre class="cp">https://www.idealista.com/maps/chera-valencia/</pre></div>
+    <div class="copywrap"><pre class="cp">https://www.idealista.com/venta-viviendas/chera-valencia/con-chalets%2Cprecio-hasta_180000/</pre></div>
+
+    <h3>Canales de búsqueda de vivienda</h3>
+    <ol class="steps">
+      <li>Propietarios y agentes inmobiliarios.</li>
+      <li>Ayuntamiento.</li>
+      <li>Asociaciones y comercios locales.</li>
+      <li>Anuncios de alquiler de larga duración.</li>
+      <li>Viviendas que necesiten pequeñas reparaciones, previa inspección.</li>
+      <li>Programas de vivienda rural y repoblación.</li>
+      <li>Propietarios de viviendas cerradas dispuestos a negociar un alquiler estable.</li>
+    </ol>
+
+    <h3>Requisitos mínimos de una vivienda candidata</h3>
+    <ul class="checklist">
+      <li><input type="checkbox" data-ck="v1" id="v1"><label for="v1">Contrato de alquiler y uso legal como vivienda habitual.</label></li>
+      <li><input type="checkbox" data-ck="v2" id="v2"><label for="v2">Agua potable.</label></li>
+      <li><input type="checkbox" data-ck="v3" id="v3"><label for="v3">Saneamiento funcional.</label></li>
+      <li><input type="checkbox" data-ck="v4" id="v4"><label for="v4">Instalación eléctrica segura.</label></li>
+      <li><input type="checkbox" data-ck="v5" id="v5"><label for="v5">Cobertura móvil comprobada dentro de la vivienda.</label></li>
+      <li><input type="checkbox" data-ck="v6" id="v6"><label for="v6">Cubierta y estructura en buen estado.</label></li>
+      <li><input type="checkbox" data-ck="v7" id="v7"><label for="v7">Calefacción adecuada.</label></li>
+      <li><input type="checkbox" data-ck="v8" id="v8"><label for="v8">Coste de transporte asumible.</label></li>
+      <li><input type="checkbox" data-ck="v9" id="v9"><label for="v9">Acceso razonable a alimentación y asistencia sanitaria.</label></li>
+      <li><input type="checkbox" data-ck="v10" id="v10"><label for="v10">Comprobación de riesgos de inundación y otras afecciones de la parcela.</label></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>5. SERENDIPIA + remolque</h2>
+    <p>SERENDIPIA debe estudiarse como una <strong>alternativa habitacional</strong>, no como una solución que se pueda instalar automáticamente en cualquier terreno.</p>
+    <p>El objetivo es descubrir si puede encontrarse una ubicación <strong>legal, segura y económica</strong> para estacionar un remolque habitable o una solución móvil.</p>
+
+    <h3>Posibles alternativas (todas por verificar)</h3>
+    <ol class="steps">
+      <li>Aparcamiento privado que admita remolques.</li>
+      <li>Área de autocaravanas con estancias prolongadas autorizadas.</li>
+      <li>Camping abierto durante todo el año.</li>
+      <li>Parcela privada con uso compatible.</li>
+      <li>Vivienda con patio o terreno, si el contrato y la normativa lo permiten.</li>
+      <li>Instalación autorizada en suelo urbano o en una instalación existente.</li>
+    </ol>
+
+    <details>
+      <summary>Lo que NO debe presuponerse nunca</summary>
+      <ul>
+        <li>Que el suelo rústico pueda utilizarse como vivienda.</li>
+        <li>Que el permiso del propietario sea suficiente para residir permanentemente.</li>
+        <li>Que estacionar equivalga a acampar.</li>
+        <li>Que un remolque tenga automáticamente la consideración legal de vivienda.</li>
+        <li>Que puedan instalarse placas solares, depósitos, casetas o sistemas de saneamiento sin permisos.</li>
+        <li>Que las áreas recreativas permitan pernoctas prolongadas.</li>
+        <li>Que los márgenes del embalse sean terrenos disponibles para el proyecto.</li>
+      </ul>
+    </details>
+
+    <p class="small muted">No realizar ninguna instalación hasta obtener confirmación de las condiciones legales aplicables.</p>
+  </div>
+
+  <div class="card">
+    <h2>6. Agua y embalse de Buseo</h2>
+    <p>El embalse de Buseo se encuentra en el término municipal de Chera, sobre el río Reatillo. La ficha del Sistema Automático de Información Hidrológica de la Confederación Hidrográfica del Júcar indica:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Dato</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>Nombre de la presa</td><td>Buseo o La Romana</td></tr>
+          <tr><td>Río</td><td>Reatillo</td></tr>
+          <tr><td>Municipio</td><td>Chera</td></tr>
+          <tr><td>Construcción</td><td>Entre 1903 y 1912</td></tr>
+          <tr><td>Superficie a nivel máximo normal</td><td>≈ 60 hectáreas</td></tr>
+          <tr><td>Cota de nivel máximo normal</td><td>478 metros</td></tr>
+          <tr><td>Tipo de presa</td><td>Arco-gravedad, de mampostería</td></tr>
+          <tr><td>Titularidad indicada</td><td>Generalitat Valenciana</td></tr>
+          <tr><td>Capacidad aproximada (ficha turística)</td><td>≈ 7,5 hm³</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card warn" style="margin-top:12px;">
+      <p style="margin:0;"><strong>Importante:</strong> la existencia del embalse <em>no</em> significa que el proyecto pueda utilizar directamente su agua. El abastecimiento doméstico está sujeto a gestión, calidad sanitaria, derechos y autorizaciones.</p>
+    </div>
+    <div class="copywrap"><pre class="cp">https://saih.chj.es/embalses/295</pre></div>
+    <div class="copywrap"><pre class="cp">https://turisme.dival.es/lugar_interes/embalse-de-buseo/</pre></div>
+
+    <h3>DANA de octubre de 2024</h3>
+    <p>La documentación del Ministerio para la Transición Ecológica y el Reto Demográfico señala que el embalse de Buseo <strong>alcanzó la cota de vertido</strong> durante el episodio del 29 y 30 de octubre de 2024. Los sensores fallaron y no fue posible conocer con precisión la magnitud del vertido. La documentación también recoge graves daños aguas abajo, especialmente en Sot de Chera y otras localidades.</p>
+    <p class="small">Esto no demuestra que todo el municipio de Chera se inundara ni permite determinar el riesgo de una parcela concreta. Sí demuestra que el comportamiento hidrológico del embalse y de los cauces <strong>debe incorporarse al análisis de seguridad</strong>.</p>
+    <div class="copywrap"><pre class="cp">https://www.miteco.gob.es/content/dam/miteco/es/agua/temas/gestion-de-los-riesgos-de-inundacion/pgri/plan-recuperaci%C3%B3n-dana-valencia/Plan_Recuperacion_mejora_resilencia_DANA_CV_MITECO.pdf</pre></div>
+    <div class="copywrap"><pre class="cp">https://www.chj.es/es-es/Organismo/Memoriasdeactuaciones/Documents/Memoria%202024/01-PRESENTACI%C3%93N-2024.pdf</pre></div>
+    <div class="copywrap"><pre class="cp">https://dadesobertes.gva.es/es/dataset/?q=PATRICOVA+INUNDACION</pre></div>
+  </div>
+
+  <div class="card">
+    <h2>7. Energía fotovoltaica</h2>
+    <p>Chera puede ser interesante para estudiar autoconsumo fotovoltaico, pero <strong>no se ha calculado la producción de una vivienda concreta</strong>. La generación dependerá de orientación, inclinación, sombras, meteorología, superficie disponible y condiciones de instalación.</p>
+
+    <details>
+      <summary>Escenario A — Vivienda conectada a la red</summary>
+      <ul>
+        <li>Mantener la conexión eléctrica.</li>
+        <li>Medir los consumos reales.</li>
+        <li>Mejorar aislamiento y eficiencia.</li>
+        <li>Estudiar autoconsumo solar con datos del tejado.</li>
+        <li>Comparar inversión, ahorro y periodo de recuperación.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Escenario B — Vivienda con suministro limitado</summary>
+      <ul>
+        <li>Estudiar un sistema híbrido.</li>
+        <li>Priorizar los consumos esenciales.</li>
+        <li>Dimensionar inversor y batería según la demanda.</li>
+        <li>Establecer respaldo para periodos con poca producción solar.</li>
+        <li>Calcular los costes de mantenimiento y sustitución de baterías.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Escenario C — SERENDIPIA + remolque</summary>
+      <ul>
+        <li>Calcular consumos de portátil, teléfono, router, iluminación y frigorífico.</li>
+        <li>Separar cargas críticas de cargas prescindibles.</li>
+        <li>Diseñar un sistema modular.</li>
+        <li>Confirmar la seguridad eléctrica y la legalidad de la instalación.</li>
+        <li>Evaluar el consumo de calefacción y agua caliente por separado.</li>
+      </ul>
+    </details>
+
+    <h3>Datos necesarios antes de decidir nada</h3>
+    <ul>
+      <li>Consumo diario en Wh.</li>
+      <li>Potencia máxima simultánea.</li>
+      <li>Horas de autonomía.</li>
+      <li>Días de autonomía sin sol.</li>
+      <li>Orientación e inclinación de los paneles.</li>
+      <li>Sombras.</li>
+      <li>Necesidad de calefacción.</li>
+      <li>Disponibilidad de conexión a red.</li>
+      <li>Coste de instalación y mantenimiento.</li>
+    </ul>
+    <p class="small muted">No establecer precios ni potencias definitivas sin disponer de estos datos.</p>
+  </div>
+
+  <div class="card">
+    <h2>8. Internet, telefonía y trabajo digital</h2>
+    <p>La conectividad es fundamental para el concepto de <strong>AI GEOARBITRAGE</strong>: vivir en una zona de menor coste y vender servicios digitales a clientes de mercados de mayor valor.</p>
+    <div class="card warn" style="margin-top:0;">
+      <p style="margin:0;">No se ha confirmado la cobertura de fibra ni la calidad de la cobertura móvil en una dirección concreta de Chera.</p>
+    </div>
+    <h3>Procedimiento de verificación</h3>
+    <ol class="steps">
+      <li>Consultar la cobertura de fibra en las páginas oficiales de los operadores.</li>
+      <li>Consultar cobertura móvil de varios operadores.</li>
+      <li>Medir la señal dentro de la vivienda.</li>
+      <li>Realizar pruebas de descarga, subida y latencia.</li>
+      <li>Probar videollamadas y transferencias de archivos.</li>
+      <li>Preguntar a los vecinos por cortes o problemas frecuentes.</li>
+      <li>Evaluar un router 4G o 5G y una antena exterior, si resulta necesario.</li>
+      <li>Considerar Internet por satélite como alternativa y comparar su coste y consumo eléctrico.</li>
+    </ol>
+
+    <h3>Posibles actividades digitales</h3>
+    <ul>
+      <li>Creación de tutoriales y documentación técnica.</li>
+      <li>Desarrollo de aplicaciones web pequeñas.</li>
+      <li>Automatización de tareas con inteligencia artificial.</li>
+      <li>Producción de contenidos y formación digital.</li>
+      <li>Investigación y organización de información.</li>
+      <li>Servicios de digitalización para negocios rurales.</li>
+      <li>Servicios técnicos relacionados con refrigeración y energía fotovoltaica, cumpliendo las titulaciones y habilitaciones aplicables.</li>
+    </ul>
+    <div class="card bad" style="margin-top:0;">
+      <p style="margin:0;">La inteligencia artificial puede reducir determinados costes y acelerar tareas, pero <strong>no garantiza ingresos</strong>. La viabilidad debe demostrarse mediante clientes, demanda, precios, competencia, fiscalidad y tiempo de ejecución.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>9. Servicios y vida cotidiana</h2>
+    <p>En directorios y fichas locales aparecen referencias a: ayuntamiento, consultorio médico, farmacia, tienda de alimentación, aparcamientos, recursos turísticos e instalación relacionada con autocaravanas. <strong>Estos datos requieren confirmación directa</strong>, especialmente los horarios y la continuidad de los servicios.</p>
+
+    <h3>Ayuntamiento de Chera</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Campo</th><th>Dato publicado</th></tr></thead>
+        <tbody>
+          <tr><td>Dirección</td><td>Plaza de España, 1, 46350 Chera, Valencia</td></tr>
+          <tr><td>Teléfono</td><td>962 332 001</td></tr>
+          <tr><td>Correo</td><td>cheva@gva.es</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="copywrap"><pre class="cp">https://administracion.gob.es/espanaadmon/quienesquien/entidades-locales-ayuntamientos-estructuras-y-directorios?idProvincia=46&idUniOrganica=L01461081&idioma=es</pre></div>
+
+    <h3>Referencias comerciales localizadas</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Nombre</th><th>Dirección / Teléfono listado</th></tr></thead>
+        <tbody>
+          <tr><td>Consultorio Médico de Chera</td><td>Calle Antonio Sánchez Placita, 5 · 962 339 055</td></tr>
+          <tr><td>Farmacia Vicente Beltrán</td><td>Calle La Fuente, 21</td></tr>
+          <tr><td>El Colmao de Chera / La despensa de Pablo</td><td>Avenida Pantano de Buseo, 8</td></tr>
+          <tr><td>Estación aguas autocaravanas</td><td>Calle Proyecto 11, 4</td></tr>
+          <tr><td>Aparcamiento en Chera</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Son referencias de directorios comerciales y no una confirmación de funcionamiento actual. Verificar teléfonos, horarios y servicios antes de desplazarse.</p>
+
+    <h3>Pendiente de investigar</h3>
+    <ul>
+      <li>Horarios del consultorio.</li>
+      <li>Centro sanitario de referencia.</li>
+      <li>Hospital de referencia.</li>
+      <li>Transporte público.</li>
+      <li>Colegio y servicios educativos.</li>
+      <li>Recogida de residuos y punto limpio.</li>
+      <li>Correos y paquetería.</li>
+      <li>Cajeros y acceso a efectivo.</li>
+      <li>Taller mecánico y asistencia en carretera.</li>
+      <li>Comercios abiertos todo el año.</li>
+      <li>Servicios disponibles en invierno y festivos.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>10. Aparcamientos, autocaravanas y remolques</h2>
+    <p>Una búsqueda de negocios identifica una instalación denominada <strong>«Estación aguas autocaravanas»</strong> en calle Proyecto 11, 4, Chera, Valencia. El directorio la clasifica como instalación relacionada con aparcamiento, pero <strong>no confirma</strong> que esté operativa, que permita pernoctar o que admita estancias mensuales.</p>
+    <div class="card bad" style="margin-top:0;">
+      <p style="margin:0;">No confundir una estación para vaciado de aguas con un área residencial.</p>
+    </div>
+    <div class="copywrap"><pre class="cp">https://www.google.com/maps/search/%C3%A1rea+autocaravanas+Chera+Valencia/</pre></div>
+    <p>También deben buscarse aparcamientos privados para camiones, campings, parcelas en alquiler y áreas de autocaravanas en municipios cercanos.</p>
+  </div>
+
+  <div class="card">
+    <h2>11. Entorno natural, turismo y geología</h2>
+    <p>Chera cuenta con valores geológicos y paisajísticos que sustentan el turismo de naturaleza. Entre los recursos mencionados por la Diputación figuran:</p>
+    <ul>
+      <li>Embalse de Buseo.</li>
+      <li>Barranco de la Hoz.</li>
+      <li>Cuevas de la Garita.</li>
+      <li>Castillo de Chera.</li>
+      <li>Montañas y paisajes de interés.</li>
+      <li>Parque Natural de Chera-Sot de Chera.</li>
+    </ul>
+    <div class="copywrap"><pre class="cp">https://turisme.dival.es/destino/chera/</pre></div>
+    <div class="copywrap"><pre class="cp">https://turisme.dival.es/lugar_interes/embalse-de-buseo/</pre></div>
+    <div class="copywrap"><pre class="cp">https://parquesnaturales.gva.es/es/web/pn-chera-sot-de-chera</pre></div>
+
+    <h3>Posibles oportunidades (por estudiar, no ofertas confirmadas)</h3>
+    <ul>
+      <li>Servicios a visitantes y senderistas.</li>
+      <li>Alojamiento rural legal.</li>
+      <li>Mantenimiento de instalaciones turísticas.</li>
+      <li>Productos agrícolas locales.</li>
+      <li>Guías y contenidos digitales.</li>
+      <li>Servicios de digitalización.</li>
+      <li>Mantenimiento técnico de viviendas rurales.</li>
+    </ul>
+    <p class="small">Las actividades dentro del parque natural pueden estar sujetas a autorizaciones y restricciones de conservación. También debe estudiarse la estacionalidad: el turismo puede crear oportunidades, pero aumentar la presión sobre carreteras, aparcamientos y servicios en fines de semana y periodos vacacionales.</p>
+  </div>
+
+  <div class="card">
+    <h2>12. Agricultura, empleo y economía local</h2>
+    <p>La ficha turística de la Diputación describe una economía relacionada con el <strong>turismo rural</strong> y la <strong>agricultura de montaña</strong>, con presencia de almendros y olivos.</p>
+    <h3>Líneas de investigación</h3>
+    <ul>
+      <li>Trabajos agrícolas estacionales.</li>
+      <li>Mantenimiento de fincas y jardines.</li>
+      <li>Poda y desbroce autorizados.</li>
+      <li>Reformas y mantenimiento de edificios.</li>
+      <li>Mantenimiento de refrigeración y climatización, con las habilitaciones exigibles.</li>
+      <li>Instalaciones fotovoltaicas, respetando los requisitos profesionales.</li>
+      <li>Digitalización de pequeños negocios.</li>
+      <li>Servicios a visitantes y alojamientos rurales.</li>
+      <li>Cooperativas y asociaciones de productores.</li>
+    </ul>
+    <div class="card warn" style="margin-top:0;">
+      <p style="margin:0;"><strong>No confundir potencial con empleo.</strong> Antes de considerar una actividad como fuente de ingresos hay que averiguar: quién contrata, cuántos días de trabajo ofrece, si es estacional, qué formación se exige, qué habilitaciones son obligatorias, qué ingresos netos pueden esperarse, qué desplazamientos son necesarios y si puede combinarse con trabajo digital.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>13. Transporte y accesibilidad</h2>
+    <p>El documento territorial del DOGV identifica la <strong>CV-395</strong> como principal vía de comunicación de Chera y describe conexiones hacia la <strong>A-3</strong> en dirección a Requena y hacia la <strong>CV-35</strong> en dirección a Villar del Arzobispo.</p>
+    <h3>Preguntas de logística</h3>
+    <ul>
+      <li>¿Hay autobús regular?</li>
+      <li>¿Qué días funciona?</li>
+      <li>¿Qué conexiones existen con Requena y Valencia?</li>
+      <li>¿Cuánto cuesta llegar a los centros sanitarios?</li>
+      <li>¿Se puede vivir sin coche?</li>
+      <li>¿Qué frecuencia y estado tienen los caminos rurales?</li>
+      <li>¿Hay cobertura móvil durante los desplazamientos?</li>
+      <li>¿Qué ocurre durante temporales?</li>
+      <li>¿Existe taxi o transporte a demanda?</li>
+    </ul>
+    <div class="card bad" style="margin-top:0;">
+      <p style="margin:0;">Una vivienda económica puede dejar de serlo si exige comprar un vehículo o realizar muchos desplazamientos. <strong>El coste total de movilidad debe formar parte del presupuesto.</strong></p>
+    </div>
+    <div class="copywrap"><pre class="cp">https://dogv.gva.es/datos/2024/08/14/pdf/2024_7794_es.pdf</pre></div>
+  </div>
+
+  <div class="card">
+    <h2>14. Medio ambiente y normativa del suelo</h2>
+    <p>El documento del DOGV menciona afecciones ambientales y territoriales vinculadas a:</p>
+    <ul>
+      <li>ZEPA Alto Turia y Sierra del Negrete.</li>
+      <li>ZEC Sierra del Negrete.</li>
+      <li>Parque Natural de Chera-Sot de Chera y su planificación.</li>
+      <li>Microrreservas de flora de Pico de Ropé y Fuente de la Puerca.</li>
+      <li>Paisaje de relevancia regional Gargantas del Turia y entorno de Chera.</li>
+    </ul>
+    <p class="small muted">La aplicación concreta de estas figuras debe comprobarse mediante la cartografía oficial y los instrumentos normativos vigentes.</p>
+
+    <h3>Implicaciones</h3>
+    <ul>
+      <li>No todas las parcelas pueden destinarse a vivienda, camping, instalación solar o estacionamiento permanente.</li>
+      <li>Las obras y los cambios de uso pueden necesitar licencias.</li>
+      <li>La protección ambiental puede imponer restricciones.</li>
+      <li>El suelo no urbanizable puede tener limitaciones importantes.</li>
+      <li>La proximidad a un espacio protegido no determina por sí sola la clasificación de una parcela.</li>
+    </ul>
+
+    <h3>Verificación obligatoria por parcela</h3>
+    <ol class="steps">
+      <li>Referencia catastral.</li>
+      <li>Clasificación y calificación urbanística.</li>
+      <li>Usos permitidos.</li>
+      <li>Afecciones ambientales.</li>
+      <li>Riesgo de inundación.</li>
+      <li>Acceso legal.</li>
+      <li>Disponibilidad de agua y saneamiento.</li>
+      <li>Autorizaciones sectoriales.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>15. DANA de 2024 y resiliencia</h2>
+    <p>La documentación del MITECO señala que el embalse de Buseo <strong>alcanzó la cota de vertido</strong> durante el episodio de lluvias del 29 y 30 de octubre de 2024. Los sensores fallaron, por lo que no se pudo conocer con precisión el volumen vertido. La documentación describe graves daños aguas abajo, especialmente en Sot de Chera.</p>
+
+    <h3>Principios de resiliencia</h3>
+    <ul class="checklist">
+      <li><input type="checkbox" data-ck="r1" id="r1"><label for="r1">No elegir una parcela solo por su precio.</label></li>
+      <li><input type="checkbox" data-ck="r2" id="r2"><label for="r2">Evitar cauces, barrancos, ramblas y zonas de flujo potencial.</label></li>
+      <li><input type="checkbox" data-ck="r3" id="r3"><label for="r3">Consultar la cartografía oficial.</label></li>
+      <li><input type="checkbox" data-ck="r4" id="r4"><label for="r4">Preguntar al Ayuntamiento por riesgos y restricciones.</label></li>
+      <li><input type="checkbox" data-ck="r5" id="r5"><label for="r5">Valorar rutas de evacuación y acceso de emergencias.</label></li>
+      <li><input type="checkbox" data-ck="r6" id="r6"><label for="r6">Disponer de comunicaciones y energía de respaldo.</label></li>
+      <li><input type="checkbox" data-ck="r7" id="r7"><label for="r7">Mantener documentación y teléfonos de emergencia.</label></li>
+      <li><input type="checkbox" data-ck="r8" id="r8"><label for="r8">Considerar también incendios forestales, calor, frío, desprendimientos y cortes de carretera.</label></li>
+    </ul>
+    <p class="small muted">La experiencia del usuario durante la DANA en Benetússer hace especialmente importante incorporar la resiliencia desde el inicio.</p>
+  </div>
+
+  <div class="card">
+    <h2>16. Costes y presupuesto</h2>
+    <p>Todavía <strong>no existen datos suficientes</strong> para establecer el coste mensual real de vivir en Chera. El presupuesto debe construirse con anuncios vigentes, cotizaciones, facturas y datos verificables.</p>
+    <h3>Partidas a calcular</h3>
+    <ol class="steps">
+      <li>Alquiler o alojamiento.</li>
+      <li>Electricidad.</li>
+      <li>Agua.</li>
+      <li>Gas o combustible.</li>
+      <li>Internet y teléfono.</li>
+      <li>Alimentación y productos básicos.</li>
+      <li>Transporte.</li>
+      <li>Mantenimiento y reparaciones.</li>
+      <li>Seguro.</li>
+      <li>Gastos sanitarios y otros gastos personales.</li>
+      <li>Reserva para imprevistos.</li>
+    </ol>
+
+    <h3>Comparar tres escenarios</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Escenario</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A</strong></td><td>Casa alquilada con suministros.</td></tr>
+          <tr><td><strong>B</strong></td><td>Vivienda pequeña y energéticamente eficiente.</td></tr>
+          <tr><td><strong>C</strong></td><td>SERENDIPIA + remolque en una ubicación autorizada.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Comparar en cada escenario: coste inicial, coste mensual, coste anual, riesgos, permisos, dependencia de transporte y costes de reparación y mantenimiento.</p>
+    <div class="card warn" style="margin-top:0;">
+      <p style="margin:0;">No presentar estimaciones como precios reales sin identificar los supuestos utilizados.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>17. Matriz de oportunidades: «ordeñar recursos»</h2>
+    <p>El objetivo no es apropiarse de recursos ajenos, sino <strong>detectar recursos infrautilizados</strong> y acceder a ellos mediante acuerdos legales, alquiler, cesión, colaboración o prestación de servicios.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Recurso</th><th>Qué buscar</th><th>Quién informa</th><th>Cómo verificar</th></tr></thead>
+        <tbody>
+          <tr><td>Viviendas cerradas</td><td>Alquiler de larga duración</td><td>Propietarios, agentes, Ayuntamiento</td><td>Visita, contrato, estado legal y habitabilidad</td></tr>
+          <tr><td>Edificios municipales</td><td>Alquiler, cesión o uso autorizado</td><td>Ayuntamiento</td><td>Inventario y acuerdo formal</td></tr>
+          <tr><td>Parcelas</td><td>Alquiler compatible con el uso previsto</td><td>Propietarios</td><td>Catastro, urbanismo, permisos y contrato</td></tr>
+          <tr><td>Aparcamientos</td><td>Estancias prolongadas para remolques</td><td>Operadores privados</td><td>Condiciones por escrito</td></tr>
+          <tr><td>Áreas de autocaravanas</td><td>Servicios y duración permitida</td><td>Gestor o municipio</td><td>Llamada y visita</td></tr>
+          <tr><td>Cubiertas solares</td><td>Posibilidades de autoconsumo</td><td>Propietarios e instaladores</td><td>Estudio técnico y permisos</td></tr>
+          <tr><td>Agua y saneamiento</td><td>Conexión, tarifas y condiciones</td><td>Ayuntamiento o gestor</td><td>Confirmación técnica</td></tr>
+          <tr><td>Conectividad</td><td>Fibra, 4G, 5G o satélite</td><td>Operadores y vecinos</td><td>Pruebas reales</td></tr>
+          <tr><td>Agricultura</td><td>Trabajos, colaboración y necesidades técnicas</td><td>Agricultores y cooperativas</td><td>Conversación directa y condiciones</td></tr>
+          <tr><td>Turismo</td><td>Servicios no cubiertos</td><td>Negocios y asociaciones</td><td>Demanda, temporada y precios</td></tr>
+          <tr><td>Servicios técnicos</td><td>Necesidades de mantenimiento</td><td>Empresas y particulares</td><td>Entrevistas y demanda pagada</td></tr>
+          <tr><td>Ayudas públicas</td><td>Convocatorias vigentes</td><td>Generalitat, Diputación y grupos locales</td><td>Bases oficiales, plazos y requisitos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PANEL: PROCEDIMIENTO
+     ============================================================ -->
+<section class="panel" id="p-procedimiento" role="tabpanel" aria-label="Procedimiento">
+
+  <div class="card accent">
+    <h1>Procedimiento: el plan de investigación en 30 días</h1>
+    <p class="lead">Cada fase tiene un objetivo, unos pasos con <strong>una sola acción por paso</strong> y un resultado esperado. Si algo sale mal, tienes la sección de <em>qué hacer si algo sale mal</em> al final de cada fase.</p>
+  </div>
+
+  <div class="card">
+    <h2>Antes de empezar: prepara tu cuaderno de campo</h2>
+    <ol class="steps">
+      <li>Crea una carpeta llamada <code>Chera_2026</code>.</li>
+      <li>Dentro, crea una hoja de cálculo con una pestaña por fase.</li>
+      <li>Añade cuatro columnas fijas: <strong>Dato · Fuente · Fecha de consulta · Fiabilidad</strong>.</li>
+      <li>Guarda cada respuesta (correo, PDF, captura) con la fecha en el nombre del archivo.</li>
+      <li>No borres nunca una hipótesis descartada: anota por qué la descartaste.</li>
+    </ol>
+    <p class="small muted">Motivo: dentro de tres meses no recordarás de dónde salió cada cifra. Un dossier sin trazabilidad no vale nada.</p>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="card">
+    <h2>FASE 1 — Documentación (días 1 a 5)</h2>
+    <p><strong>Objetivo:</strong> saber qué se sabe ya, con fuentes, antes de llamar a nadie.</p>
+    <ol class="steps">
+      <li>Entra en la web del INE y descarga la serie de población de Chera (municipio 46108). <span class="muted small">Motivo: es la fuente oficial y resuelve la discrepancia 469 / 508 / 611.</span></li>
+      <li>Guarda el CSV o el PDF en tu carpeta con la fecha de descarga.</li>
+      <li>Consulta la información municipal y el presupuesto del Ayuntamiento.</li>
+      <li>Revisa el planeamiento urbanístico (PGOU de 1999 y sus modificaciones posteriores).</li>
+      <li>Abre la cartografía de inundabilidad oficial (PATRICOVA y SNCZI).</li>
+      <li>Revisa los espacios protegidos que afectan al término municipal.</li>
+      <li>Crea un mapa inicial con servicios, accesos y recursos.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una tabla de población 2000–2025 y un mapa mental de las restricciones del territorio.</p>
+    <p><strong>Si algo sale mal:</strong> si el INE no carga, prueba otro navegador o descarga el fichero desde la sede electrónica. Si el PGOU no está publicado, anótalo como <em>pendiente</em> y pregúntalo en la Fase 3.</p>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="card">
+    <h2>FASE 2 — Vivienda e infraestructura (días 6 a 12)</h2>
+    <p><strong>Objetivo:</strong> saber si existe una vivienda real, legal y asequible, y si hay dónde poner un remolque.</p>
+    <ol class="steps">
+      <li>Revisa anuncios de alquiler y venta en los portales inmobiliarios.</li>
+      <li>Anota precio, superficie, estado y fecha del anuncio de cada uno.</li>
+      <li>Llama a los agentes inmobiliarios que operan en la zona.</li>
+      <li>Llama a propietarios particulares que anuncien en otros canales.</li>
+      <li>Contacta con el área de autocaravanas de la calle Proyecto 11.</li>
+      <li>Pregunta por campings y aparcamientos con estancias mensuales.</li>
+      <li>Verifica cobertura móvil y fibra dirección por dirección.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una lista corta (2–5) de candidatas reales, con teléfono y condiciones.</p>
+    <p><strong>Si algo sale mal:</strong> si no contestan, insiste en otro horario y anota fecha y hora de cada intento. Un «no contesta» también es un dato.</p>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="card">
+    <h2>FASE 3 — Contacto local (días 13 a 18)</h2>
+    <p><strong>Objetivo:</strong> pasar de la especulación a la información de primera mano.</p>
+    <ol class="steps">
+      <li>Llama al Ayuntamiento (962 332 001) o escribe a cheva@gva.es.</li>
+      <li>Envía la agenda de preguntas completa (la tienes en la pestaña PRÁCTICA).</li>
+      <li>Pregunta a comercios y agentes locales por servicios abiertos todo el año.</li>
+      <li>Investiga el transporte público y la asistencia sanitaria.</li>
+      <li>Habla con agricultores, asociaciones y negocios locales.</li>
+      <li>Solicita que las respuestas normativas se faciliten por escrito o que se identifique el instrumento legal aplicable.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> respuestas escritas o, como mínimo, nombres y fechas.</p>
+    <p><strong>Si algo sale mal:</strong> si nadie te da nada por escrito, guarda tus propias notas con fecha y quién te atendió. Y no tomes ninguna decisión basándote solo en una llamada verbal.</p>
+  </div>
+
+  <!-- FASE 4 -->
+  <div class="card">
+    <h2>FASE 4 — Costes y riesgos (días 19 a 24)</h2>
+    <p><strong>Objetivo:</strong> poner números y detectar riesgos inaceptables.</p>
+    <ol class="steps">
+      <li>Prepara tres presupuestos comparables (escenarios A, B y C).</li>
+      <li>Revisa la inundabilidad de cada ubicación candidata.</li>
+      <li>Identifica licencias y autorizaciones necesarias para cada opción.</li>
+      <li>Calcula costes de transporte, energía y comunicaciones.</li>
+      <li>Añade una reserva para imprevistos.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> tres columnas comparables con coste inicial, mensual y anual.</p>
+    <p><strong>Si algo sale mal:</strong> si faltan datos para un escenario, no lo rellenes con estimaciones inventadas: márcalo como <em>incompleto</em> y explica qué dato falta.</p>
+  </div>
+
+  <!-- FASE 5 -->
+  <div class="card">
+    <h2>FASE 5 — Decisión informada (días 25 a 30)</h2>
+    <p><strong>Objetivo:</strong> decidir, no acumular información.</p>
+    <ol class="steps">
+      <li>Descarta las opciones ilegales o con riesgos inaceptables.</li>
+      <li>Compara costes, servicios, seguridad y disponibilidad.</li>
+      <li>Solicita ofertas y respuestas por escrito.</li>
+      <li>Decide si merece la pena una visita exploratoria.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una decisión escrita en una frase, con sus motivos.</p>
+    <p><strong>Si algo sale mal:</strong> si no puedes decidir, probablemente falta un dato clave. Vuelve a la fase correspondiente en lugar de forzar la decisión.</p>
+  </div>
+
+  <!-- PROCEDIMIENTOS ESPECÍFICOS -->
+  <div class="card">
+    <h2>Procedimiento A — Verificar una vivienda concreta</h2>
+    <p><strong>Objetivo:</strong> saber si una casa puede ser tu vivienda habitual legal, segura y con coste asumible.</p>
+    <ol class="steps">
+      <li>Pide la referencia catastral al propietario o agente. <span class="muted small">Motivo: es la llave para consultar Catastro y urbanismo.</span></li>
+      <li>Consulta la referencia en la sede electrónica del Catastro.</li>
+      <li>Comprueba la clasificación urbanística de la parcela.</li>
+      <li>Pregunta por escrito si el uso como vivienda habitual está permitido.</li>
+      <li>Solicita el contrato de alquiler antes de pagar nada.</li>
+      <li>Visita la vivienda y comprueba agua, luz, saneamiento y cubierta.</li>
+      <li>Mide la cobertura móvil dentro de cada habitación.</li>
+      <li>Consulta la cartografía de inundación de la parcela.</li>
+      <li>Calcula el coste total mensual incluyendo transporte.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> un veredicto claro: apta / apta con condiciones / descartada.</p>
+    <p><strong>Si algo sale mal:</strong> si el propietario no quiere dar la referencia catastral o el contrato por escrito, descarta. Es una señal de alarma suficiente.</p>
+  </div>
+
+  <div class="card">
+    <h2>Procedimiento B — Evaluar una parcela para un remolque</h2>
+    <p><strong>Objetivo:</strong> saber si se puede estar legalmente en ese terreno con SERENDIPIA.</p>
+    <ol class="steps">
+      <li>Obtén la dirección o la referencia catastral de la parcela.</li>
+      <li>Consulta la cartografía oficial de inundabilidad.</li>
+      <li>Comprueba la proximidad a barrancos, cauces y zonas de policía.</li>
+      <li>Consulta al Ayuntamiento por la normativa aplicable.</li>
+      <li>Consulta a la Confederación Hidrográfica cuando corresponda.</li>
+      <li>Revisa accesos de emergencia y rutas de evacuación.</li>
+      <li>Comprueba la estabilidad del terreno y los posibles desprendimientos.</li>
+      <li>Pide por escrito la autorización del propietario y el uso permitido.</li>
+    </ol>
+    <div class="card bad" style="margin:0;">
+      <p style="margin:0;"><strong>No decidas nunca exclusivamente a partir de Google Maps.</strong> La resiliencia frente a inundaciones debe considerarse un requisito principal del proyecto.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Procedimiento C — Verificar agua y saneamiento</h2>
+    <ol class="steps">
+      <li>Pregunta si la vivienda está conectada a la red municipal de agua.</li>
+      <li>Pide la tarifa y el coste medio mensual.</li>
+      <li>Pregunta si existen restricciones estacionales o de sequía.</li>
+      <li>Comprueba si existe saneamiento municipal en la parcela.</li>
+      <li>Si no existe, pregunta qué alternativas legales admite el Ayuntamiento.</li>
+      <li>Pregunta qué autorizaciones se necesitan para captar agua.</li>
+      <li>Pregunta qué medidas se adoptan en periodos de sequía.</li>
+    </ol>
+    <p><strong>Resultado esperado:</strong> una respuesta escrita sobre conexión, tarifa y condiciones.</p>
+  </div>
+
+  <div class="card">
+    <h2>Procedimiento D — Verificar conectividad real</h2>
+    <ol class="steps">
+      <li>Consulta la cobertura de fibra en la web oficial de cada operador.</li>
+      <li>Consulta la cobertura móvil de al menos tres operadores distintos.</li>
+      <li>Mide la señal dentro de la vivienda, habitación por habitación.</li>
+      <li>Haz una prueba de descarga, subida y latencia.</li>
+      <li>Haz una videollamada de 10 minutos y observa cortes.</li>
+      <li>Sube un archivo grande y cronométralo.</li>
+      <li>Pregunta a los vecinos por incidencias frecuentes.</li>
+      <li>Si la señal es mala, valora router 4G/5G con antena exterior.</li>
+      <li>Como alternativa, compara Internet por satélite (coste y consumo eléctrico).</li>
+    </ol>
+    <p><strong>Criterio de aceptación:</strong> videollamada estable y subida suficiente para tu trabajo real. Nada menos.</p>
+  </div>
+
+  <div class="card">
+    <h2>Procedimiento E — Contactar con el Ayuntamiento</h2>
+    <p><strong>Objetivo:</strong> obtener respuestas útiles y, cuando sea posible, por escrito.</p>
+    <ol class="steps">
+      <li>Llama al 962 332 001 en horario de atención al público.</li>
+      <li>Preséntate y explica que estás investigando la posibilidad de fijar residencia.</li>
+      <li>Pregunta por la persona o departamento adecuado (urbanismo, servicios sociales, secretaría).</li>
+      <li>Envía después un correo a cheva@gva.es con las preguntas numeradas.</li>
+      <li>Solicita que las respuestas normativas identifiquen el instrumento legal aplicable.</li>
+      <li>Anota fecha, hora y nombre de quien te atiende.</li>
+      <li>Guarda la respuesta en tu carpeta.</li>
+    </ol>
+    <p><strong>Si algo sale mal:</strong> si no responden por correo, vuelve a llamar y pide un número de registro de entrada. Un escrito registrado obliga más que una llamada.</p>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PANEL: PRÁCTICA
+     ============================================================ -->
+<section class="panel" id="p-practica" role="tabpanel" aria-label="Práctica">
+
+  <div class="card accent">
+    <h1>Práctica: ejercicios y listas de comprobación</h1>
+    <p class="lead">Aquí se aprende haciendo. Cada ejercicio tiene enunciado y solución explicada. Intenta resolverlo antes de abrir la solución.</p>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 1 — Construir la tabla de población de Chera</h2>
+    <p><strong>Objetivo:</strong> resolver la discrepancia entre 469, 508 y 611 habitantes con datos oficiales.</p>
+    <p><strong>Pasos:</strong></p>
+    <ol class="steps">
+      <li>Abre la web del INE y busca la operación «Cifras oficiales de población».</li>
+      <li>Selecciona el municipio de Chera (código 46108).</li>
+      <li>Descarga la serie anual desde el año 2000 hasta el último disponible.</li>
+      <li>Crea una tabla con dos columnas: año y habitantes.</li>
+      <li>Añade una tercera columna con la variación respecto al año anterior.</li>
+      <li>Marca en la tabla los años en los que la población sube y en los que baja.</li>
+    </ol>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p>La discrepancia se resuelve así:</p>
+      <ul>
+        <li><strong>469 habitantes (2021)</strong> procede del DOGV. Es un dato documentado con fecha clara.</li>
+        <li><strong>508 habitantes (2025)</strong> procede de una fuente secundaria que dice remitirse al INE. Es orientativo hasta que lo confirmes en el INE.</li>
+        <li><strong>611 habitantes</strong> aparece en la ficha turística de la Diputación, sin fecha de referencia. No es comparable.</li>
+      </ul>
+      <p><strong>Conclusión:</strong> nunca mezcles las tres cifras en una misma serie. Usa solo la serie oficial del INE y, si quieres citar las otras, hazlo como «datos alternativos con fuente y fecha».</p>
+      <p><strong>Lo que NO puedes concluir:</strong> que exista una tendencia estable de crecimiento. Un aumento entre dos años concretos no es una tendencia.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 2 — ¿Cuántas viviendas hay realmente en Chera?</h2>
+    <p><strong>Enunciado:</strong> tienes dos cifras: 631 viviendas (241 principales + 390 no principales) y 572 viviendas construidas. ¿Cuántas viviendas hay?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p><strong>Respuesta correcta: no se puede saber todavía.</strong></p>
+      <p>Las dos cifras pueden corresponder a fechas distintas, a definiciones distintas o a universos estadísticos distintos. Por ejemplo:</p>
+      <ul>
+        <li>«Vivienda» en el censo puede incluir locales convertidos o excluir infraviviendas.</li>
+        <li>«Vivienda construida» en Catastro puede referirse solo a las que constan en la base catastral.</li>
+      </ul>
+      <p><strong>Lo correcto:</strong> registrar ambas cifras con su fuente y su fecha, marcarlas como orientativas y buscar el censo oficial con su definición metodológica.</p>
+      <p><strong>Error típico:</strong> sumarlas, restarlas o promediarlas. No hagas eso nunca.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 3 — Clasificar afirmaciones por fiabilidad</h2>
+    <p><strong>Enunciado:</strong> clasifica cada frase como HECHO, DATO ORIENTATIVO, HIPÓTESIS o PENDIENTE DE VERIFICAR.</p>
+    <ol>
+      <li>«El embalse de Buseo está sobre el río Reatillo.»</li>
+      <li>«En Chera se puede alquilar una casa por 300 € al mes.»</li>
+      <li>«Chera tiene 508 habitantes en 2025.»</li>
+      <li>«Existe cobertura de fibra en todas las calles del municipio.»</li>
+      <li>«El turismo rural podría generar oportunidades de trabajo.»</li>
+    </ol>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <ol>
+        <li><span class="badge hecho">HECHO</span> — respaldado por la ficha del SAIH de la CHJ.</li>
+        <li><span class="badge hipo">HIPÓTESIS</span> — no se ha confirmado una oferta estable de alquiler anual por 300–350 €.</li>
+        <li><span class="badge orient">DATO ORIENTATIVO</span> — fuente secundaria que remite al INE; hay que confirmarlo directamente.</li>
+        <li><span class="badge pend">PENDIENTE DE VERIFICAR</span> — no existe prueba de cobertura para una dirección concreta.</li>
+        <li><span class="badge hipo">HIPÓTESIS</span> — el propio dossier lo califica como «posibilidad que requiere estudio, no oferta de empleo confirmada».</li>
+      </ol>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 4 — Estacionar no es acampar</h2>
+    <p><strong>Enunciado:</strong> un propietario te dice que puedes dejar el remolque en su parcela rústica. ¿Puedes irte a vivir allí?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p><strong>No, no automáticamente.</strong> Hay que distinguir tres cosas:</p>
+      <ul>
+        <li><strong>Estacionar:</strong> dejar el vehículo aparcado. No implica ocupación.</li>
+        <li><strong>Acampar:</strong> pernoctar de forma temporal, normalmente regulado y limitado en el tiempo.</li>
+        <li><strong>Residir:</strong> tener allí tu vivienda habitual. Requiere que el uso esté permitido por la normativa urbanística.</li>
+      </ul>
+      <p>El permiso del propietario <strong>no sustituye</strong> a la licencia o autorización administrativa. Y el suelo rústico suele tener limitaciones importantes para uso residencial.</p>
+      <p><strong>Qué hacer:</strong> preguntar al Ayuntamiento por la normativa aplicable a esa parcela concreta y pedir la respuesta por escrito.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 5 — Calcular el coste total real</h2>
+    <p><strong>Enunciado:</strong> una casa cuesta 350 €/mes en un pueblo sin transporte público. Necesitas ir a Valencia 6 veces al mes (180 km ida y vuelta). ¿Es barata?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <p>Depende de cómo calcules, pero el error típico es mirar solo el alquiler. Añade:</p>
+      <ul>
+        <li>Combustible: 6 viajes × 180 km = 1.080 km/mes.</li>
+        <li>Desgaste del vehículo (mantenimiento, neumáticos, seguro): un coste por km realista.</li>
+        <li>Tiempo: 6 viajes × ~2,5 h = 15 h/mes solo conduciendo.</li>
+        <li>Si no tienes coche, el coste de comprarlo y mantenerlo.</li>
+      </ul>
+      <p><strong>Conclusión:</strong> el coste total de movilidad debe formar parte del presupuesto desde el primer día. Una vivienda económica puede dejar de serlo por la movilidad.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 6 — Detectar una fuente poco fiable</h2>
+    <p><strong>Enunciado:</strong> una web dice «Chera tiene 611 habitantes» sin indicar fecha ni fuente original. ¿Qué haces?</p>
+    <details>
+      <summary>Ver solución explicada</summary>
+      <ol>
+        <li>No la uses como dato principal.</li>
+        <li>Anótala como <span class="badge orient">ORIENTATIVO</span> con su URL.</li>
+        <li>Intenta localizar la fuente original que cita.</li>
+        <li>Compárala con la fuente oficial (INE).</li>
+        <li>Si no puedes verificar, escribe: «dato no confirmado, pendiente de verificar».</li>
+      </ol>
+      <p><strong>Regla editorial:</strong> no convertir una hipótesis en un hecho.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Checklist global antes de decidir</h2>
+    <ul class="checklist">
+      <li><input type="checkbox" data-ck="g1" id="g1"><label for="g1">Población oficial del INE a 1 de enero y serie anual descargada.</label></li>
+      <li><input type="checkbox" data-ck="g2" id="g2"><label for="g2">Discrepancia entre 508 habitantes y los 611 de la ficha turística resuelta o marcada como pendiente.</label></li>
+      <li><input type="checkbox" data-ck="g3" id="g3"><label for="g3">Censo de viviendas con fuente y definiciones comparables.</label></li>
+      <li><input type="checkbox" data-ck="g4" id="g4"><label for="g4">Oferta actual de alquiler y precios comprobados.</label></li>
+      <li><input type="checkbox" data-ck="g5" id="g5"><label for="g5">Horarios actuales del consultorio, farmacia y comercios.</label></li>
+      <li><input type="checkbox" data-ck="g6" id="g6"><label for="g6">Transporte público y conexiones confirmados.</label></li>
+      <li><input type="checkbox" data-ck="g7" id="g7"><label for="g7">Cobertura de fibra y móvil verificada por dirección.</label></li>
+      <li><input type="checkbox" data-ck="g8" id="g8"><label for="g8">Estado y condiciones actuales del área de autocaravanas.</label></li>
+      <li><input type="checkbox" data-ck="g9" id="g9"><label for="g9">Normativa urbanística vigente y modificaciones del PGOU.</label></li>
+      <li><input type="checkbox" data-ck="g10" id="g10"><label for="g10">Cartografía de inundabilidad consultada para cada parcela candidata.</label></li>
+      <li><input type="checkbox" data-ck="g11" id="g11"><label for="g11">Condiciones de acceso y protección ambiental verificadas.</label></li>
+      <li><input type="checkbox" data-ck="g12" id="g12"><label for="g12">Ayudas públicas abiertas en la fecha de consulta.</label></li>
+      <li><input type="checkbox" data-ck="g13" id="g13"><label for="g13">Presupuesto real de vivienda, energía, agua, internet y movilidad.</label></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Agenda de preguntas para el Ayuntamiento</h2>
+    <p class="small muted">Copia estas preguntas y envíalas numeradas por correo a cheva@gva.es.</p>
+    <div class="copywrap"><pre class="cp">1. ¿Existe una bolsa de viviendas de alquiler?
+2. ¿Hay iniciativas de repoblación?
+3. ¿Existen viviendas municipales o edificios infrautilizados?
+4. ¿Conoce el Ayuntamiento propietarios que quieran alquilar?
+5. ¿Qué servicios funcionan durante todo el año?
+6. ¿Qué transporte público existe?
+7. ¿Qué áreas autorizadas hay para autocaravanas?
+8. ¿Se permite el estacionamiento prolongado de remolques?
+9. ¿Qué normativa afecta a un remolque habitable en suelo urbano y rústico?
+10. ¿Dónde consultar cartografía de inundabilidad?
+11. ¿Qué ayudas de rehabilitación o eficiencia energética podrían aplicarse?
+12. ¿Hay asociaciones, cooperativas, agricultores o empresas locales con los que conversar?</pre></div>
+    <p class="small muted">Solicitar que las respuestas normativas se faciliten por escrito o que se identifique el instrumento legal aplicable.</p>
+  </div>
+
+  <div class="card">
+    <h2>Preguntas para el gestor del área de autocaravanas</h2>
+    <div class="copywrap"><pre class="cp">1. ¿Está abierta actualmente?
+2. ¿Es pública o privada?
+3. ¿Admite remolques además de autocaravanas?
+4. ¿Se permite pernoctar?
+5. ¿Cuál es la duración máxima de la estancia?
+6. ¿Dispone de agua potable?
+7. ¿Permite vaciar aguas grises y negras?
+8. ¿Tiene electricidad?
+9. ¿Qué tarifas aplica por noche, semana o mes?
+10. ¿Se permite dejar el vehículo estacionado sin ocupantes?
+11. ¿Existen restricciones estacionales?
+12. ¿Hay algún camping próximo que admita estancias largas?</pre></div>
+  </div>
+
+  <div class="card">
+    <h2>Preguntas sobre normativa de remolques y suelo</h2>
+    <div class="copywrap"><pre class="cp">1. ¿Qué normativa regula el estacionamiento prolongado de caravanas y remolques?
+2. ¿Qué diferencia existe entre estacionar, acampar y utilizar un remolque como alojamiento?
+3. ¿Qué condiciones se aplican al suelo urbano y al suelo no urbanizable?
+4. ¿Se permite instalar sistemas fotovoltaicos autónomos?
+5. ¿Qué autorizaciones se requieren para depósitos de agua y saneamiento?
+6. ¿Existen campings o áreas autorizadas para estancias de larga duración?
+7. ¿Qué restricciones existen en las zonas protegidas?
+8. ¿Qué permisos serían necesarios para la parcela concreta?</pre></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PANEL: ERRORES
+     ============================================================ -->
+<section class="panel" id="p-errores" role="tabpanel" aria-label="Errores frecuentes">
+
+  <div class="card accent">
+    <h1>Errores frecuentes y cómo corregirlos</h1>
+    <p class="lead">Estos son los fallos que convierten una investigación prometedora en una decisión equivocada.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 1 — Confundir una hipótesis con un hecho</h2>
+    <p><strong>Cómo se manifiesta:</strong> «En Chera se alquila por 300 €» cuando lo único que hay es un anuncio de venta de 70.000 €.</p>
+    <p><strong>Corrección:</strong> aplica siempre una de las cuatro etiquetas (HECHO / ORIENTATIVO / HIPÓTESIS / PENDIENTE). Si no puedes citar la fuente, no es un hecho.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 2 — Mezclar cifras de fuentes distintas</h2>
+    <p><strong>Cómo se manifiesta:</strong> sumar 631 viviendas censales con 572 viviendas catastrales, o usar 508 y 611 habitantes en la misma tabla.</p>
+    <p><strong>Corrección:</strong> una cifra, una fuente, una fecha. Si dos cifras no son comparables, se muestran por separado.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 3 — Suponer que vivienda no principal = vivienda vacía = vivienda alquilable</h2>
+    <p><strong>Cómo se manifiesta:</strong> «hay 390 viviendas no principales, o sea que hay 390 casas disponibles».</p>
+    <p><strong>Corrección:</strong> una vivienda no principal puede ser segunda residencia, uso estacional, propiedad heredada o un inmueble que necesita una rehabilitación importante. Solo una visita y un contrato confirman disponibilidad.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 4 — Creer que el permiso del propietario basta</h2>
+    <p><strong>Cómo se manifiesta:</strong> «el dueño del terreno me deja, así que ya está».</p>
+    <p><strong>Corrección:</strong> el permiso del propietario no sustituye a la licencia o autorización administrativa. Consulta al Ayuntamiento y, si aplica, a la Confederación Hidrográfica.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 5 — Confundir estacionar, acampar y residir</h2>
+    <p><strong>Cómo se manifiesta:</strong> pensar que dejar el remolque aparcado equivale a poder vivir en él.</p>
+    <p><strong>Corrección:</strong> son tres situaciones legales distintas. La residencia habitual exige que el uso esté permitido por la normativa urbanística.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 6 — Confundir una estación de vaciado con un área residencial</h2>
+    <p><strong>Cómo se manifiesta:</strong> ver «Estación aguas autocaravanas» en un directorio y darla por válida para estancias mensuales.</p>
+    <p><strong>Corrección:</strong> llamar y preguntar explícitamente por la duración máxima, tarifas y permisos de pernocta.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 7 — Elegir una parcela por precio sin mirar el riesgo</h2>
+    <p><strong>Cómo se manifiesta:</strong> «está barata y tiene vistas al embalse».</p>
+    <p><strong>Corrección:</strong> la documentación del MITECO recoge que el embalse de Buseo alcanzó la cota de vertido el 29 y 30 de octubre de 2024, con graves daños aguas abajo. La resiliencia frente a inundaciones es un requisito principal, no un extra.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 8 — Decidir con Google Maps</h2>
+    <p><strong>Cómo se manifiesta:</strong> «en el mapa se ve que hay acceso y no hay riesgo».</p>
+    <p><strong>Corrección:</strong> Google Maps no sustituye a la cartografía oficial ni a una visita. Consulta PATRICOVA, el SNCZI, el Catastro y el Ayuntamiento.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 9 — Suponer cobertura de Internet sin medirla</h2>
+    <p><strong>Cómo se manifiesta:</strong> «la web del operador dice que hay fibra».</p>
+    <p><strong>Corrección:</strong> la cobertura publicada es una estimación por zona. Hay que medir dentro de la vivienda, con pruebas de subida, latencia y videollamada.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 10 — Olvidar el coste de movilidad</h2>
+    <p><strong>Cómo se manifiesta:</strong> presupuestar solo el alquiler.</p>
+    <p><strong>Corrección:</strong> añade combustible, mantenimiento del vehículo, tiempo de desplazamiento y el coste de no tener coche.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 11 — Creer que la IA garantiza ingresos</h2>
+    <p><strong>Cómo se manifiesta:</strong> «con IA trabajaré desde el pueblo sin problema».</p>
+    <p><strong>Corrección:</strong> la inteligencia artificial puede reducir costes y acelerar tareas, pero no garantiza ingresos. La viabilidad debe demostrarse con clientes, demanda, precios, competencia, fiscalidad y tiempo de ejecución.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 12 — Dar por buenos horarios y servicios de directorios</h2>
+    <p><strong>Cómo se manifiesta:</strong> desplazarse al pueblo confiando en un teléfono de un directorio comercial.</p>
+    <p><strong>Corrección:</strong> los directorios son referencias, no confirmaciones. Llama antes de desplazarte y verifica horarios y continuidad del servicio.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 13 — Aceptar respuestas verbales como si fueran normativa</h2>
+    <p><strong>Cómo se manifiesta:</strong> «me dijeron por teléfono que se puede».</p>
+    <p><strong>Corrección:</strong> solicita que las respuestas normativas se faciliten por escrito o que se identifique el instrumento legal aplicable.</p>
+  </div>
+
+  <div class="card bad">
+    <h2>Error 14 — Instalar antes de tener permisos</h2>
+    <p><strong>Cómo se manifiesta:</strong> colocar placas, depósitos o casetas «mientras se tramita».</p>
+    <p><strong>Corrección:</strong> no realizar ninguna instalación hasta obtener confirmación de las condiciones legales aplicables.</p>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PANEL: RESUMEN
+     ============================================================ -->
+<section class="panel" id="p-resumen" role="tabpanel" aria-label="Resumen">
+
+  <div class="card accent">
+    <h1>Resumen, semáforo de viabilidad y glosario</h1>
+    <p class="lead">Síntesis provisional de todo el dossier. <strong>No es un dictamen definitivo.</strong></p>
+  </div>
+
+  <div class="card">
+    <h2>Semáforo inicial de viabilidad</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Aspecto</th><th>Estado</th><th>Detalle</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Población</td>
+            <td><span class="light-dot dot-ok"></span>FAVORABLE PARA INVESTIGAR</td>
+            <td>Municipio pequeño; cifra de referencia de 508 habitantes en 2025, pendiente de confirmación directa en el INE.</td>
+          </tr>
+          <tr>
+            <td>Vivienda barata</td>
+            <td><span class="light-dot dot-bad"></span>SIN VERIFICAR</td>
+            <td>Se encontraron anuncios de venta, pero no se confirmó un alquiler estable dentro del presupuesto objetivo.</td>
+          </tr>
+          <tr>
+            <td>Servicios básicos</td>
+            <td><span class="light-dot dot-warn"></span>PARCIALMENTE IDENTIFICADOS</td>
+            <td>Existen referencias de consultorio, farmacia y tienda, pero deben comprobarse horarios y servicios.</td>
+          </tr>
+          <tr>
+            <td>Agua</td>
+            <td><span class="light-dot dot-bad"></span>SIN VERIFICAR POR DIRECCIÓN</td>
+            <td>El embalse existe, pero el abastecimiento doméstico debe verificarse para cada vivienda.</td>
+          </tr>
+          <tr>
+            <td>Energía solar</td>
+            <td><span class="light-dot dot-warn"></span>POTENCIAL POR ESTUDIAR</td>
+            <td>Falta evaluar cubierta, sombras, consumo y presupuesto.</td>
+          </tr>
+          <tr>
+            <td>Internet</td>
+            <td><span class="light-dot dot-bad"></span>SIN VERIFICAR POR DIRECCIÓN</td>
+            <td>No existe todavía una prueba de cobertura para una vivienda candidata.</td>
+          </tr>
+          <tr>
+            <td>SERENDIPIA + remolque</td>
+            <td><span class="light-dot dot-warn"></span>CONDICIONADO</td>
+            <td>Se necesita una ubicación y un uso expresamente compatibles con la normativa.</td>
+          </tr>
+          <tr>
+            <td>Entorno natural</td>
+            <td><span class="light-dot dot-warn"></span>ALTO VALOR, CON RESTRICCIONES</td>
+            <td>Hay parque natural y figuras de protección ambiental.</td>
+          </tr>
+          <tr>
+            <td>Inundabilidad</td>
+            <td><span class="light-dot dot-bad"></span>ANÁLISIS OBLIGATORIO</td>
+            <td>El episodio de 2024 afectó al sistema del embalse y causó graves daños aguas abajo. El riesgo debe comprobarse parcela por parcela.</td>
+          </tr>
+          <tr>
+            <td>Transporte</td>
+            <td><span class="light-dot dot-warn"></span>PENDIENTE DE EVALUAR</td>
+            <td>La CV-395 es el eje principal. Faltan datos confirmados de transporte público y horarios.</td>
+          </tr>
+          <tr>
+            <td>Ingresos locales</td>
+            <td><span class="light-dot dot-bad"></span>SIN VALIDAR</td>
+            <td>Hay sectores económicos identificados, pero no se han confirmado puestos de trabajo o clientes concretos.</td>
+          </tr>
+          <tr>
+            <td>AI GEOARBITRAGE</td>
+            <td><span class="light-dot dot-warn"></span>DEPENDE DE CONECTIVIDAD E INGRESOS</td>
+            <td>Es un modelo posible, no una garantía de rentabilidad.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card ok">
+    <h2>La estrategia en seis verbos</h2>
+    <ol class="steps">
+      <li><strong>INVENTARIAR.</strong> Qué existe, dónde está, quién lo gestiona.</li>
+      <li><strong>VERIFICAR.</strong> Comprobar cada dato con la fuente oficial.</li>
+      <li><strong>NEGOCIAR.</strong> Hablar con propietarios, Ayuntamiento, gestores.</li>
+      <li><strong>CALCULAR.</strong> Presupuesto real, incluido el transporte.</li>
+      <li><strong>PROBAR.</strong> Medir cobertura, visitar, comprobar riesgos.</li>
+      <li><strong>SOLO ENTONCES DECIDIR.</strong></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Conclusión del dossier</h2>
+    <p>Chera presenta motivos suficientes para continuar investigando, pero <strong>todavía no existe evidencia suficiente</strong> para afirmar que sea posible vivir allí con un presupuesto específico o instalar SERENDIPIA + remolque en una ubicación concreta.</p>
+    <p>La siguiente tarea consiste en convertir cada posibilidad en una pregunta verificable, obtener respuestas y comparar costes, riesgos y condiciones legales.</p>
+    <p class="lead">No se trata de encontrar un lugar perfecto. Se trata de descubrir qué recursos existen en Chera, cuáles están disponibles, cuáles podemos utilizar legalmente y cómo combinarlos para construir una vida viable y resiliente.</p>
+  </div>
+
+  <div class="card">
+    <h2>Resumen por módulos</h2>
+    <details>
+      <summary>Módulo 1 — Conoce Chera</summary>
+      <p>Mapa, población, superficie, comarca, accesos y contexto. Chera es un municipio montañoso del interior de la provincia de Valencia, en la comarca de Requena-Utiel, con unos 49,7 km² y un núcleo urbano pequeño.</p>
+    </details>
+    <details>
+      <summary>Módulo 2 — Encuentra recursos</summary>
+      <p>Vivienda, servicios, agua, energía, conectividad y aparcamientos. Ninguno de estos recursos está confirmado para una dirección concreta.</p>
+    </details>
+    <details>
+      <summary>Módulo 3 — Comprueba las restricciones</summary>
+      <p>Urbanismo, protección ambiental, inundabilidad y autorizaciones. Hay ZEPA, ZEC, parque natural, microrreservas y paisaje de relevancia regional.</p>
+    </details>
+    <details>
+      <summary>Módulo 4 — Diseña alternativas</summary>
+      <p>Casa alquilada, camping autorizado, parcela compatible o SERENDIPIA + remolque. Cada alternativa tiene requisitos legales distintos.</p>
+    </details>
+    <details>
+      <summary>Módulo 5 — Calcula los costes</summary>
+      <p>Presupuesto mensual, inversión inicial, movilidad y mantenimiento. Todavía no existen datos suficientes para establecer el coste mensual real.</p>
+    </details>
+    <details>
+      <summary>Módulo 6 — Contacta con los actores locales</summary>
+      <p>Ayuntamiento, propietarios, comercios, agricultores y operadores de servicios.</p>
+    </details>
+    <details>
+      <summary>Módulo 7 — Investiga los ingresos</summary>
+      <p>Trabajo local, servicios técnicos y AI geoarbitrage. Ninguna de estas vías está validada con clientes reales.</p>
+    </details>
+    <details>
+      <summary>Módulo 8 — Decide con evidencia</summary>
+      <p>Separar hechos, hipótesis, riesgos, oportunidades y cuestiones pendientes.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Glosario</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Término</th><th>Significado en este tutorial</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AI GEOARBITRAGE</strong></td><td>Modelo de vivir en una zona de menor coste y vender servicios digitales a clientes de mercados de mayor valor. Es una posibilidad, no una garantía de rentabilidad.</td></tr>
+          <tr><td><strong>DANA</strong></td><td>Depresión Aislada en Niveles Altos. Fenómeno meteorológico que provocó el episodio del 29 y 30 de octubre de 2024.</td></tr>
+          <tr><td><strong>DOGV</strong></td><td>Diari Oficial de la Generalitat Valenciana.</td></tr>
+          <tr><td><strong>HECHO DOCUMENTADO</strong></td><td>Información respaldada por una fuente identificable.</td></tr>
+          <tr><td><strong>HIPÓTESIS</strong></td><td>Posibilidad que todavía no se ha demostrado.</td></tr>
+          <tr><td><strong>INE</strong></td><td>Instituto Nacional de Estadística. Fuente oficial de las cifras de población.</td></tr>
+          <tr><td><strong>PATRICOVA</strong></td><td>Plan de Acción Territorial sobre prevención del riesgo de inundación en la Comunitat Valenciana.</td></tr>
+          <tr><td><strong>PGOU</strong></td><td>Plan General de Ordenación Urbana. En Chera, aprobado en 1999 según la documentación citada.</td></tr>
+          <tr><td><strong>SAIH</strong></td><td>Sistema Automático de Información Hidrológica. Publica la ficha técnica del embalse de Buseo.</td></tr>
+          <tr><td><strong>SERENDIPIA</strong></td><td>Denominación del proyecto habitacional móvil (remolque) que se estudia como alternativa.</td></tr>
+          <tr><td><strong>ZEC</strong></td><td>Zona Especial de Conservación (red Natura 2000).</td></tr>
+          <tr><td><strong>ZEPA</strong></td><td>Zona de Especial Protección para las Aves.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Preguntas frecuentes</h2>
+
+    <details>
+      <summary>¿Puedo irme a vivir a Chera mañana mismo?</summary>
+      <p>No lo sabemos. El dossier concluye que Chera es un <strong>candidato para investigar</strong>, no una decisión validada. No se ha confirmado una vivienda disponible ni una ubicación legal para un remolque.</p>
+    </details>
+
+    <details>
+      <summary>¿Cuántos habitantes tiene Chera exactamente?</summary>
+      <p>Hay tres cifras en circulación: 469 (2021, DOGV), 508 (2025, fuente secundaria que remite al INE) y 611 (ficha turística, sin fecha). Solo la serie oficial del INE resuelve la pregunta.</p>
+    </details>
+
+    <details>
+      <summary>¿Puedo usar el agua del embalse de Buseo?</summary>
+      <p>La existencia del embalse no significa que puedas utilizar directamente su agua. El abastecimiento doméstico está sujeto a gestión, calidad sanitaria, derechos y autorizaciones.</p>
+    </details>
+
+    <details>
+      <summary>¿Puedo poner mi remolque en una parcela rústica?</summary>
+      <p>No se puede presuponer. Que el suelo rústico pueda utilizarse como vivienda, que el permiso del propietario sea suficiente o que estacionar equivalga a acampar son precisamente las suposiciones que el dossier prohíbe expresamente.</p>
+    </details>
+
+    <details>
+      <summary>¿Hay riesgo de inundación?</summary>
+      <p>Debe comprobarse parcela por parcela. Lo que sí está documentado es que el embalse de Buseo alcanzó la cota de vertido el 29 y 30 de octubre de 2024 y que hubo graves daños aguas abajo, especialmente en Sot de Chera.</p>
+    </details>
+
+    <details>
+      <summary>¿Funciona Internet para trabajar desde allí?</summary>
+      <p>No hay ninguna prueba de cobertura para una dirección concreta. Hay que medirla con pruebas reales de descarga, subida, latencia y videollamada.</p>
+    </details>
+
+    <details>
+      <summary>¿Cuánto cuesta vivir en Chera?</summary>
+      <p>Todavía no existen datos suficientes para establecer el coste mensual real. Hay que construirlo con anuncios vigentes, cotizaciones, facturas y datos verificables.</p>
+    </details>
+
+    <details>
+      <summary>¿Puedo trabajar con IA desde Chera?</summary>
+      <p>Es un modelo posible, pero depende de la conectividad y de que existan clientes reales. La IA no garantiza ingresos.</p>
+    </details>
+
+    <details>
+      <summary>¿Qué hago primero?</summary>
+      <p>Descargar la serie de población del INE. Es el dato más fácil de obtener y el que más desatasca el resto de la investigación.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Registro de incertidumbres y control de calidad</h2>
+    <p>Antes de publicar o usar cualquier versión de este tutorial, verifica:</p>
+    <ul class="checklist">
+      <li><input type="checkbox" data-ck="q1" id="q1"><label for="q1">Población oficial del INE a 1 de enero de 2025 y serie anual.</label></li>
+      <li><input type="checkbox" data-ck="q2" id="q2"><label for="q2">Discrepancia entre 508 habitantes y los 611 de la ficha turística.</label></li>
+      <li><input type="checkbox" data-ck="q3" id="q3"><label for="q3">Censo de viviendas con fuente y definiciones comparables.</label></li>
+      <li><input type="checkbox" data-ck="q4" id="q4"><label for="q4">Oferta actual de alquiler y precios comprobados.</label></li>
+      <li><input type="checkbox" data-ck="q5" id="q5"><label for="q5">Horarios actuales del consultorio, farmacia y comercios.</label></li>
+      <li><input type="checkbox" data-ck="q6" id="q6"><label for="q6">Transporte público y conexiones.</label></li>
+      <li><input type="checkbox" data-ck="q7" id="q7"><label for="q7">Cobertura de fibra y móvil por dirección.</label></li>
+      <li><input type="checkbox" data-ck="q8" id="q8"><label for="q8">Estado y condiciones actuales del área de autocaravanas.</label></li>
+      <li><input type="checkbox" data-ck="q9" id="q9"><label for="q9">Normativa urbanística vigente y modificaciones del PGOU.</label></li>
+      <li><input type="checkbox" data-ck="q10" id="q10"><label for="q10">Cartografía de inundabilidad para cada parcela candidata.</label></li>
+      <li><input type="checkbox" data-ck="q11" id="q11"><label for="q11">Condiciones de acceso y protección ambiental.</label></li>
+      <li><input type="checkbox" data-ck="q12" id="q12"><label for="q12">Ayudas públicas abiertas en la fecha de consulta.</label></li>
+      <li><input type="checkbox" data-ck="q13b" id="q13b"><label for="q13b">Presupuesto real de vivienda, energía, agua, internet y movilidad.</label></li>
+    </ul>
+    <div class="card warn" style="margin:12px 0 0;">
+      <p style="margin:0;"><strong>Regla editorial:</strong> no convertir una hipótesis en un hecho. Si un dato no está confirmado, mostrarlo como «pendiente de verificar».</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PANEL: FUENTES
+     ============================================================ -->
+<section class="panel" id="p-fuentes" role="tabpanel" aria-label="Fuentes y enlaces">
+
+  <div class="card accent">
+    <h1>Fuentes y enlaces</h1>
+    <p class="lead">Todos los enlaces en texto plano, listos para copiar con su botón <strong>COPIAR</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h2>Fuentes oficiales</h2>
+
+    <h3>INE — cifras oficiales de población municipal</h3>
+    <div class="copywrap"><pre class="cp">https://www.ine.es/dyngs/INEbase/operacion.htm?c=Estadistica_C&cid=1254736177011&menu=resultados&idp=1254734710990</pre></div>
+
+    <h3>DOGV — Chera: territorio, movilidad y planeamiento, 14/08/2024</h3>
+    <div class="copywrap"><pre class="cp">https://dogv.gva.es/datos/2024/08/14/pdf/2024_7794_es.pdf</pre></div>
+
+    <h3>SAIH de la Confederación Hidrográfica del Júcar — embalse de Buseo</h3>
+    <div class="copywrap"><pre class="cp">https://saih.chj.es/embalses/295</pre></div>
+
+    <h3>MITECO — recuperación y resiliencia frente a las inundaciones tras la DANA</h3>
+    <div class="copywrap"><pre class="cp">https://www.miteco.gob.es/content/dam/miteco/es/agua/temas/gestion-de-los-riesgos-de-inundacion/pgri/plan-recuperaci%C3%B3n-dana-valencia/Plan_Recuperacion_mejora_resilencia_DANA_CV_MITECO.pdf</pre></div>
+
+    <h3>CHJ — memoria de actuaciones 2024</h3>
+    <div class="copywrap"><pre class="cp">https://www.chj.es/es-es/Organismo/Memoriasdeactuaciones/Documents/Memoria%202024/01-PRESENTACI%C3%93N-2024.pdf</pre></div>
+
+    <h3>Generalitat Valenciana — datos abiertos de PATRICOVA</h3>
+    <div class="copywrap"><pre class="cp">https://dadesobertes.gva.es/es/dataset/?q=PATRICOVA+INUNDACION</pre></div>
+
+    <h3>Generalitat Valenciana — Parque Natural de Chera-Sot de Chera</h3>
+    <div class="copywrap"><pre class="cp">https://parquesnaturales.gva.es/es/web/pn-chera-sot-de-chera</pre></div>
+
+    <h3>Administración General del Estado — directorio del Ayuntamiento</h3>
+    <div class="copywrap"><pre class="cp">https://administracion.gob.es/espanaadmon/quienesquien/entidades-locales-ayuntamientos-estructuras-y-directorios?idProvincia=46&idUniOrganica=L01461081&idioma=es</pre></div>
+
+    <h3>Diputación de Valencia — Chera</h3>
+    <div class="copywrap"><pre class="cp">https://turisme.dival.es/destino/chera/</pre></div>
+
+    <h3>Diputación de Valencia — embalse de Buseo</h3>
+    <div class="copywrap"><pre class="cp">https://turisme.dival.es/lugar_interes/embalse-de-buseo/</pre></div>
+  </div>
+
+  <div class="card">
+    <h2>Fuentes secundarias y directorios</h2>
+
+    <h3>Datos Municipios — población de Chera en 2025</h3>
+    <div class="copywrap"><pre class="cp">https://www.datosmunicipios.es/municipios/chera-46108/</pre></div>
+
+    <h3>Todo Pueblos — servicios y vivienda</h3>
+    <div class="copywrap"><pre class="cp">https://todopueblos.es/municipio/chera-46350/servicios/</pre></div>
+
+    <h3>Idealista — mapa inmobiliario</h3>
+    <div class="copywrap"><pre class="cp">https://www.idealista.com/maps/chera-valencia/</pre></div>
+
+    <h3>Idealista — anuncios de casas</h3>
+    <div class="copywrap"><pre class="cp">https://www.idealista.com/venta-viviendas/chera-valencia/con-chalets%2Cprecio-hasta_180000/</pre></div>
+
+    <h3>Google Maps — búsqueda de áreas de autocaravanas</h3>
+    <div class="copywrap"><pre class="cp">https://www.google.com/maps/search/%C3%A1rea+autocaravanas+Chera+Valencia/</pre></div>
+  </div>
+
+  <div class="card">
+    <h2>Datos de contacto localizados</h2>
+    <div class="copywrap"><pre class="cp">AYUNTAMIENTO DE CHERA
+Plaza de España, 1
+46350 Chera, Valencia
+Teléfono: 962 332 001
+Correo: cheva@gva.es</pre></div>
+
+    <div class="copywrap"><pre class="cp">CONSULTORIO MÉDICO DE CHERA
+Calle Antonio Sánchez Placita, 5
+Teléfono listado: 962 339 055</pre></div>
+
+    <div class="copywrap"><pre class="cp">FARMACIA VICENTE BELTRÁN
+Calle La Fuente, 21</pre></div>
+
+    <div class="copywrap"><pre class="cp">EL COLMAO DE CHERA / LA DESPENSA DE PABLO
+Avenida Pantano de Buseo, 8</pre></div>
+
+    <div class="copywrap"><pre class="cp">ESTACIÓN AGUAS AUTOCARAVANAS
+Calle Proyecto 11, 4, Chera, Valencia</pre></div>
+
+    <p class="small muted">Son referencias de directorios comerciales, no una confirmación de funcionamiento actual. Verifica teléfonos, horarios y servicios antes de desplazarte.</p>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PANEL: CRÉDITOS
+     ============================================================ -->
+<section class="panel" id="p-creditos" role="tabpanel" aria-label="Créditos">
+
+  <div class="card accent">
+    <h1 style="text-align:center;margin-bottom:.2em;">Créditos</h1>
+    <p class="lead" style="text-align:center;margin-bottom:1.2em;">Quién ha elaborado este tutorial y con qué versión estás trabajando.</p>
+  </div>
+
+  <!-- SVG de créditos: ARRIBA DEL TODO, justo bajo el título y antes de la tarjeta del autor -->
+  <div class="hero-svg-mount" data-svg-hero="true" role="img"
+       aria-label="Ilustración animada: montañas de Chera, embalse de Buseo, antena de conectividad emitiendo señal, sonda orbitando Marte y un cohete cruzando el cielo."></div>
+  <p class="hero-cap">El mismo dibujo que abre el tutorial: montaña, agua, conectividad y un plan por verificar.</p>
+
+  <div class="card">
+    <h1 class="author-name">Rubén Sbarsky</h1>
+    <p class="author-role">Autor del tutorial</p>
+    <div class="meta-line">
+      <span><b>Fecha de creación:</b> 10/10/2026</span>
+      <span><b>Hora:</b> 12:05:08</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Versión del archivo</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Campo</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>Versión del tutorial</td><td><strong>V001</strong></td></tr>
+          <tr><td>Fecha de creación</td><td>10/10/2026</td></tr>
+          <tr><td>Hora de creación</td><td>12:05:08</td></tr>
+          <tr><td>Dossier de origen</td><td>Chera (Valencia): Dossier de investigación para SERENDIPIA y «Colonizar Marte en Valencia» — Versión 1.0</td></tr>
+          <tr><td>Fecha del dossier</td><td>10/10/2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">La fecha y la hora están grabadas de forma fija en el HTML. No se recalculan al abrir el archivo.</p>
+  </div>
+
+  <div class="card">
+    <h2>Sobre este tutorial</h2>
+    <p>Este archivo es un tutorial HTML interactivo de un solo fichero. Contiene HTML, CSS, JavaScript y SVG integrados. No usa archivos externos, ni CDN, ni librerías, ni fuentes externas, ni dependencias de Internet.</p>
+    <p>Funciona abriéndolo directamente en el navegador, incluso sin conexión. Los enlaces a fuentes oficiales requieren conexión para consultarse, pero están escritos como texto plano para poder copiarlos.</p>
+    <p><strong>Metodología:</strong> «Aprender Haciendo».</p>
+    <p><strong>Base documental:</strong> el dossier de investigación sobre Chera. Todo el contenido está respaldado por ese documento; no se han inventado funciones, datos, procedimientos ni afirmaciones.</p>
+  </div>
+
+  <div class="card">
+    <h2>Novedades de esta versión</h2>
+    <ul>
+      <li>SVG animado compartido entre INICIO y CRÉDITOS, generado desde una única plantilla con <code>innerHTML</code> e ids únicos por copia.</li>
+      <li>SVG de CRÉDITOS colocado arriba del todo, visible en la primera pantalla también en móvil.</li>
+      <li>Red de seguridad que vuelve a montar el SVG si el contenedor queda vacío.</li>
+      <li>Plan B con imagen SVG embebida si el reloj de animación no avanza.</li>
+      <li>Botón de imprimir / guardar como PDF con hoja <code>@media print</code> completa y montaje de todos los SVG antes de imprimir.</li>
+      <li>Fecha y hora fijas grabadas en el HTML, sin <code>new Date()</code>.</li>
+      <li>Versión del archivo visible en esta pestaña.</li>
+      <li>Todos los enlaces en bloques de texto plano con botón COPIAR.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Funciones interactivas incluidas</h2>
+    <ul>
+      <li>Buscador con resaltado de coincidencias.</li>
+      <li>Botones A− / A+ para cambiar el tamaño del texto.</li>
+      <li>Modo oscuro / claro.</li>
+      <li>Botón imprimir / guardar como PDF.</li>
+      <li>Botón volver arriba.</li>
+      <li>Barra de progreso de lectura.</li>
+      <li>Listas de comprobación con progreso guardado en <code>localStorage</code>.</li>
+      <li>Tarjetas desplegables.</li>
+      <li>Botones COPIAR en todos los bloques de texto y URL.</li>
+      <li>Tablas comparativas y diagramas en SVG.</li>
+    </ul>
+  </div>
+
+</section>
+
+</main>
+
+<!-- ============================================================
+     BOTÓN VOLVER ARRIBA
+     ============================================================ -->
+<button class="to-top" id="toTop" type="button" title="Volver arriba" aria-label="Volver arriba">↑</button>
+
+<!-- ============================================================
+     AVISO DE IMPRESIÓN
+     ============================================================ -->
+<div id="printNotice" role="status" aria-live="polite">
+  <button type="button" id="printNoticeClose" aria-label="Cerrar aviso">×</button>
+  <span id="printNoticeText">Si la impresión no responde, abre este archivo directamente en el navegador (no dentro de un visor) y pulsa Ctrl+P / Cmd+P.</span>
+</div>
+
+<!-- ============================================================
+     SVG FUENTE OCULTO (único lugar donde existe el dibujo)
+     ============================================================ -->
+<svg id="svgHeroSource" width="0" height="0" aria-hidden="true" focusable="false"
+     style="position:absolute;left:-9999px;top:0;width:0;height:0;overflow:hidden">
+  <defs>
+    <linearGradient id="gBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#050a14"/>
+      <stop offset="55%" stop-color="#122240"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="gAcc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4da3ff"/>
+      <stop offset="100%" stop-color="#8fe3ff"/>
+    </linearGradient>
+    <radialGradient id="fGlow">
+      <stop offset="0%" stop-color="#ffd166" stop-opacity="0.85"/>
+      <stop offset="70%" stop-color="#ffd166" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffd166" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2c6ea8"/>
+      <stop offset="100%" stop-color="#0e2438"/>
+    </linearGradient>
+    <linearGradient id="gMtn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#41536e"/>
+      <stop offset="100%" stop-color="#1a2434"/>
+    </linearGradient>
+  </defs>
+
+  <g id="svgHero">
+    <!-- Fondo -->
+    <rect x="0" y="0" width="820" height="260" fill="url(#gBg)"/>
+
+    <!-- Estrellas -->
+    <g fill="#cfe4ff">
+      <circle cx="52" cy="26" r="1.4"><animate attributeName="opacity" values="0.15;1;0.15" dur="4.2s" repeatCount="indefinite"/></circle>
+      <circle cx="200" cy="18" r="1.1"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="5.4s" repeatCount="indefinite"/></circle>
+      <circle cx="320" cy="42" r="1.5"><animate attributeName="opacity" values="0.2;1;0.2" dur="3.6s" repeatCount="indefinite"/></circle>
+      <circle cx="470" cy="20" r="1.2"><animate attributeName="opacity" values="1;0.25;1" dur="6.1s" repeatCount="indefinite"/></circle>
+      <circle cx="560" cy="46" r="1.3"><animate attributeName="opacity" values="0.25;1;0.25" dur="4.8s" repeatCount="indefinite"/></circle>
+      <circle cx="780" cy="30" r="1.4"><animate attributeName="opacity" values="0.8;0.15;0.8" dur="5.1s" repeatCount="indefinite"/></circle>
+    </g>
+
+    <!-- Marte con sonda orbitando -->
+    <g transform="translate(112,58)">
+      <circle r="24" fill="url(#fGlow)" opacity="0.25"/>
+      <circle r="19" fill="#c1502e"/>
+      <circle cx="-6" cy="-5" r="4" fill="#8f3a22" opacity="0.75"/>
+      <circle cx="7" cy="5" r="5" fill="#8f3a22" opacity="0.6"/>
+      <circle cx="2" cy="-9" r="2.4" fill="#8f3a22" opacity="0.6"/>
+      <circle cx="-8" cy="7" r="2" fill="#8f3a22" opacity="0.55"/>
+      <ellipse rx="34" ry="12" fill="none" stroke="#8fe3ff" stroke-width="1" opacity="0.3" transform="rotate(-18)"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="11s" repeatCount="indefinite"/>
+        <circle cx="34" cy="0" r="3.4" fill="#8fe3ff"/>
+      </g>
+    </g>
+
+    <!-- Sol animado -->
+    <g>
+      <circle cx="704" cy="56" r="52" fill="url(#fGlow)">
+        <animate attributeName="r" values="46;58;46" dur="6.5s" repeatCount="indefinite"/>
+      </circle>
+      <g transform="translate(704,56)">
+        <g opacity="0.75" stroke="#ffd166" stroke-width="2" stroke-linecap="round">
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="34s" repeatCount="indefinite"/>
+          <line x1="0" y1="-28" x2="0" y2="-36"/>
+          <line x1="0" y1="28" x2="0" y2="36"/>
+          <line x1="-28" y1="0" x2="-36" y2="0"/>
+          <line x1="28" y1="0" x2="36" y2="0"/>
+          <line x1="-20" y1="-20" x2="-26" y2="-26"/>
+          <line x1="20" y1="20" x2="26" y2="26"/>
+          <line x1="-20" y1="20" x2="-26" y2="26"/>
+          <line x1="20" y1="-20" x2="26" y2="-26"/>
+        </g>
+        <circle r="15" fill="#ffd166"/>
+      </g>
+    </g>
+
+    <!-- Nubes a la deriva -->
+    <g opacity="0.32" fill="#9fb0c9">
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="-170,0;900,0" dur="62s" repeatCount="indefinite"/>
+        <ellipse cx="60" cy="52" rx="34" ry="11"/>
+        <ellipse cx="88" cy="45" rx="23" ry="9"/>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="-320,0;860,0" dur="88s" repeatCount="indefinite"/>
+        <ellipse cx="240" cy="84" rx="27" ry="9"/>
+        <ellipse cx="262" cy="78" rx="17" ry="7"/>
+      </g>
+    </g>
+
+    <!-- Montañas lejanas -->
+    <path d="M0,185 L60,130 L120,155 L190,100 L260,155 L310,130 L370,185 Z" fill="#16202f"/>
+
+    <!-- Montañas cercanas -->
+    <path d="M300,185 L390,120 L450,155 L520,78 L600,140 L660,110 L740,155 L820,120 L820,185 Z" fill="url(#gMtn)"/>
+    <path d="M520,78 L548,100 L494,100 Z" fill="#5a6f8e" opacity="0.55"/>
+
+    <!-- Agua del embalse -->
+    <rect x="0" y="185" width="820" height="75" fill="url(#gWater)"/>
+
+    <!-- Ondas -->
+    <g opacity="0.5" stroke="#8fe3ff" stroke-width="2" fill="none" stroke-linecap="round">
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0;-120,0" dur="6.5s" repeatCount="indefinite"/>
+        <path d="M-120,204 Q -90,196 -60,204 T 0,204 T 60,204 T 120,204 T 180,204 T 240,204 T 300,204 T 360,204 T 420,204 T 480,204 T 540,204 T 600,204 T 660,204 T 720,204 T 780,204 T 840,204 T 900,204"/>
+      </g>
+      <g opacity="0.7">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-140,0" dur="9.5s" repeatCount="indefinite"/>
+        <path d="M-140,224 Q -110,217 -80,224 T -20,224 T 40,224 T 100,224 T 160,224 T 220,224 T 280,224 T 340,224 T 400,224 T 460,224 T 520,224 T 580,224 T 640,224 T 700,224 T 760,224 T 820,224 T 880,224"/>
+      </g>
+      <g opacity="0.45">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-110,0" dur="12s" repeatCount="indefinite"/>
+        <path d="M-110,244 Q -85,238 -60,244 T -10,244 T 40,244 T 90,244 T 140,244 T 190,244 T 240,244 T 290,244 T 340,244 T 390,244 T 440,244 T 490,244 T 540,244 T 590,244 T 640,244 T 690,244 T 740,244 T 790,244 T 840,244"/>
+      </g>
+    </g>
+
+    <!-- Pueblo -->
+    <g>
+      <rect x="92" y="166" width="22" height="20" fill="#2b3b55"/>
+      <path d="M88,166 L103,152 L118,166 Z" fill="#c96f4a"/>
+      <rect x="122" y="170" width="18" height="16" fill="#2b3b55"/>
+      <path d="M118,170 L131,158 L144,170 Z" fill="#c96f4a"/>
+      <rect x="150" y="164" width="20" height="22" fill="#2b3b55"/>
+      <path d="M146,164 L160,150 L174,164 Z" fill="#c96f4a"/>
+      <rect x="180" y="172" width="16" height="14" fill="#2b3b55"/>
+      <path d="M176,172 L188,162 L200,172 Z" fill="#c96f4a"/>
+      <rect x="99" y="174" width="5" height="5" fill="#ffd166" opacity="0.85">
+        <animate attributeName="opacity" values="0.85;0.25;0.85" dur="3.4s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="158" y="172" width="5" height="5" fill="#ffd166" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.15;0.6" dur="4.6s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- Antena de conectividad con ondas -->
+    <g transform="translate(520,80)">
+      <line x1="0" y1="0" x2="0" y2="-40" stroke="#8fe3ff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="-9" y1="-14" x2="9" y2="-14" stroke="#8fe3ff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="-6" y1="-26" x2="6" y2="-26" stroke="#8fe3ff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="0" cy="-40" r="3.4" fill="#8fe3ff"/>
+      <circle cx="0" cy="-40" r="8" fill="none" stroke="#8fe3ff" stroke-width="1.6" opacity="0">
+        <animate attributeName="r" values="6;34" dur="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="0" cy="-40" r="8" fill="none" stroke="#8fe3ff" stroke-width="1.6" opacity="0">
+        <animate attributeName="r" values="6;34" dur="2.6s" begin="0.85s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0" dur="2.6s" begin="0.85s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="0" cy="-40" r="8" fill="none" stroke="#8fe3ff" stroke-width="1.6" opacity="0">
+        <animate attributeName="r" values="6;34" dur="2.6s" begin="1.7s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0" dur="2.6s" begin="1.7s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Cohete cruzando el cielo -->
+    <g opacity="0.92">
+      <animateTransform attributeName="transform" type="translate" values="-120,120; 940,42" dur="20s" repeatCount="indefinite"/>
+      <g transform="rotate(28)">
+        <path d="M0,-12 L7,6 L0,3 L-7,6 Z" fill="#ffd166"/>
+        <circle cx="0" cy="-3" r="2.2" fill="#0a0e1a"/>
+        <path d="M-4,6 L-7,13 L0,9 L7,13 L4,6 Z" fill="#ff7a45" opacity="0.9">
+          <animate attributeName="opacity" values="0.9;0.35;0.9" dur="0.5s" repeatCount="indefinite"/>
+        </path>
+      </g>
+    </g>
+  </g>
+</svg>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ==========================================================
+     0. UTILIDADES SEGURAS
+     ========================================================== */
+  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+  var $  = function(s,c){ return (c||document).querySelector(s); };
+  var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+
+  /* ==========================================================
+     1. PLANTILLA Y MONTAJE DEL SVG ANIMADO (sección 10)
+     ========================================================== */
+  var seq = 0;
+  var TPL = null;
+  var imgMode = false;
+  var SVG_IDS = ['gBg','gAcc','fGlow','gWater','gMtn'];
+
+  function template(){
+    if (TPL) return TPL;
+    var src = document.getElementById('svgHeroSource');
+    if (!src) return { defs:'', art:'' };
+    var defsEl = src.querySelector('defs');
+    var artEl  = src.querySelector('#svgHero');
+    if (!defsEl || !artEl) return { defs:'', art:'' };
+
+    var d = defsEl.cloneNode(true);
+    var g = artEl.cloneNode(true);
+
+    // Quitar del bloque defs cualquier copia anidada del dibujo
+    var inner = d.querySelector('#svgHero');
+    if (inner && inner.parentNode) inner.parentNode.removeChild(inner);
+
+    g.removeAttribute('id');
+
+    TPL = { defs: d.innerHTML, art: g.outerHTML };
+
+    // Eliminar el SVG fuente del DOM para que no siga animando oculto
+    if (src.parentNode) src.parentNode.removeChild(src);
+    return TPL;
+  }
+
+  function markup(uid){
+    var t = template();
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 260" ' +
+            'preserveAspectRatio="xMidYMid meet" width="100%" height="260" aria-hidden="true" ' +
+            'focusable="false"><defs>' + t.defs + '</defs>' + t.art + '</svg>';
+    SVG_IDS.forEach(function(id){
+      s = s.split('id="' + id + '"').join('id="' + id + '-' + uid + '"')
+           .split('url(#' + id + ')').join('url(#' + id + '-' + uid + ')');
+    });
+    return s;
+  }
+
+  function freezeSvg(svg){
+    try{
+      svg.setCurrentTime(3.2);
+      svg.pauseAnimations();
+    }catch(e){}
+  }
+
+  function mountOne(m, freeze){
+    if (!m) return;
+    m.textContent = '';
+
+    if (imgMode){
+      var im = new Image();
+      im.alt = '';
+      im.setAttribute('aria-hidden','true');
+      im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(markup('i' + (++seq)));
+      m.appendChild(im);
+      return;
+    }
+
+    m.innerHTML = markup('h' + (++seq));
+    var svg = m.querySelector('svg');
+    if (!svg) return;
+
+    try{
+      svg.setCurrentTime(0);
+      svg.unpauseAnimations();
+    }catch(e){}
+
+    if (freeze){
+      freezeSvg(svg);
+      return;
+    }
+
+    // Plan B: si el reloj no avanza y el SVG es visible, pasar a <img data:...>
+    var t0 = 0;
+    try{ t0 = svg.getCurrentTime(); }catch(e){}
+
+    setTimeout(function(){
+      if (document.hidden) return;
+      if (m.querySelector('svg') !== svg) return;
+      var visible = false;
+      try{ visible = svg.getBoundingClientRect().height > 0; }catch(e){}
+      if (!visible) return;
+      var now = 0;
+      try{ now = svg.getCurrentTime(); }catch(e){ return; }
+      if (now - t0 < 0.3){
+        imgMode = true;
+        mountOne(m, false);
+      }
+    }, 1600);
+  }
+
+  function mountActive(){
+    $$('.panel.active [data-svg-hero]').forEach(function(m){ mountOne(m, false); });
+  }
+
+  function mountAll(freeze){
+    $$('[data-svg-hero]').forEach(function(m){ mountOne(m, !!freeze); });
+  }
+
+  function freezeAllMounted(){
+    $$('[data-svg-hero] svg').forEach(function(s){ freezeSvg(s); });
+  }
+
+  function resumeAllMounted(){
+    $$('[data-svg-hero] svg').forEach(function(s){
+      try{ s.unpauseAnimations(); }catch(e){}
+    });
+  }
+
+  /* ==========================================================
+     2. PESTAÑAS
+     ========================================================== */
+  function activateTab(id, skipScroll){
+    var panel = document.getElementById(id);
+    if (!panel || !panel.classList.contains('panel')) id = 'p-inicio';
+
+    $$('.panel').forEach(function(p){
+      p.classList.toggle('active', p.id === id);
+    });
+    $$('.tab').forEach(function(t){
+      var on = t.getAttribute('data-tab') === id;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+
+    try{ history.replaceState(null, '', '#' + id); }catch(e){}
+
+    // Montar el SVG del panel que acaba de activarse
+    mountActive();
+
+    if (!skipScroll){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  $$('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      activateTab(t.getAttribute('data-tab'));
+    });
+  });
+
+  window.addEventListener('hashchange', function(){
+    var h = (location.hash || '').replace('#','');
+    if (h && document.getElementById(h) && document.getElementById(h).classList.contains('panel')){
+      activateTab(h, true);
+    }
+  });
+
+  /* ==========================================================
+     3. RED DE SEGURIDAD DEL SVG
+     ========================================================== */
+  setInterval(function(){
+    if (document.hidden) return;
+    $$('.panel.active [data-svg-hero]').forEach(function(m){
+      if (!m.firstElementChild) mountOne(m, false);
+    });
+  }, 800);
+
+  /* ==========================================================
+     4. BOTONES COPIAR
+     ========================================================== */
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly','');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function buildCopyBlocks(){
+    $$('pre.cp').forEach(function(pre){
+      if (pre.parentNode && pre.parentNode.classList.contains('copywrap')) return;
+
+      var wrap = document.createElement('div');
+      wrap.className = 'copywrap';
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copyBtn';
+      btn.textContent = 'COPIAR';
+
+      btn.addEventListener('click', function(){
+        var text = pre.textContent;
+        function done(ok){
+          btn.textContent = ok ? '¡COPIADO!' : 'ERROR';
+          btn.classList.toggle('done', ok);
+          setTimeout(function(){
+            btn.textContent = 'COPIAR';
+            btn.classList.remove('done');
+          }, 1600);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(function(){ done(true); })
+            .catch(function(){ done(fallbackCopy(text)); });
+        } else {
+          done(fallbackCopy(text));
+        }
+      });
+
+      wrap.appendChild(btn);
+    });
+  }
+
+  /* ==========================================================
+     5. CHECKLISTS CON localStorage
+     ========================================================== */
+  function initChecklists(){
+    $$('input[type=checkbox][data-ck]').forEach(function(cb){
+      var key = 'chera_ck_' + cb.getAttribute('data-ck');
+      if (lsGet(key) === '1') cb.checked = true;
+      cb.addEventListener('change', function(){
+        lsSet(key, cb.checked ? '1' : '0');
+      });
+    });
+  }
+
+  /* ==========================================================
+     6. TAMAÑO DE TEXTO
+     ========================================================== */
+  var scale = 1;
+  function applyScale(){
+    scale = Math.min(1.6, Math.max(0.8, scale));
+    document.documentElement.style.fontSize = (16 * scale).toFixed(2) + 'px';
+    lsSet('chera_scale', String(scale));
+  }
+
+  /* ==========================================================
+     7. TEMA CLARO / OSCURO
+     ========================================================== */
+  function applyTheme(light){
+    document.body.classList.toggle('light', !!light);
+    lsSet('chera_theme', light ? 'light' : 'dark');
+  }
+
+  /* ==========================================================
+     8. BARRA DE PROGRESO Y VOLVER ARRIBA
+     ========================================================== */
+  var progressFill = document.getElementById('progressFill');
+  var toTop = document.getElementById('toTop');
+
+  function onScroll(){
+    var el = document.documentElement;
+    var max = el.scrollHeight - el.clientHeight;
+    var p = max > 0 ? (el.scrollTop / max) * 100 : 0;
+    if (progressFill) progressFill.style.width = p.toFixed(2) + '%';
+    if (toTop) toTop.classList.toggle('show', el.scrollTop > 420);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll);
+
+  if (toTop){
+    toTop.addEventListener('click', function(){
+      window.scrollTo({ top:0, behavior:'smooth' });
+    });
+  }
+
+  /* ==========================================================
+     9. BUSCADOR CON RESALTADO
+     ========================================================== */
+  var searchInput = document.getElementById('searchInput');
+  var searchInfo = document.getElementById('searchInfo');
+  var searchTimer = null;
+
+  function clearHighlights(){
+    $$('mark.search-hl').forEach(function(m){
+      var parent = m.parentNode;
+      if (!parent) return;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+  }
+
+  function highlightIn(root, q){
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node){
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = node.parentNode;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        var tag = p.nodeName.toLowerCase();
+        if (tag === 'script' || tag === 'style' || tag === 'mark' || tag === 'textarea') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    var nodes = [];
+    var n;
+    while ((n = walker.nextNode())) nodes.push(n);
+
+    var count = 0;
+    var ql = q.toLowerCase();
+
+    nodes.forEach(function(node){
+      var text = node.nodeValue;
+      var lower = text.toLowerCase();
+      var idx = lower.indexOf(ql);
+      if (idx === -1) return;
+
+      var frag = document.createDocumentFragment();
+      var pos = 0;
+
+      while (idx !== -1){
+        if (idx > pos) frag.appendChild(document.createTextNode(text.slice(pos, idx)));
+        var mark = document.createElement('mark');
+        mark.className = 'search-hl';
+        mark.textContent = text.substr(idx, q.length);
+        frag.appendChild(mark);
+        count++;
+        pos = idx + q.length;
+        idx = lower.indexOf(ql, pos);
+      }
+      if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    return count;
+  }
+
+  function runSearch(){
+    if (!searchInput) return;
+    clearHighlights();
+
+    var q = searchInput.value.trim();
+    if (q.length < 2){
+      if (searchInfo) searchInfo.textContent = '';
+      return;
+    }
+
+    var total = 0;
+    var inActive = 0;
+
+    $$('.panel').forEach(function(p){
+      var c = highlightIn(p, q);
+      total += c;
+      if (p.classList.contains('active')) inActive = c;
+    });
+
+    if (searchInfo){
+      if (total === 0) searchInfo.textContent = '0';
+      else if (inActive === 0) searchInfo.textContent = total + '↷';
+      else searchInfo.textContent = String(inActive);
+    }
+
+    if (inActive > 0){
+      var first = $('.panel.active mark.search-hl');
+      if (first && first.scrollIntoView){
+        try{ first.scrollIntoView({ block:'center', behavior:'smooth' }); }catch(e){}
+      }
+    }
+  }
+
+  if (searchInput){
+    searchInput.addEventListener('input', function(){
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(runSearch, 260);
+    });
+    searchInput.addEventListener('keydown', function(ev){
+      if (ev.key === 'Escape'){
+        searchInput.value = '';
+        clearHighlights();
+        if (searchInfo) searchInfo.textContent = '';
+      }
+    });
+  }
+
+  /* ==========================================================
+     10. IMPRESIÓN / PDF (sección 9.1)
+     ========================================================== */
+  var closedDetails = [];
+
+  function inSandboxedIframe(){
+    try{
+      if (window.self === window.top) return false;
+      var fe = window.frameElement;
+      if (!fe) return true;
+      var sb = fe.getAttribute('sandbox');
+      if (sb === null) return false;
+      return sb.indexOf('allow-modals') === -1;
+    }catch(e){
+      return true;
+    }
+  }
+
+  function beforePrint(){
+    // Abrir todos los <details> y recordar los que estaban cerrados
+    closedDetails = [];
+    $$('details').forEach(function(d){
+      if (!d.open){
+        closedDetails.push(d);
+        d.open = true;
+      }
+    });
+
+    // Montar los SVG de TODAS las pestañas aunque no se hayan visitado
+    mountAll(false);
+
+    // Fijarlos en un fotograma completo
+    setTimeout(freezeAllMounted, 30);
+  }
+
+  function afterPrint(){
+    closedDetails.forEach(function(d){ d.open = false; });
+    closedDetails = [];
+    resumeAllMounted();
+  }
+
+  function showPrintNotice(){
+    var n = document.getElementById('printNotice');
+    if (n) n.classList.add('show');
+  }
+
+  function hidePrintNotice(){
+    var n = document.getElementById('printNotice');
+    if (n) n.classList.remove('show');
+  }
+
+  window.addEventListener('beforeprint', beforePrint);
+  window.addEventListener('afterprint', afterPrint);
+
+  var printBtn = document.getElementById('printBtn');
+  if (printBtn){
+    printBtn.addEventListener('click', function(){
+      beforePrint();
+
+      var ok = true;
+      try{
+        window.print();
+      }catch(e){
+        ok = false;
+      }
+
+      if (!ok || inSandboxedIframe()){
+        showPrintNotice();
+      }
+
+      // Respaldo por si afterprint no dispara
+      setTimeout(function(){
+        if (closedDetails.length){ afterPrint(); }
+      }, 1200);
+    });
+  }
+
+  var printNoticeClose = document.getElementById('printNoticeClose');
+  if (printNoticeClose){
+    printNoticeClose.addEventListener('click', hidePrintNotice);
+  }
+
+  /* ==========================================================
+     11. INICIALIZACIÓN
+     ========================================================== */
+  function init(){
+    // Tema
+    var savedTheme = lsGet('chera_theme');
+    applyTheme(savedTheme === 'light');
+
+    // Escala de texto
+    var savedScale = parseFloat(lsGet('chera_scale'));
+    if (!isNaN(savedScale) && savedScale > 0) scale = savedScale;
+    applyScale();
+
+    // Botones de escala
+    var fm = document.getElementById('fontMinus');
+    var fp = document.getElementById('fontPlus');
+    if (fm) fm.addEventListener('click', function(){ scale -= 0.1; applyScale(); });
+    if (fp) fp.addEventListener('click', function(){ scale += 0.1; applyScale(); });
+
+    // Botón de tema
+    var tb = document.getElementById('themeBtn');
+    if (tb){
+      tb.addEventListener('click', function(){
+        applyTheme(!document.body.classList.contains('light'));
+      });
+    }
+
+    // Bloques copiables
+    buildCopyBlocks();
+
+    // Checklists
+    initChecklists();
+
+    // Pestaña inicial (incluye abrir directamente con #p-creditos)
+    var initial = (location.hash || '').replace('#','');
+    if (!initial || !document.getElementById(initial) ||
+        !document.getElementById(initial).classList.contains('panel')){
+      initial = 'p-inicio';
+    }
+    activateTab(initial, true);
+
+    // Montaje del SVG al arrancar
+    mountActive();
+
+    // Progreso
+    onScroll();
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
+</body>
+</html>
